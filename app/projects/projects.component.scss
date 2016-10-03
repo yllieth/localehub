@@ -1,0 +1,7 @@
+@import 'styles/app.scss';
+
+:host {
+  margin: $banner-height $global-spacing 0;
+  display: flex;
+  background-color: map_get($foundation-palette, alert);
+}

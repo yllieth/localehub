@@ -1,0 +1,26 @@
+@mixin banner($bg: $body-background, $color: $body-font-color, $height: $banner-height) {
+  height: $height;
+  min-height: $height;
+  line-height: $height;
+  background-color: $bg;
+  color: $color;
+};
+
+@mixin offset($size, $origin: top) {
+  position: relative;
+  #{$origin}: $size;
+}
+
+@mixin hover-transition($property, $value, $duration: 150ms, $transition: ease-in-out) {
+  transition: $property $duration $transition;
+
+  &:hover {
+    #{$property}: $value;
+  }
+}
+
+@mixin square($size) {
+  display: inline-block;
+  width: $size;
+  height: $size;
+}

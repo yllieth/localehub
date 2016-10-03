@@ -1,0 +1,14 @@
+@import 'styles/components/md-toolbar';
+
+md-toolbar {
+  @include banner($blue1, $white);
+
+  /deep/ md-toolbar-row {
+    font-family: $header-font-family;
+  }
+}
+
+button {
+  margin-right: $global-spacing;
+}
+

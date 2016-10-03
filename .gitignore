@@ -3,6 +3,8 @@
 # compiled output
 /dist
 /tmp
+*.css
+!styles.css
 
 # dependencies
 /node_modules

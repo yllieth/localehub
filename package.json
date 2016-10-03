@@ -2,9 +2,10 @@
   "name": "localehub",
   "version": "0.0.0",
   "scripts": {
-    "start": "tsc && concurrently \"tsc -w\" \"lite-server\" ",
+    "start": "tsc && npm run sass && concurrently \"tsc -w\" \"gulp watch\" \"lite-server\" ",
     "lite": "lite-server",
     "postinstall": "typings install",
+    "sass": "gulp sass",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "typings": "typings"
@@ -31,7 +32,12 @@
   },
   "devDependencies": {
     "concurrently": "^3.1.0",
+    "foundation-sites": "^6.2.3",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^2.3.2",
+    "gulp-sourcemaps": "^1.6.0",
     "lite-server": "^2.2.2",
+    "motion-ui": "^1.2.2",
     "typescript": "^2.0.3",
     "typings": "^1.4.0"
   }

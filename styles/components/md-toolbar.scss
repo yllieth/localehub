@@ -1,0 +1,10 @@
+@import 'styles/app.scss';
+
+md-toolbar {
+  padding: 0px $global-spacing;
+
+  /deep/ md-toolbar-row {
+    font-family: $body-font-family;
+    height: $banner-height;
+  }
+}

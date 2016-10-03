@@ -17,7 +17,8 @@ var ProjectsComponent = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'lh-projects',
-            templateUrl: 'projects.component.html'
+            templateUrl: 'projects.component.html',
+            styleUrls: ['projects.component.css']
         }), 
         __metadata('design:paramtypes', [])
     ], ProjectsComponent);

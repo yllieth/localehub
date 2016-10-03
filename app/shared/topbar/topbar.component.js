@@ -17,7 +17,8 @@ var TopbarComponent = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'lh-topbar',
-            templateUrl: 'topbar.component.html'
+            templateUrl: 'topbar.component.html',
+            styleUrls: ['topbar.component.css']
         }), 
         __metadata('design:paramtypes', [])
     ], TopbarComponent);

@@ -17,7 +17,8 @@ var TitlebarComponent = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'lh-titlebar',
-            templateUrl: 'titlebar.component.html'
+            templateUrl: 'titlebar.component.html',
+            styleUrls: ['titlebar.component.css']
         }), 
         __metadata('design:paramtypes', [])
     ], TitlebarComponent);
