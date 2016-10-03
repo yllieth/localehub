@@ -4,18 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './in-memory-data.service';
-
-import './rxjs-extensions';
-
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
-import { HeroService } from './hero.service';
-import { HeroesComponent } from './heroes.component';
-import { HeroSearchComponent } from './hero-search.component';
-import { HeroDetailComponent } from './hero-detail.component';
-import { DashboardComponent } from './dashboard.component'
+import { TopbarComponent } from './shared/topbar/topbar.component';
+import { TitlebarComponent } from './shared/titlebar/titlebar.component';
+import { ProjectsComponent } from './projects/projects.component';
+import { LocalesComponent } from './locales/locales.component';
 
 @NgModule({
   imports: [
@@ -23,17 +17,15 @@ import { DashboardComponent } from './dashboard.component'
     FormsModule,
     HttpModule,
     MaterialModule.forRoot(),
-    InMemoryWebApiModule.forRoot(InMemoryDataService),
     routing
   ],
   declarations: [
     AppComponent,
-    HeroDetailComponent,
-    HeroesComponent,
-    DashboardComponent,
-    HeroSearchComponent
+    TopbarComponent,
+    TitlebarComponent,
+    ProjectsComponent,
+    LocalesComponent
   ],
-  providers: [ HeroService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

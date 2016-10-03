@@ -9,19 +9,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var AppComponent = (function () {
-    function AppComponent() {
-        this.title = 'Tour of Heroes';
+var TitlebarComponent = (function () {
+    function TitlebarComponent() {
     }
-    AppComponent = __decorate([
+    TitlebarComponent.prototype.ngOnInit = function () { };
+    TitlebarComponent = __decorate([
         core_1.Component({
-            selector: 'my-app',
-            templateUrl: 'app/app.component.html',
-            styleUrls: ['app/app.component.css']
+            moduleId: module.id,
+            selector: 'lh-titlebar',
+            templateUrl: 'titlebar.component.html'
         }), 
         __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    ], TitlebarComponent);
+    return TitlebarComponent;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.TitlebarComponent = TitlebarComponent;
+//# sourceMappingURL=titlebar.component.js.map

@@ -1,13 +1,11 @@
 "use strict";
 var router_1 = require('@angular/router');
-var heroes_component_1 = require('./heroes.component');
-var hero_detail_component_1 = require('./hero-detail.component');
-var dashboard_component_1 = require('./dashboard.component');
+var projects_component_1 = require('./projects/projects.component');
+var locales_component_1 = require('./locales/locales.component');
 var appRoutes = [
-    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-    { path: 'heroes', component: heroes_component_1.HeroesComponent },
-    { path: 'detail/:id', component: hero_detail_component_1.HeroDetailComponent },
-    { path: 'dashboard', component: dashboard_component_1.DashboardComponent }
+    { path: '', redirectTo: '/projects', pathMatch: 'full' },
+    { path: 'projects', component: projects_component_1.ProjectsComponent },
+    { path: 'locales', component: locales_component_1.LocalesComponent }
 ];
 exports.routing = router_1.RouterModule.forRoot(appRoutes);
 //# sourceMappingURL=app.routing.js.map

@@ -9,21 +9,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var http_1 = require('@angular/http');
-var HeroSearchService = (function () {
-    function HeroSearchService(http) {
-        this.http = http;
+var TopbarComponent = (function () {
+    function TopbarComponent() {
     }
-    HeroSearchService.prototype.search = function (term) {
-        return this.http
-            .get("app/heroes/?name=" + term)
-            .map(function (r) { return r.json().data; });
-    };
-    HeroSearchService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http])
-    ], HeroSearchService);
-    return HeroSearchService;
+    TopbarComponent.prototype.ngOnInit = function () { };
+    TopbarComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'lh-topbar',
+            templateUrl: 'topbar.component.html'
+        }), 
+        __metadata('design:paramtypes', [])
+    ], TopbarComponent);
+    return TopbarComponent;
 }());
-exports.HeroSearchService = HeroSearchService;
-//# sourceMappingURL=hero-search.service.js.map
+exports.TopbarComponent = TopbarComponent;
+//# sourceMappingURL=topbar.component.js.map
