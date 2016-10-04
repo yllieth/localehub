@@ -3,8 +3,10 @@
 :host {
   margin: 0 $global-spacing;
   display: flex;
+  flex-direction: column;
 }
 
 section {
+  display: block;
   width: 100%;
 }

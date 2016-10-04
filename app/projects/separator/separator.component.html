@@ -1,9 +1,19 @@
 <div class="container">
-  <i class="material-icons">keyboard_arrow_down</i>
+  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
   <span class="identity">
-    <img src="{{ avatarUrl }}" alt="{{ pseudo }}" />
-    <span *ngIf="isOrganization"></span>
-    <span *ngIf="!isOrganization">{{ pseudo }} ({{ fullname }})</span>
+    <!-- Avatar -->
+    <span *ngIf="member.avatarUrl">
+      <img src="{{ member.avatarUrl }}" alt="{{ member.pseudo }}" />
+    </span>
+    <span *ngIf="!member.avatarUrl" class="avatar-placeholder">
+      <span class="avatar-fake">
+        <i class="octicon octicon-octoface"></i>
+      </span>
+    </span>
+
+    <!-- Name -->
+    <span *ngIf="member.isOrganization">{{ member.fullname }}&nbsp;<span class="organization-tag">|&nbsp;organization</span></span>
+    <span *ngIf="!member.isOrganization">{{ member.pseudo }} ({{ member.fullname }})</span>
   </span>
   <hr />
 </div>
