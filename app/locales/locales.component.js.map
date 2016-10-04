@@ -1,1 +1,0 @@
-{"version":3,"file":"locales.component.js","sourceRoot":"","sources":["locales.component.ts"],"names":[],"mappings":";;;;;;;;;;AAAA,qBAAkC,eAAe,CAAC,CAAA;AAOlD;IACI;IAAgB,CAAC;IAEjB,mCAAQ,GAAR,cAAa,CAAC;IARlB;QAAC,gBAAS,CAAC;YACP,QAAQ,EAAE,MAAM,CAAC,EAAE;YACnB,QAAQ,EAAE,YAAY;YACtB,WAAW,EAAE,wBAAwB;SACxC,CAAC;;wBAAA;IAMF,uBAAC;AAAD,CAAC,AALD,IAKC;AALY,wBAAgB,mBAK5B,CAAA"}
