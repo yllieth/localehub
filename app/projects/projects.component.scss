@@ -1,7 +1,10 @@
 @import 'styles/app.scss';
 
 :host {
-  margin: $banner-height $global-spacing 0;
+  margin: 0 $global-spacing;
   display: flex;
-  background-color: map_get($foundation-palette, alert);
+}
+
+section {
+  width: 100%;
 }

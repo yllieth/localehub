@@ -1,0 +1,9 @@
+<div class="container">
+  <i class="material-icons">keyboard_arrow_down</i>
+  <span class="identity">
+    <img src="{{ avatarUrl }}" alt="{{ pseudo }}" />
+    <span *ngIf="isOrganization"></span>
+    <span *ngIf="!isOrganization">{{ pseudo }} ({{ fullname }})</span>
+  </span>
+  <hr />
+</div>

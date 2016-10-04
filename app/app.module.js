@@ -18,6 +18,7 @@ var app_component_1 = require('./app.component');
 var topbar_component_1 = require('./shared/topbar/topbar.component');
 var titlebar_component_1 = require('./shared/titlebar/titlebar.component');
 var projects_component_1 = require('./projects/projects.component');
+var separator_component_1 = require('./projects/separator/separator.component');
 var locales_component_1 = require('./locales/locales.component');
 var AppModule = (function () {
     function AppModule() {
@@ -36,6 +37,7 @@ var AppModule = (function () {
                 topbar_component_1.TopbarComponent,
                 titlebar_component_1.TitlebarComponent,
                 projects_component_1.ProjectsComponent,
+                separator_component_1.SeparatorComponent,
                 locales_component_1.LocalesComponent
             ],
             bootstrap: [app_component_1.AppComponent]

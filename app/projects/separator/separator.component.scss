@@ -1,0 +1,41 @@
+@import 'styles/app.scss';
+
+$separator-height: rem-calc(40);
+
+:host {
+  margin: $banner-height - $separator-height / 2 0;
+  height: $separator-height;
+  min-height: $separator-height;
+  line-height: $separator-height;
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+}
+
+.identity {
+  background-color: $body-background;
+  margin-left: $global-spacing*2;
+  padding-right: $global-spacing;
+}
+
+img {
+  @include square($separator-height);
+
+  margin: 0 $global-spacing;
+  border-radius: 50%;
+}
+
+hr {
+  @include offset(- $separator-height / 2);
+
+  z-index: -1;
+  margin: 0;
+}
+
+i {
+  @include offset(9px);
+  background-color: $body-background;
+}

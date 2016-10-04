@@ -8,7 +8,10 @@ import { routing } from './app.routing';
 import { AppComponent } from './app.component';
 import { TopbarComponent } from './shared/topbar/topbar.component';
 import { TitlebarComponent } from './shared/titlebar/titlebar.component';
+
 import { ProjectsComponent } from './projects/projects.component';
+import { SeparatorComponent } from './projects/separator/separator.component';
+
 import { LocalesComponent } from './locales/locales.component';
 
 @NgModule({
@@ -24,6 +27,7 @@ import { LocalesComponent } from './locales/locales.component';
     TopbarComponent,
     TitlebarComponent,
     ProjectsComponent,
+    SeparatorComponent,
     LocalesComponent
   ],
   bootstrap: [ AppComponent ]
