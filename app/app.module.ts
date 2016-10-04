@@ -11,6 +11,7 @@ import { TitlebarComponent } from './shared/titlebar/titlebar.component';
 
 import { ProjectsComponent } from './projects/projects.component';
 import { SeparatorComponent } from './projects/separator/separator.component';
+import { NewProjectComponent } from "./projects/new/new-card.component";
 
 import { LocalesComponent } from './locales/locales.component';
 
@@ -28,6 +29,7 @@ import { LocalesComponent } from './locales/locales.component';
     TitlebarComponent,
     ProjectsComponent,
     SeparatorComponent,
+    NewProjectComponent,
     LocalesComponent
   ],
   bootstrap: [ AppComponent ]
