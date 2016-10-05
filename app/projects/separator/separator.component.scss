@@ -46,6 +46,14 @@ i.expand_more, i.chevron_right {
   background-color: $body-background;
 }
 
+i.open_in_new {
+  @include offset(3px);
+
+  font-size: $small-font-size;
+  margin-left: 5px;
+  color: $medium-gray;
+}
+
 /* When there is no avatar */
 .avatar-placeholder {
   background-color: $body-background;

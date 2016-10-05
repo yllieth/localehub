@@ -1,7 +1,7 @@
 <div class="container">
   <i *ngIf="member.expanded" class="material-icons expand_more">expand_more</i>
   <i *ngIf="!member.expanded" class="material-icons chevron_right">chevron_right</i>
-  
+
   <span class="identity">
     <!-- Avatar -->
     <span *ngIf="member.avatarUrl">
@@ -16,6 +16,7 @@
     <!-- Name -->
     <span *ngIf="member.isOrganization">{{ member.fullname }}&nbsp;<span class="organization-tag">|&nbsp;organization</span></span>
     <span *ngIf="!member.isOrganization">{{ member.pseudo }} ({{ member.fullname }})</span>
+    <a href="{{ member.profileUrl }}" target="_blank"><i class="material-icons open_in_new">open_in_new</i></a>
   </span>
   <hr />
 </div>
