@@ -17,4 +17,8 @@ export class ProjectsComponent implements OnInit {
   ngOnInit(): void {
     this.projectsService.getProjectList().then(projectsList => this.projectsList = projectsList);
   }
+
+  toggle(member: Member): void {
+    member.expanded = !member.expanded;
+  }
 }

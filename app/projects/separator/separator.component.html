@@ -1,5 +1,7 @@
 <div class="container">
-  <i class="material-icons keyboard_arrow_down">keyboard_arrow_down</i>
+  <i *ngIf="member.expanded" class="material-icons expand_more">expand_more</i>
+  <i *ngIf="!member.expanded" class="material-icons chevron_right">chevron_right</i>
+  
   <span class="identity">
     <!-- Avatar -->
     <span *ngIf="member.avatarUrl">

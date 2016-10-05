@@ -14,6 +14,7 @@ $separator-height: rem-calc(40);
 /* Contains arraw, line, avatar and name */
 .container {
   width: 100%;
+  cursor: pointer;
 }
 
 /* Only contains the avatar and the name */
@@ -40,8 +41,8 @@ hr {
 }
 
 /* Down/right arrow */
-i.keyboard_arrow_down {
-  @include offset(9px);
+i.expand_more, i.chevron_right {
+  @include offset(8px);
   background-color: $body-background;
 }
 

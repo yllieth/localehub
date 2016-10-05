@@ -1,5 +1,5 @@
 <section *ngFor="let member of projectsList">
-  <lh-projects-separator [member]="member"></lh-projects-separator>
-  <lh-projects-new></lh-projects-new>
-  <!--<lh-projects-list></lh-projects-list>-->
+  <lh-projects-separator [member]="member" (click)="toggle(member)"></lh-projects-separator>
+  <lh-projects-new *ngIf="member.expanded"></lh-projects-new>
+  <!--<lh-projects-list *ngIf="member.expanded"></lh-projects-list>-->
 </section>

@@ -14,26 +14,30 @@ export const PROJECTS: Member[] = [
         availableBranches: ['master', 'tp-branch1', 'pu-20161002']
       }
     ],
+    expanded: true
   },
   {
     avatarUrl: 'https://avatars3.githubusercontent.com/u/6170002?v=3&s=200',
     fullname: 'PredicSis',
     pseudo: null,
     isOrganization: true,
-    projects: []
+    projects: [],
+    expanded: false
   },
   {
     avatarUrl: 'https://avatars2.githubusercontent.com/u/13524192?v=3&s=200',
     fullname: 'Coocoonhome',
     pseudo: null,
     isOrganization: true,
-    projects: []
+    projects: [],
+    expanded: false
   },
   {
     avatarUrl: null,
     fullname: 'LocaleHub',
     pseudo: null,
     isOrganization: true,
-    projects: []
+    projects: [],
+    expanded: false
   }
 ];
