@@ -5,5 +5,6 @@ $separator-height: rem-calc(40);
 $global-spacing: rem-calc(20);
 $project-card-width: rem-calc(200);
 $project-card-height: rem-calc(250);
+$projects-minimal-gutter: $global-spacing;
 
 @import 'mixins';
