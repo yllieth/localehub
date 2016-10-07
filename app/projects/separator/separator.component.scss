@@ -3,7 +3,9 @@
 $separator-height: rem-calc(40);
 
 :host {
-  margin: $banner-height - $separator-height / 2 0;
+  margin: 0;
+  margin-top: $banner-height - $separator-height / 2;
+  margin-bottom: $banner-height - $separator-height / 2 - $global-spacing;
   height: $separator-height;
   min-height: $separator-height;
   line-height: $separator-height;
