@@ -1,5 +1,8 @@
 <section *ngFor="let member of projectsList">
   <lh-projects-separator [member]="member" (click)="toggle(member)"></lh-projects-separator>
-  <lh-projects-new *ngIf="member.expanded"></lh-projects-new>
-  <!--<lh-projects-list *ngIf="member.expanded"></lh-projects-list>-->
+  <div *ngIf="member.expanded" class="cards-container">
+    <lh-projects-new></lh-projects-new>
+    <lh-projects-card *ngFor="let project of member.projects" [project]="project"></lh-projects-card>
+    <span class="projects-filler"></span>
+  </div>
 </section>

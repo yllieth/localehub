@@ -5,6 +5,8 @@ md-toolbar {
 
   /deep/ md-toolbar-row {
     font-family: $header-font-family;
+    font-weight: 300;
+    font-size: 28px;
   }
 }
 

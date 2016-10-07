@@ -3,15 +3,13 @@
 $font-size: rem-calc(30);
 
 :host {
-  display: flex;
-  width: $project-card-width;
-  height: $project-card-height;
+  @include card($project-card-width, $project-card-height);
+
   align-items: flex-end;
   flex-direction: column-reverse;
   font-size: $font-size;
   background-color: $blue2;
   color: $white;
-  border-radius: $global-radius;
   font-family: $header-font-family;
   padding: $global-spacing;
   letter-spacing: 1px;

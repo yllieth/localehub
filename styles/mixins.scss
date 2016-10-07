@@ -24,3 +24,13 @@
   width: $size;
   height: $size;
 }
+
+@mixin card($width, $height) {
+  display: inline-flex;
+  width: $width;
+  height: $height;
+  //margin: $banner-height - $separator-height / 2;
+  margin: $global-spacing;
+  background-color: $white;
+  border-radius: $global-radius;
+}

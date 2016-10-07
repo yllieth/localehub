@@ -13,6 +13,30 @@ export const PROJECTS: Member[] = [
         url: '',
         lastActiveBranch: 'master',
         availableBranches: ['master', 'tp-branch1', 'pu-20161002']
+      },
+      {
+        name: 'other project with a very long name',
+        url: '',
+        lastActiveBranch: 'master',
+        availableBranches: ['master', 'tp-branch1', 'pu-20161002']
+      },
+      {
+        name: 'project 3',
+        url: '',
+        lastActiveBranch: 'master',
+        availableBranches: ['master', 'tp-branch1', 'pu-20161002']
+      },
+      {
+        name: 'project4',
+        url: '',
+        lastActiveBranch: 'master',
+        availableBranches: ['master', 'tp-branch1', 'pu-20161002']
+      },
+      {
+        name: 'project 5',
+        url: '',
+        lastActiveBranch: 'master',
+        availableBranches: ['master', 'tp-branch1', 'pu-20161002']
       }
     ],
     expanded: true

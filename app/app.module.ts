@@ -6,12 +6,15 @@ import { MaterialModule } from '@angular/material';
 
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
+import { TruncatePipe } from "./shared/pipes/truncate.pipe";
+
 import { TopbarComponent } from './shared/topbar/topbar.component';
 import { TitlebarComponent } from './shared/titlebar/titlebar.component';
 
 import { ProjectsComponent } from './projects/projects.component';
 import { SeparatorComponent } from './projects/separator/separator.component';
 import { NewProjectComponent } from "./projects/new/new-card.component";
+import { ProjectsCardComponent } from "./projects/projects-card/projects-card.component";
 
 import { LocalesComponent } from './locales/locales.component';
 
@@ -25,11 +28,13 @@ import { LocalesComponent } from './locales/locales.component';
   ],
   declarations: [
     AppComponent,
+    TruncatePipe,
     TopbarComponent,
     TitlebarComponent,
     ProjectsComponent,
     SeparatorComponent,
     NewProjectComponent,
+    ProjectsCardComponent,
     LocalesComponent
   ],
   bootstrap: [ AppComponent ]

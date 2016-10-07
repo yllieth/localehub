@@ -1,0 +1,92 @@
+@import 'styles/app.scss';
+
+$strings-counter-height: $global-spacing;
+$title-height: $banner-height + $strings-counter-height / 2;
+$branch-switcher-height: rem-calc(35);
+$button-height: $banner-height;
+$shadow-y: 5px;
+$shadow-blur: 5px;
+$shadow-color: $medium-gray;
+$z-index: 10;
+
+:host {
+  @include card($project-card-width, $project-card-height);
+  flex-direction: column;
+  position: relative;
+  z-index: $z-index;
+}
+
+.card-title {
+  height: $title-height;
+  line-height: $title-height;
+  background-color: $blue2;
+  padding: 0 $global-spacing;
+  color: $white;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: $header-font-family;
+  border-top-left-radius: $global-radius;
+  border-top-right-radius: $global-radius;
+  box-shadow: 0 $shadow-y $shadow-blur $shadow-color;
+}
+
+.branch-switcher {
+  height: $branch-switcher-height;
+  line-height: $branch-switcher-height;
+  background-color: $light-gray;
+  padding: 0 $global-spacing;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: $small-font-size;
+  z-index: -1;
+
+  i.octicon-git-branch {
+    margin-right: 5px;
+  }
+
+  select {
+    margin-left: 5px;
+    height: $branch-switcher-height;
+    background-color: transparent;
+    border: none;
+    outline: none;
+  }
+}
+
+.number-of-strings {
+  position: absolute;
+  top: $title-height - $strings-counter-height / 2;
+  width: $project-card-width;
+  display: flex;
+  justify-content: center;
+
+  .badge {
+    height: $strings-counter-height;
+    line-height: $strings-counter-height;
+    background-color: $blue3;
+    color: $white;
+    border-radius: $strings-counter-height;
+    padding: 0 10px;
+    box-shadow: 0 $shadow-y - 2 $shadow-blur $shadow-color;
+  }
+}
+
+.card-content {
+  flex-grow: 1;
+  padding: $global-spacing;
+}
+
+button {
+  height: $button-height;
+  width: $project-card-width;
+  background-color: $blue3;
+  padding: $global-spacing;
+  font-family: $header-font-family;
+  text-transform: uppercase;
+  color: $white;
+  letter-spacing: 3px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  box-shadow: 0 -1*$shadow-y $shadow-blur $shadow-color;
+}

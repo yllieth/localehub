@@ -10,3 +10,14 @@ section {
   display: block;
   width: 100%;
 }
+
+.cards-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.projects-filler {
+  flex-grow: 1;
+}
