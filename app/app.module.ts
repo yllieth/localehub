@@ -6,7 +6,7 @@ import { MaterialModule } from '@angular/material';
 
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
-import { TruncatePipe } from "./shared/pipes/truncate.pipe";
+import { TruncatePipe } from 'angular2-truncate';
 
 import { TopbarComponent } from './shared/topbar/topbar.component';
 import { TitlebarComponent } from './shared/titlebar/titlebar.component';
