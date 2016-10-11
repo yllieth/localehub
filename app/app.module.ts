@@ -6,6 +6,7 @@ import { MaterialModule } from '@angular/material';
 
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
+import { LoginComponent } from "./shared/login/login.component";
 import { TruncatePipe } from 'angular2-truncate';
 
 import { TopbarComponent } from './shared/topbar/topbar.component';
@@ -29,6 +30,7 @@ import { LocalesComponent } from './locales/locales.component';
   declarations: [
     AppComponent,
     TruncatePipe,
+    LoginComponent,
     TopbarComponent,
     TitlebarComponent,
     ProjectsComponent,
