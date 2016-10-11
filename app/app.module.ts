@@ -10,7 +10,7 @@ import { LoginComponent } from "./shared/login/login.component";
 import { TruncatePipe } from 'angular2-truncate';
 
 import { TopbarComponent } from './shared/topbar/topbar.component';
-import { TitlebarComponent } from './shared/titlebar/titlebar.component';
+import { TitlebarComponent } from './titlebar/titlebar.component';
 
 import { ProjectsComponent } from './projects/projects.component';
 import { SeparatorComponent } from './projects/separator/separator.component';

@@ -1,3 +1,5 @@
+<lh-titlebar></lh-titlebar>
+
 <section *ngFor="let member of projectsList">
   <lh-projects-separator [member]="member" (click)="toggle(member)"></lh-projects-separator>
   <div *ngIf="member.expanded" class="cards-container">
