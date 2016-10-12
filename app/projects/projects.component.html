@@ -1,10 +1,12 @@
 <lh-titlebar></lh-titlebar>
 
-<section *ngFor="let member of projectsList">
-  <lh-projects-separator [member]="member" (click)="toggle(member)"></lh-projects-separator>
-  <div *ngIf="member.expanded" class="cards-container">
-    <lh-projects-new></lh-projects-new>
-    <lh-projects-card *ngFor="let project of member.projects" [project]="project"></lh-projects-card>
-    <span class="projects-filler"></span>
-  </div>
-</section>
+<main>
+  <section *ngFor="let member of projectsList">
+    <lh-projects-separator [member]="member" (click)="toggle(member)"></lh-projects-separator>
+    <div *ngIf="member.expanded" class="cards-container">
+      <lh-projects-new></lh-projects-new>
+      <lh-projects-card *ngFor="let project of member.projects" [project]="project"></lh-projects-card>
+      <span class="projects-filler"></span>
+    </div>
+  </section>
+</main>

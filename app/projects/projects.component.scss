@@ -1,9 +1,9 @@
 @import 'styles/app.scss';
 
-:host {
-  margin: 0 $global-spacing;
+main {
   display: flex;
   flex-direction: column;
+  margin: 0 $global-spacing;
 }
 
 section {
@@ -13,8 +13,7 @@ section {
 
 .cards-container {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   justify-content: space-between;
 }
 

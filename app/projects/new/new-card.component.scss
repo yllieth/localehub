@@ -11,10 +11,10 @@ $font-size: rem-calc(30);
   background-color: $blue2;
   color: $white;
   font-family: $header-font-family;
-  padding: $global-spacing;
+  padding: $global-spacing $global-spacing rem-calc(8);
   letter-spacing: 1px;
 
   div {
-    line-height: $font-size;
+    line-height: rem-calc(40);
   }
 }
