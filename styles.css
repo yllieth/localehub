@@ -1,3 +1,22 @@
 .octicon {
   line-height: inherit;
 }
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #FFFFFF;
+  background-color: #4C8CC1;
+}
+
+.app-container .loading {
+  font-size: 30px;
+}
+
+.app-container .progress {
+  width: 30%;
+  border-bottom: 1px solid #AFB1B3;
+}
