@@ -1,0 +1,57 @@
+@import 'styles/app.scss';
+
+$card-height: 250px;
+$card-button-height: 75px;
+$card-radius: 10px;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: calc(100% - 50px);
+  align-items: center;
+  justify-content: center;
+  background-color: $blue1;
+}
+
+.container {
+  @include square($card-height);
+
+  box-shadow: 0px 0px 20px darken($blue1, 20%);
+  border-radius: $card-radius;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: $body-background;
+
+  .icon {
+    height: $card-height - $card-button-height;
+    line-height: $card-height - $card-button-height;
+    align-self: center;
+
+    i {
+      display: flex;
+      font-size: 100px;
+    }
+  }
+
+  .login {
+    border-top: 3px solid $border-color;
+
+    button {
+      height: $card-button-height;
+      line-height: rem-calc(30);
+      width: 100%;
+      outline: none;
+      color: $white;
+      background-color: $blue2;
+      border-radius: 0;
+      border-bottom-left-radius: $card-radius;
+      border-bottom-right-radius: $card-radius;
+      font-weight: 300;
+      letter-spacing: 1px;
+      font-size: rem-calc(25);
+      text-align: center;
+    }
+  }
+}
