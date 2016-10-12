@@ -1,4 +1,4 @@
-# localehub
+# Localehub
 
 > This application is dedicated for non-developer people who are in charge of adding/updating I18N (Internationalization) support to an existing application.
 >
@@ -27,6 +27,20 @@
   - how many time it is used in the code
   - usages of this translation in his code
 - `TODO` Automatically find translation files according to project type (Rails, Django, Play, Symfony, ... all these frameworks have usual location for them)
+
+## Mockups
+
+### Login
+![Screenshot](doc/mockups/screencapture-localhost-3000-login-1476269009581.png)
+
+### Projects list
+![Screenshot](doc/mockups/1-Projects-list.png)
+
+### String edition
+![Screenshot](doc/mockups/2-Project-edition.png)
+
+### String addition
+![Screenshot](doc/mockups/3-adding-a-locale.png)
 
 ## Project Installation
 
