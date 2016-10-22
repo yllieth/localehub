@@ -9,7 +9,7 @@ const appRoutes: Routes = [
   { path: '', redirectTo: '/projects', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'projects', component: ProjectsComponent },
-  { path: 'locales', component: LocalesComponent }
+  { path: 'locales/:projectOwner/:projectRepo', component: LocalesComponent }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);

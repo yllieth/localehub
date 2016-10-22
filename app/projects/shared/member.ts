@@ -6,6 +6,6 @@ export class Member {
   pseudo: string;
   fullname: string;
   isOrganization: boolean;
-  projects: Project[];
   expanded: boolean;
+  projects: Project[];
 }
