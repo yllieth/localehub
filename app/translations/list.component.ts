@@ -4,9 +4,9 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 @Component({
   moduleId: module.id,
   selector: 'lh-locales',
-  templateUrl: 'locales.component.html'
+  templateUrl: 'list.component.html'
 })
-export class LocalesComponent implements OnInit {
+export class TranslationsListComponent implements OnInit {
   projectOwner: string;
   projectRepo: string;
   expandedNewTranslation: boolean;

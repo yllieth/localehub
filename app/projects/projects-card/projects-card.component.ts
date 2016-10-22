@@ -17,6 +17,6 @@ export class ProjectsCardComponent implements OnInit {
   ngOnInit() { }
 
   onOpen(projectOwner: string, projectRepo: string): void {
-    this.router.navigate(['/locales', projectOwner, projectRepo]);
+    this.router.navigate(['/translations', projectOwner, projectRepo]);
   }
 }
