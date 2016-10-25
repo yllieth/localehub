@@ -2,9 +2,9 @@
 
 > This application is dedicated for non-developer people who are in charge of adding/updating I18N (Internationalization) support to an existing application.
 >
-> **Pain #1**: Non-developer people aren't comfortable with editing codebase directly on github or within any tool or IDE that can access production code.
+> **Pain #1**: Non-developer people aren't comfortable with editing codebase directly on github or within any tool or IDE that can access production code ... and they are right!!
 >
-> **Pain #2**: Existing tool which provide an interface to edit I18N strings doesn't support the concept of of branch. As a result, when people from the marketing team edits I18N strings, an other developer pushed a new piece of code which overrides these editions.
+> **Pain #2**: Existing tool which provide an interface to edit I18N strings doesn't support the concept of branch. As a result, when people from the marketing team edits I18N strings, an other developer may have pushed a new piece of code which overrides these editions.
 
 ## Features specification
 
