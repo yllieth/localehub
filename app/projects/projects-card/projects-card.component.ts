@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { Project } from "../shared/project";
 
 @Component({
@@ -11,8 +12,11 @@ export class ProjectsCardComponent implements OnInit {
   @Input()
   project: Project;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() { }
 
+  onOpen(projectOwner: string, projectRepo: string): void {
+    this.router.navigate(['/translations', projectOwner, projectRepo]);
+  }
 }

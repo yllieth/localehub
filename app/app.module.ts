@@ -17,7 +17,7 @@ import { SeparatorComponent } from './projects/separator/separator.component';
 import { NewProjectComponent } from "./projects/new/new-card.component";
 import { ProjectsCardComponent } from "./projects/projects-card/projects-card.component";
 
-import { LocalesComponent } from './locales/locales.component';
+import { TranslationsListComponent } from './translations/list.component';
 
 @NgModule({
   imports: [
@@ -37,7 +37,7 @@ import { LocalesComponent } from './locales/locales.component';
     SeparatorComponent,
     NewProjectComponent,
     ProjectsCardComponent,
-    LocalesComponent
+    TranslationsListComponent
   ],
   bootstrap: [ AppComponent ]
 })

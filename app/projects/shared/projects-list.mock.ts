@@ -7,39 +7,44 @@ export const PROJECTS: Member[] = [
     pseudo: 'yllieth',
     fullname: 'Sylvain RAGOT',
     isOrganization: false,
+    expanded: true,
     projects: [
       {
+        owner: 'yllieth',
         name: 'github-dashboard',
         url: '',
         lastActiveBranch: 'master',
         availableBranches: ['master', 'tp-branch1', 'pu-20161002']
       },
       {
+        owner: 'yllieth',
         name: 'other project with a very long name',
         url: '',
         lastActiveBranch: 'master',
         availableBranches: ['master', 'tp-branch1', 'pu-20161002']
       },
       {
+        owner: 'yllieth',
         name: 'project 3',
         url: '',
         lastActiveBranch: 'master',
         availableBranches: ['master', 'tp-branch1', 'pu-20161002']
       },
       {
+        owner: 'yllieth',
         name: 'project4',
         url: '',
         lastActiveBranch: 'master',
         availableBranches: ['master', 'tp-branch1', 'pu-20161002']
       },
       {
+        owner: 'yllieth',
         name: 'project 5',
         url: '',
         lastActiveBranch: 'master',
         availableBranches: ['master', 'tp-branch1', 'pu-20161002']
       }
-    ],
-    expanded: true
+    ]
   },
   {
     avatarUrl: 'https://avatars3.githubusercontent.com/u/6170002?v=3&s=200',
@@ -47,8 +52,8 @@ export const PROJECTS: Member[] = [
     fullname: 'PredicSis',
     pseudo: null,
     isOrganization: true,
-    projects: [],
-    expanded: false
+    expanded: false,
+    projects: []
   },
   {
     avatarUrl: 'https://avatars2.githubusercontent.com/u/13524192?v=3&s=200',
@@ -56,8 +61,8 @@ export const PROJECTS: Member[] = [
     fullname: 'Coocoonhome',
     pseudo: null,
     isOrganization: true,
-    projects: [],
-    expanded: false
+    expanded: false,
+    projects: []
   },
   {
     avatarUrl: null,
@@ -65,7 +70,7 @@ export const PROJECTS: Member[] = [
     fullname: 'LocaleHub',
     pseudo: null,
     isOrganization: true,
-    projects: [],
-    expanded: false
+    expanded: false,
+    projects: []
   }
 ];
