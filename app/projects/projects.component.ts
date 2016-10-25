@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ProjectsService} from "./projects.service";
-import {Member} from "./shared/member";
+import { ProjectsService } from './projects.service'
+import { Group } from './shared/group';
 
 @Component({
   moduleId: module.id,
@@ -10,7 +10,7 @@ import {Member} from "./shared/member";
   providers: [ ProjectsService ]
 })
 export class ProjectsComponent implements OnInit {
-  projectsList: Member[];
+  projectsList: Group[];
 
   constructor(private projectsService: ProjectsService) { }
 
@@ -18,7 +18,7 @@ export class ProjectsComponent implements OnInit {
     this.projectsService.getProjectList().then(projectsList => this.projectsList = projectsList);
   }
 
-  toggle(member: Member): void {
-    member.expanded = !member.expanded;
+  toggle(group: Group): void {
+    group.expanded = !group.expanded;
   }
 }

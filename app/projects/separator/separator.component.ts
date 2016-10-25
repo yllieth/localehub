@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import {Member} from "../shared/member";
+import { Component, Input } from '@angular/core';
+import { Group } from '../shared/group';
 
 @Component({
   moduleId: module.id,
@@ -7,12 +7,6 @@ import {Member} from "../shared/member";
   templateUrl: 'separator.component.html',
   styleUrls: [ 'separator.component.css' ]
 })
-export class SeparatorComponent implements OnInit {
-  @Input()
-  member: Member;
-
-  constructor() { }
-
-  ngOnInit() { }
-
+export class SeparatorComponent {
+  @Input() group: Group;
 }
