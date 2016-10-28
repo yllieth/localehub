@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Project } from '../projects/shared/project';
 
 @Component({
   moduleId: module.id,
@@ -11,8 +12,7 @@ export class TitlebarComponent implements OnInit {
   isProjectsList: boolean;
   isTranlationsList: boolean;
 
-  @Input() owner: string;
-  @Input() repo: string;
+  @Input() project: Project;
 
   constructor(private router: Router, private route: ActivatedRoute) {
     this.isProjectsList = false;

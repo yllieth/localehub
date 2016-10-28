@@ -5,7 +5,7 @@
       <span (click)="onClickProjects()" class="cursor-pointer underline">Projects</span>
       <span><i class="material-icons keyboard_arrow_right">keyboard_arrow_right</i></span>
       <span class="repo-container">
-        <div class="repo-name">{{ repo }}</div>
+        <div class="repo-name">{{ project.name }}</div>
         <div class="branch-switcher">
           <div class="branch-name"><span class="octicon octicon-git-branch"></span>&nbsp;master</div>
           <div class="switch-branch-link"><a (click)="onOpenBranchSwitcher()">change branch</a></div>
