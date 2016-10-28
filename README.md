@@ -6,6 +6,17 @@
 >
 > **Pain #2**: Existing tool which provide an interface to edit I18N strings doesn't support the concept of branch. As a result, when people from the marketing team edits I18N strings, an other developer may have pushed a new piece of code which overrides these editions.
 
+**Table of content**
+- [Features specification](#features-specification)
+  - [v1.0](#mvp---v10)
+  - [v1.1](#additional-cool-features---v11)
+- [Mockups](#mockups)
+  - [Login](#login)
+  - [Projects list](#projects-list)
+  - [String edition](#string-edition)
+  - [String addition](#string-addition)
+- [Project Installation](#project-installation)
+
 ## Features specification
 
 ### MVP - v1.0
