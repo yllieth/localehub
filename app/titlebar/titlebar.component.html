@@ -1,1 +1,29 @@
-<md-toolbar>Projects</md-toolbar>
+<md-toolbar>
+  <div class="titlebar-content" *ngIf="isProjectsList">Projects</div>
+  <div class="titlebar-content" *ngIf="isTranlationsList">
+    <div class="current-project">
+      <span (click)="onClickProjects()" class="cursor-pointer underline">Projects</span>
+      <span><i class="material-icons keyboard_arrow_right">keyboard_arrow_right</i></span>
+      <span class="repo-container">
+        <div class="repo-name">{{ repo }}</div>
+        <div class="branch-switcher">
+          <div class="branch-name"><span class="octicon octicon-git-branch"></span>&nbsp;master</div>
+          <div class="switch-branch-link"><a (click)="onOpenBranchSwitcher()">change branch</a></div>
+        </div>
+      </span>
+    </div>
+    
+    <div class="searchbar">
+      <i class="material-icons search">search</i>
+      <input type="search" placeholder="Rechercher">
+    </div>
+
+    <div class="actions">
+      <button class="secondary button" (click)="onUnfold()"><i class="octicon octicon-unfold"></i></button>
+      <button class="secondary button" (click)="onFold()"><i class="octicon octicon-fold"></i></button>
+      <button class="secondary button" (click)="onDiff()"><i class="octicon octicon-diff"></i></button>
+      <button class="secondary button" (click)="onExport()"><i class="octicon octicon-link-external"></i></button>
+      <button class="primary button" (click)="onCommit()">I'm done!</button>
+    </div>
+  </div>
+</md-toolbar>
