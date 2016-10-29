@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="title">
+    Oouuuuups, something went wrong
+  </div>
+
+  <div class="error">
+    <div class="row">
+      <div class="column sorry">
+        Developers who creates me made me a little bit sensitive about errors!
+        So, when one of them occurs, I prefer display a big red popup than something unreliable!
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column">
+        Here are some information that can helps you to fix the error:
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="column small-2">ErrorCode:</div>
+      <div class="column small-10"><code>{{ error.id }}</code></div>
+    </div>
+
+    <div class="row">
+      <div class="column small-2">Message:</div>
+      <div class="column small-10"><code>{{ error.userMessage }}</code></div>
+    </div>
+
+    <div class="row" *ngIf="error.hasDebug">
+      <div class="column small-2">More:</div>
+      <div class="column small-10"><code>{{ error.debug }}</code></div>
+    </div>
+
+    <!--
+    <div class="row cursor-pointer" *ngIf="!detailed" (click)="onOpenDetails()">
+      <div class="column"><i class="material-icons add_circle">add_circle</i>&nbsp;Request details:</div>
+    </div>
+
+    <div class="row" *ngIf="detailed" (click)="onOpenDetails()">
+      <div class="column"><i class="material-icons remove_circle">remove_circle</i>&nbsp;Request details:</div>
+
+      <div class="row">
+        <div class="column small-2"></div>
+        <div class="column small-10"></div>
+      </div>
+    </div>
+    -->
+  </div>
+</div>

@@ -1,0 +1,50 @@
+@import 'styles/app.scss';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: calc(100% - 50px);
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 70%;
+  box-shadow: 0px 0px 20px darken(map_get($foundation-palette, alert), 20%);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: map_get($foundation-palette, alert);
+  color: $white;
+  padding-bottom: $global-spacing;
+
+  .title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: $banner-height;
+    font-family: $header-font-family;
+    letter-spacing: 2px;
+    border-bottom: 1px solid $white;
+    margin-bottom: $global-spacing;
+  }
+
+  .error {
+    .sorry {
+      font-style: italic;
+      margin-bottom: $global-spacing;
+    }
+
+    code {
+      font-size: $small-font-size;
+    }
+
+    i.add_circle, i.remove_circle {
+      @include offset(6px);
+    }
+  }
+}

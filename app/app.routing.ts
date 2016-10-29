@@ -3,11 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ProjectsComponent } from './projects/projects.component';
 import { TranslationsListComponent } from './translations/list.component';
-import { LoginComponent } from "./shared/login/login.component";
+import { LoginComponent } from './shared/login/login.component';
+import { ErrorContainerComponent } from './shared/error/error-container.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/projects', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'error/:errorId', component: ErrorContainerComponent},
   { path: 'projects', component: ProjectsComponent },
   { path: 'translations/:projectOwner/:projectRepo', component: TranslationsListComponent }
 ];
