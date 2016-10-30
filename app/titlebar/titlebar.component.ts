@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Project } from '../projects/shared/project';
+import { Project } from '../+models/project';
 
 @Component({
   moduleId: module.id,
