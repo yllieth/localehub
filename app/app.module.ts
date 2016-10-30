@@ -6,7 +6,10 @@ import { MaterialModule } from '@angular/material';
 
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
+import { ErrorService } from './+services/error.service';
+
 import { LoginComponent } from "./shared/login/login.component";
+import { ErrorContainerComponent } from './shared/error/error-container.component';
 import { TruncatePipe } from 'angular2-truncate';
 
 import { TopbarComponent } from './shared/topbar/topbar.component';
@@ -31,6 +34,7 @@ import { TranslationsListComponent } from './translations/list.component';
     AppComponent,
     TruncatePipe,
     LoginComponent,
+    ErrorContainerComponent,
     TopbarComponent,
     TitlebarComponent,
     ProjectsComponent,
@@ -39,6 +43,7 @@ import { TranslationsListComponent } from './translations/list.component';
     ProjectsCardComponent,
     TranslationsListComponent
   ],
+  providers: [ ErrorService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

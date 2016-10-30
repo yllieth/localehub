@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectsService } from './projects.service'
 import { Group } from './shared/group';
+import { ErrorService } from '../+services/error.service';
 
 @Component({
   moduleId: module.id,
@@ -12,10 +13,15 @@ import { Group } from './shared/group';
 export class ProjectsComponent implements OnInit {
   projectsList: Group[];
 
-  constructor(private projectsService: ProjectsService) { }
+  constructor(
+    private projectsService: ProjectsService,
+    private errorService: ErrorService,
+  ) { }
 
   ngOnInit(): void {
-    this.projectsService.getProjectList().then(projectsList => this.projectsList = projectsList);
+    this.projectsService.getProjectList()
+      .then(projectsList => this.projectsList = projectsList)
+      .catch(error => this.errorService.handleHttpError('404-001', error));
   }
 
   toggle(group: Group): void {
