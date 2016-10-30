@@ -8,8 +8,8 @@
 //@include foundation-grid;
 @include foundation-flex-grid;
 @include foundation-typography;
-//@include foundation-button;
-//@include foundation-forms;
+@include foundation-button;
+@include foundation-forms;
 // @include foundation-range-input;
 //@include foundation-accordion;
 //@include foundation-accordion-menu;
@@ -48,3 +48,6 @@
 
 @include motion-ui-transitions;
 @include motion-ui-animations;
+
+@import '../components/cursors';
+@import '../components/typography';

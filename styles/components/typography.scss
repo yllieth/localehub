@@ -1,0 +1,9 @@
+.no-underline { text-decoration: none; }
+.underline { text-decoration: underline; }
+
+.no-emphasis { font-style: normal; }
+.emphasis { font-style: italic; }
+
+button, input, textarea {
+  outline: none;
+}

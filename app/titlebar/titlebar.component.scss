@@ -1,5 +1,112 @@
 @import 'styles/components/md-toolbar';
 
+$button-height: 35px;
+
 md-toolbar {
   @include banner($white, $black);
+}
+
+.titlebar-content {
+  width: 100%;
+  display: flex;
+}
+
+.current-project, .searchbar, .actions {
+  display: inline-flex;
+  width: 33%;
+  align-items: center;
+  height: $banner-height;
+}
+
+// translation list
+.current-project {
+  i.keyboard_arrow_right {
+    padding: 0 $global-spacing/2;
+  }
+
+  .repo-container {
+    display: inline-block;
+    max-height: $banner-height;
+
+    .repo-name {
+      text-transform: uppercase;
+      line-height: $banner-height / 2;
+    }
+
+    .branch-switcher {
+      display: flex;
+      justify-content: space-between;
+      font-size: 70%;
+      font-style: italic;
+      line-height: $banner-height / 2;
+
+      .branch-name {
+        color: map_get($foundation-palette, secondary);
+        padding-right: 5px; // assure a space between branch name and link
+      }
+
+      .switch-branch-link {
+        padding-left: 5px; // assure a space between branch name and link
+
+        a {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+.searchbar {
+  position: relative;
+
+  i.search {
+    position: absolute;
+    top: 13px;
+    left: 10px;
+    color: map_get($foundation-palette, secondary);
+  }
+
+  input {
+    width: 100%;
+    height: $button-height;
+    border-radius: $global-radius;
+    border: 1px solid $border-color;
+    box-shadow: 3px 3px 5px $border-color;
+    outline: none;
+    padding-left: 40px;
+    margin-bottom: 0;
+  }
+}
+
+.actions {
+  margin-left: $global-spacing/2;
+  justify-content: flex-end;
+
+  button {
+    padding: 0;
+    margin: $global-spacing/2;
+    height: $button-height;
+    outline: none;
+    font-size: rem-calc(18);
+
+    &.primary {
+      margin-right: 0;
+      padding: 0 10px;
+    }
+
+    &.secondary {
+      width: $button-height;
+      background-color: $light-gray;
+
+      &:hover {
+        background-color: $medium-gray;
+      }
+
+      i {
+        display: flex;
+        justify-content: center;
+        color: $dark-gray;
+      }
+    }
+  }
 }
