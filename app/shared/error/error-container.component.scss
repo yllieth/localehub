@@ -39,6 +39,19 @@
       margin-bottom: $global-spacing;
     }
 
+    .redirection {
+      margin-top: $global-spacing;
+      border-top: 1px solid $white;
+      padding-top: $global-spacing;
+
+      a {
+        color: $white;
+        font-weight: bold;
+        text-decoration: underline;
+        margin-left: $global-spacing/2;
+      }
+    }
+
     code {
       font-size: $small-font-size;
     }
