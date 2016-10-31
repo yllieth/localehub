@@ -13,6 +13,7 @@ export class ApplicationError {
   errorType: number;
   metadata: any;
   hasDebug: boolean;
+  redirections: any[];
 
   constructor(id: string, metadata: any) {
     this.id = id;
@@ -26,10 +27,12 @@ export class ApplicationError {
         ? ERRORS[id].debug
         : ERRORS[id].message;
       this.hasDebug = (ERRORS[id].hasOwnProperty('debug') === true);
+      this.redirections = (ERRORS[id].hasOwnProperty('redirections') === true) ? ERRORS[id].redirections : [];
     } else {
       this.userMessage = "Undefined error.";
       this.debug = "Undefined error.";
       this.hasDebug = false;
+      this.redirections = [];
     }
   }
 }

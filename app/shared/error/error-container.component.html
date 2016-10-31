@@ -46,5 +46,17 @@
       </div>
     </div>
     -->
+
+    <div class="row redirection" *ngIf="error.redirections.length > 0">
+      <div class="column">
+        You may want to visit one of the following page(s):
+
+        <ul>
+          <li *ngFor="let redirection of error.redirections">
+            {{ redirection.name }}: <a routerLink="{{ redirection.route }}">Click here</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
