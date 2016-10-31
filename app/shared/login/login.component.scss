@@ -38,9 +38,10 @@ $card-radius: 10px;
   .login {
     border-top: 3px solid $border-color;
 
-    button {
+    a {
+      display: block;
       height: $card-button-height;
-      line-height: rem-calc(30);
+      line-height: $card-button-height / 2;
       width: 100%;
       outline: none;
       color: $white;
@@ -49,6 +50,7 @@ $card-radius: 10px;
       border-bottom-left-radius: $card-radius;
       border-bottom-right-radius: $card-radius;
       font-weight: 300;
+      font-family: $header-font-family;
       letter-spacing: 1px;
       font-size: rem-calc(25);
       text-align: center;
