@@ -27,7 +27,7 @@ export class ApplicationError {
         ? ERRORS[id].debug
         : ERRORS[id].message;
       this.hasDebug = (ERRORS[id].hasOwnProperty('debug') === true);
-      this.redirections = (ERRORS[id].hasOwnProperty('redirection') === true) ? ERRORS[id].redirection : [];
+      this.redirections = (ERRORS[id].hasOwnProperty('redirections') === true) ? ERRORS[id].redirections : [];
     } else {
       this.userMessage = "Undefined error.";
       this.debug = "Undefined error.";
