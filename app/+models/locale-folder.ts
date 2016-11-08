@@ -42,26 +42,45 @@ export class LocaleFolder {
     if (this.children.length === 0) {
       this.children = children
     } else {
-      console.error('Internal error: Cannot set children of non-empty LocaleFolder. Overwrite risks!');
+      console.error('Internal error: Cannot set children of non-empty LocaleFolder. Overwrite risks!', this.children);
       return;
     }
 
     if (this.locales.length === 0) {
       this.locales = locales;
     } else {
-      console.error('Internal error: Cannot set locales of non-empty LocaleFolder. Overwrite risks!');
+      console.error('Internal error: Cannot set locales of non-empty LocaleFolder. Overwrite risks!', this.locales);
       return;
     }
 
     return this;
   }
 
-  merge(formattedDictionary: LocaleFolder): LocaleFolder {
-    let mergableLocales = formattedDictionary.getLocales();
-    if (mergableLocales.length > 0) {
-      Locale.merge(mergableLocales, this.getLocales());
-    }
+  /**
+   * Merge two sets of localefolders (from different languages).
+   *
+   * While iterating over the folders of the SRC param search for a folder in the DEST which has the same name,
+   * - if you find one: merge locales and continue recursively deeper in each child
+   * - if you don't find one: create a new LocaleFolder in the DEST
+   *
+   * @param src
+   * @param dest
+   */
+  static merge(src: LocaleFolder[], dest: LocaleFolder[]) {
+    for (let srcFolder: LocaleFolder of src) {
+      let searchedName = srcFolder.name;
+      let found: LocaleFolder[] = dest.filter((candidate: LocaleFolder) => {
+        return candidate.name === searchedName;
+      });
 
-    return this;
+      if (found.length === 0) {
+        dest.push(srcFolder);
+      } else if (found.length === 1) {
+        Locale.merge(srcFolder.getLocales(), found[0].getLocales());
+        LocaleFolder.merge(srcFolder.getChildren(), found[0].getChildren());
+      } else {
+        console.error('Internal error: the name ' + searchedName + ' has been found ' + found.length + ' times. The input file is errored.')
+      }
+    }
   }
 }

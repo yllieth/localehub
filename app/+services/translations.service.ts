@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LocaleFolder } from '../+models/locale-folder';
-import {serialize} from "@angular/compiler/src/i18n/serializers/xml_helper";
+import { Locale } from '../+models/locale';
 
 @Injectable()
 export class TranslationsService {
@@ -22,6 +22,18 @@ export class TranslationsService {
     return root;
   }
 
+  private merge(src: LocaleFolder, dest: LocaleFolder): void {
+    let mergableLocales = src.getLocales();
+    if (mergableLocales.length > 0) {
+      Locale.merge(mergableLocales, dest.getLocales());
+    }
+
+    let mergableChildren = src.getChildren();
+    if (mergableChildren.length > 0) {
+      LocaleFolder.merge(mergableChildren, dest.getChildren());
+    }
+  }
+
   createList(dictionaries: any): LocaleFolder {
     let root = new LocaleFolder('##ROOT##');
     let languages = Object.keys(dictionaries);
@@ -38,7 +50,8 @@ export class TranslationsService {
 
     // merge other formatted dictionaries inside root element
     for (let lang of languages) {
-      root.merge(formattedDictionaries[lang]);
+      // console.info('Merging ' + lang + ' into ' + first);
+      this.merge(formattedDictionaries[lang], root);
     }
 
     return root;

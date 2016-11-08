@@ -27,12 +27,11 @@ export class Locale {
   }
 
   /**
-   * Merge two sets of locales from different languages.
+   * Merge two sets of locales (from different languages).
    *
    * While iterating over the locales of the SRC param search for a locale in the DEST which has the same key,
    * - if you find one: add all existing values from the SRC to the DEST and remove the added languge from the missing array
    * - if you don't find one: create a new locale in the DEST
-   *
    *
    * @param src
    * @param dest

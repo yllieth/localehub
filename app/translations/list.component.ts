@@ -42,6 +42,6 @@ export class TranslationsListComponent implements OnInit {
       "fr": TRANSLATIONS_FR,
       "en-US": TRANSLATIONS_EN,
       "ja" : {}
-    })
+    });
   }
 }
