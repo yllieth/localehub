@@ -6,14 +6,12 @@
   <!--</div>-->
 <!--</div>-->
 
-<!--<div class="row">-->
-  <!--<div class="column large-3">-->
-    <!--<lh-translations-menu></lh-translations-menu>-->
-  <!--</div>-->
+<div class="row">
+  <div class="columns medium-3">
+    <lh-translations-menu [translations]="translations"></lh-translations-menu>
+  </div>
 
-  <!--<div class="column large-9">-->
-    <!--<lh-translations-container></lh-translations-container>-->
-  <!--</div>-->
-<!--</div>-->
-
-<small><pre>{{ translations | json }}</pre></small>
+  <div class="columns medium-9">
+    <lh-translations-container></lh-translations-container>
+  </div>
+</div>

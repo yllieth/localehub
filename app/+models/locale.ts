@@ -37,7 +37,7 @@ export class Locale {
    * @param dest
    */
   static merge(src: Locale[], dest: Locale[]) {
-    for (let locale: Locale of src) {
+    for (let locale of src) {
       let searchedKey = locale.key;
       let found: Locale[] = dest.filter((candidate: Locale) => {
         return candidate.key === searchedKey;
@@ -46,7 +46,7 @@ export class Locale {
       if (found.length === 0) {
         dest.push(locale);
       } else if (found.length === 1) {
-        for (let translation: Translation of locale.values) {
+        for (let translation of locale.values) {
           found[0].values.push(translation);
           found[0].missing = found[0].missing.filter(lang => { return lang != translation.lang; })
         }

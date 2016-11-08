@@ -67,7 +67,7 @@ export class LocaleFolder {
    * @param dest
    */
   static merge(src: LocaleFolder[], dest: LocaleFolder[]) {
-    for (let srcFolder: LocaleFolder of src) {
+    for (let srcFolder of src) {
       let searchedName = srcFolder.name;
       let found: LocaleFolder[] = dest.filter((candidate: LocaleFolder) => {
         return candidate.name === searchedName;

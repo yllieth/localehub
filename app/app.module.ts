@@ -21,6 +21,8 @@ import { NewProjectComponent } from "./projects/new/new-card.component";
 import { ProjectsCardComponent } from "./projects/projects-card/projects-card.component";
 
 import { TranslationsListComponent } from './translations/list.component';
+import { TranslationsMenuComponent } from './translations/translations-menu/menu.component';
+import { TranslationsContainerComponent } from './translations/translations-container/container.component';
 
 @NgModule({
   imports: [
@@ -41,7 +43,9 @@ import { TranslationsListComponent } from './translations/list.component';
     SeparatorComponent,
     NewProjectComponent,
     ProjectsCardComponent,
-    TranslationsListComponent
+    TranslationsListComponent,
+    TranslationsMenuComponent,
+    TranslationsContainerComponent
   ],
   providers: [ ErrorService ],
   bootstrap: [ AppComponent ]
