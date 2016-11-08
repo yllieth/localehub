@@ -1,0 +1,30 @@
+@import 'styles/app.scss';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  line-height: $banner-height;
+  margin-left: $global-spacing;
+
+  &.tree-root {
+    margin-left: 0;
+  }
+}
+
+i.octicon-triangle-right, i.octicon-triangle-down {
+  font-size: $small-font-size;
+  width: $global-spacing;
+  text-align: center;
+}
+
+.entry {
+  cursor: pointer;
+
+  &.no-child {
+    margin-left: $global-spacing + rem-calc(2);
+  }
+
+  &.selected {
+    background-color: $light-gray;
+  }
+}

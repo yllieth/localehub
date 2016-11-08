@@ -21,7 +21,7 @@ import { NewProjectComponent } from "./projects/new/new-card.component";
 import { ProjectsCardComponent } from "./projects/projects-card/projects-card.component";
 
 import { TranslationsListComponent } from './translations/list.component';
-import { TranslationsMenuComponent } from './translations/translations-menu/menu.component';
+import { TranslationsTreeComponent } from './translations/translations-tree/tree.component';
 import { TranslationsContainerComponent } from './translations/translations-container/container.component';
 
 @NgModule({
@@ -44,7 +44,7 @@ import { TranslationsContainerComponent } from './translations/translations-cont
     NewProjectComponent,
     ProjectsCardComponent,
     TranslationsListComponent,
-    TranslationsMenuComponent,
+    TranslationsTreeComponent,
     TranslationsContainerComponent
   ],
   providers: [ ErrorService ],

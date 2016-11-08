@@ -11,6 +11,7 @@ import { LocaleFolder } from '../+models/locale-folder';
   moduleId: module.id,
   selector: 'lh-locales',
   templateUrl: 'list.component.html',
+  styleUrls: [ 'list.component.css' ],
   providers: [ ProjectsService, TranslationsService ]
 })
 export class TranslationsListComponent implements OnInit {

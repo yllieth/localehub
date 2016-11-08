@@ -1,0 +1,17 @@
+<div>
+  <div class="entry"
+       (click)="onClickMenu(leaf)"
+       [ngClass]="{
+         'with-child': leaf.hasChild(),
+         'no-child': !leaf.hasChild()}">
+    <i class="octicon"
+       [ngClass]="{
+         'octicon-triangle-right': !leaf.expanded,
+         'octicon-triangle-down' :  leaf.expanded}"
+       *ngIf="leaf.hasChild()"></i>&nbsp;<span>{{ leaf.name }}</span>
+  </div>
+
+  <div *ngIf="leaf.expanded && leaf.hasChild()">
+    <lh-translations-tree [leaf]="iteratee" *ngFor="let iteratee of leaf.getChildren()"></lh-translations-tree>
+  </div>
+</div>

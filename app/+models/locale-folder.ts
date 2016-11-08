@@ -10,11 +10,13 @@ export class LocaleFolder {
   name: string;
   children: LocaleFolder[];
   locales: Locale[];
+  expanded: boolean;
 
   constructor(name: string) {
     this.name = name;
     this.children = [];
     this.locales = [];
+    this.expanded = false;
   }
 
   addTrustedLocale(key: string, value: string, currentLanguage: string, allLanguage: string[]): LocaleFolder {
@@ -32,6 +34,10 @@ export class LocaleFolder {
 
   getChildren(): LocaleFolder[] {
     return this.children;
+  }
+
+  hasChild(): boolean {
+    return this.children.length > 0;
   }
 
   getLocales(): Locale[] {
