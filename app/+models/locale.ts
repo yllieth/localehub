@@ -26,6 +26,10 @@ export class Locale {
     });
   }
 
+  getValues(): Translation[] {
+    return this.values;
+  }
+
   /**
    * Merge two sets of locales (from different languages).
    *

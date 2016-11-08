@@ -3,11 +3,11 @@
 <lh-translations-notification></lh-translations-notification>
 
 <div class="row full-width">
-  <div class="columns medium-3">
-    <lh-translations-tree [leaf]="translations" class="tree-root"></lh-translations-tree>
+  <div class="columns large-2 medium-3">
+    <lh-translations-tree [leaf]="root" class="tree-root" (select)="onSelect($event)"></lh-translations-tree>
   </div>
 
-  <div class="columns medium-9">
-    <lh-translations-container></lh-translations-container>
+  <div class="columns large-10 medium-9">
+    <lh-translations-container [selected]="selected"></lh-translations-container>
   </div>
 </div>

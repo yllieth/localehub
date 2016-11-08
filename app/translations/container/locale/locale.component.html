@@ -1,0 +1,8 @@
+<div>
+  <div>{{ locale.key }}</div>
+  <ul>
+    <li *ngFor="let translation of locale.getValues()">
+      {{ translation.lang }} - {{ translation.string }}
+    </li>
+  </ul>
+</div>

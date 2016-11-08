@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { LocaleFolder } from '../../+models/locale-folder';
 
 @Component({
   moduleId: module.id,
@@ -6,8 +7,8 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: 'container.component.html',
   styleUrls: [ 'container.component.css' ]
 })
-export class TranslationsContainerComponent implements OnInit {
-  constructor() { }
+export class TranslationsContainerComponent {
+  @Input() selected: LocaleFolder;
 
-  ngOnInit() { }
+  constructor() { }
 }

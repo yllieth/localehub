@@ -12,6 +12,8 @@
   </div>
 
   <div *ngIf="leaf.expanded && leaf.hasChild()">
-    <lh-translations-tree [leaf]="iteratee" *ngFor="let iteratee of leaf.getChildren()"></lh-translations-tree>
+    <lh-translations-tree [leaf]="iteratee"
+                          *ngFor="let iteratee of leaf.getChildren()"
+                          (select)="onSelect($event)"></lh-translations-tree>
   </div>
 </div>

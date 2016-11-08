@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { LocaleFolder } from '../../+models/locale-folder';
 
 @Component({
@@ -9,6 +9,7 @@ import { LocaleFolder } from '../../+models/locale-folder';
 })
 export class TranslationsTreeComponent implements OnInit {
   @Input() leaf: LocaleFolder;
+  @Output() select = new EventEmitter<LocaleFolder>();
 
   constructor() { }
 
@@ -16,5 +17,11 @@ export class TranslationsTreeComponent implements OnInit {
 
   onClickMenu(leaf: LocaleFolder): void {
     leaf.toggle();
+    this.select.emit(leaf);
+  }
+
+  onSelect(leaf: LocaleFolder): void {
+    // required to handle the recursivity of the tree component!
+    this.select.emit(leaf);
   }
 }

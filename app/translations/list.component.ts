@@ -18,11 +18,12 @@ export class TranslationsListComponent implements OnInit {
   project: Project;
   projectOwner: string;
   projectRepo: string;
-  expandedNewTranslation: boolean;
-  translations: LocaleFolder;
+  // expandedNewTranslation: boolean;
+  root: LocaleFolder;
+  selected: LocaleFolder;
 
   constructor(
-    private route: ActivatedRoute,
+    private $route: ActivatedRoute,
     private projectsService: ProjectsService,
     private translationsService: TranslationsService
   ) { }
@@ -30,7 +31,7 @@ export class TranslationsListComponent implements OnInit {
   ngOnInit() {
     this.project = new Project;
 
-    this.route.params.forEach((params: Params) => {
+    this.$route.params.forEach((params: Params) => {
       this.projectOwner = params['projectOwner'];
       this.projectRepo = params['projectRepo'];
 
@@ -39,10 +40,14 @@ export class TranslationsListComponent implements OnInit {
         .then(project => this.project = project);
     });
 
-    this.translations = this.translationsService.createList({
+    this.root = this.selected = this.translationsService.createList({
       "fr": TRANSLATIONS_FR,
       "en-US": TRANSLATIONS_EN,
       "ja" : {}
     });
+  }
+
+  onSelect(entry): void {
+    this.selected = entry;
   }
 }

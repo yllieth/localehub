@@ -17,13 +17,14 @@ import { TitlebarComponent } from './titlebar/titlebar.component';
 
 import { ProjectsComponent } from './projects/projects.component';
 import { SeparatorComponent } from './projects/separator/separator.component';
-import { NewProjectComponent } from "./projects/new/new-card.component";
-import { ProjectsCardComponent } from "./projects/projects-card/projects-card.component";
+import { NewProjectComponent } from './projects/new/new-card.component';
+import { ProjectsCardComponent } from './projects/projects-card/projects-card.component';
 
 import { TranslationsListComponent } from './translations/list.component';
 import { TranslationsNotificationComponent } from './translations/notification/notification.component';
 import { TranslationsTreeComponent } from './translations/tree/tree.component';
 import { TranslationsContainerComponent } from './translations/container/container.component';
+import { TranslationsLocaleComponent } from './translations/container/locale/locale.component';
 
 @NgModule({
   imports: [
@@ -47,7 +48,8 @@ import { TranslationsContainerComponent } from './translations/container/contain
     TranslationsListComponent,
     TranslationsNotificationComponent,
     TranslationsTreeComponent,
-    TranslationsContainerComponent
+    TranslationsContainerComponent,
+    TranslationsLocaleComponent
   ],
   providers: [ ErrorService ],
   bootstrap: [ AppComponent ]
