@@ -49,8 +49,17 @@ export class LocaleFolder {
     if (this.locales.length === 0) {
       this.locales = locales;
     } else {
-      console.error('Internal error: Cannot set children of non-empty LocaleFolder. Overwrite risks!');
+      console.error('Internal error: Cannot set locales of non-empty LocaleFolder. Overwrite risks!');
       return;
+    }
+
+    return this;
+  }
+
+  merge(formattedDictionary: LocaleFolder): LocaleFolder {
+    let mergableLocales = formattedDictionary.getLocales();
+    if (mergableLocales.length > 0) {
+      Locale.merge(mergableLocales, this.getLocales());
     }
 
     return this;

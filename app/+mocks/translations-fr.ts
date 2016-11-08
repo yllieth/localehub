@@ -25,5 +25,6 @@ export const TRANSLATIONS_FR = {
     "SCORE": "Prédire",
     "VIEW_SCORES": "Voir les prédictions"
   },
-  "BRAND_NAME": "LocaleHub"
+  "BRAND_NAME": "LocaleHub",
+  "MISSING_FROM_EN": "lorem ipsum français"
 };

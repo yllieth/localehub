@@ -25,5 +25,6 @@ export const TRANSLATIONS_EN = {
     "SCORE": "Score",
     "VIEW_SCORES": "View scores"
   },
-  "BRAND_NAME": "LocaleHub"
+  "BRAND_NAME": "LocaleHub",
+  "MISSING_FROM_FR": "lorem ipsum english"
 };

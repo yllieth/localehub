@@ -1,5 +1,4 @@
 import { Translation } from "./translation";
-import {isUndefined} from "util";
 
 /**
  * A locale associates an i18n key with one (or more) translation(s).
@@ -25,5 +24,36 @@ export class Locale {
     this.missing = languages.filter((lang: string) => {
       return lang != currentLanguage;
     });
+  }
+
+  /**
+   * Merge two sets of locales from different languages.
+   *
+   * While iterating over the locales of the SRC param search for a locale in the DEST which has the same key,
+   * - if you find one: add all existing values from the SRC to the DEST and remove the added languge from the missing array
+   * - if you don't find one: create a new locale in the DEST
+   *
+   *
+   * @param src
+   * @param dest
+   */
+  static merge(src: Locale[], dest: Locale[]) {
+    for (let locale: Locale of src) {
+      let searchedKey = locale.key;
+      let found: Locale[] = dest.filter((candidate: Locale) => {
+        return candidate.key === searchedKey;
+      });
+
+      if (found.length === 0) {
+        dest.push(locale);
+      } else if (found.length === 1) {
+        for (let translation: Translation of locale.values) {
+          found[0].values.push(translation);
+          found[0].missing = found[0].missing.filter(lang => { return lang != translation.lang; })
+        }
+      } else {
+        console.error('Internal error: the key ' + searchedKey + ' has been found ' + found.length + ' times. The input file is errored.')
+      }
+    }
   }
 }

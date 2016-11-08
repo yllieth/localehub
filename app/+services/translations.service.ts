@@ -25,7 +25,7 @@ export class TranslationsService {
   createList(dictionaries: any): LocaleFolder {
     let root = new LocaleFolder('##ROOT##');
     let languages = Object.keys(dictionaries);
-    let formattedDictionaries = {}; //this.createEmptyDictionary(languages);
+    let formattedDictionaries = {};
 
     // format each dictionary
     for (let lang in dictionaries) {
@@ -35,6 +35,11 @@ export class TranslationsService {
     // initialize root dictionary with the first formatted dictionary
     let first = languages.shift();
     root.initialize(formattedDictionaries[first].getChildren(), formattedDictionaries[first].getLocales());
+
+    // merge other formatted dictionaries inside root element
+    for (let lang of languages) {
+      root.merge(formattedDictionaries[lang]);
+    }
 
     return root;
   }
