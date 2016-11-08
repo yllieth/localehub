@@ -22,8 +22,8 @@ import { ProjectsCardComponent } from "./projects/projects-card/projects-card.co
 
 import { TranslationsListComponent } from './translations/list.component';
 import { TranslationsNotificationComponent } from './translations/notification/notification.component';
-import { TranslationsTreeComponent } from './translations/translations-tree/tree.component';
-import { TranslationsContainerComponent } from './translations/translations-container/container.component';
+import { TranslationsTreeComponent } from './translations/tree/tree.component';
+import { TranslationsContainerComponent } from './translations/container/container.component';
 
 @NgModule({
   imports: [
