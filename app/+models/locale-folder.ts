@@ -13,13 +13,20 @@ export class LocaleFolder {
 
   constructor(name: string) {
     this.name = name;
+    this.children = [];
+    this.locales = [];
   }
 
-  addChildren(child: LocaleFolder): void {
+  addTrustedLocale(key: string, value: string, currentLanguage: string, allLanguage: string[]): LocaleFolder {
+    this.locales.push(new Locale(key, value, currentLanguage, allLanguage));
 
+    return this;
   }
 
-  addLocale(locale: Locale): void {
+  addTrustedChild(name: string): LocaleFolder {
+    let child = new LocaleFolder(name);
+    this.children.push(child);
 
+    return child;
   }
 }

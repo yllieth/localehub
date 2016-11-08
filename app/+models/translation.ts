@@ -4,4 +4,9 @@
 export class Translation {
   lang: string;
   string: string;
+
+  constructor(lang: string, string: string) {
+    this.lang = lang;
+    this.string = string;
+  }
 }
