@@ -31,8 +31,10 @@ export class TranslationsService {
     for (let lang in dictionaries) {
       formattedDictionaries[lang] = this.format(dictionaries[lang], lang, languages);
     }
-    
-    console.log(formattedDictionaries);
+
+    // initialize root dictionary with the first formatted dictionary
+    let first = languages.shift();
+    root.initialize(formattedDictionaries[first].getChildren(), formattedDictionaries[first].getLocales());
 
     return root;
   }

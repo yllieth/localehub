@@ -29,4 +29,30 @@ export class LocaleFolder {
 
     return child;
   }
+
+  getChildren(): LocaleFolder[] {
+    return this.children;
+  }
+
+  getLocales(): Locale[] {
+    return this.locales;
+  }
+
+  initialize(children: LocaleFolder[], locales: Locale[]): LocaleFolder {
+    if (this.children.length === 0) {
+      this.children = children
+    } else {
+      console.error('Internal error: Cannot set children of non-empty LocaleFolder. Overwrite risks!');
+      return;
+    }
+
+    if (this.locales.length === 0) {
+      this.locales = locales;
+    } else {
+      console.error('Internal error: Cannot set children of non-empty LocaleFolder. Overwrite risks!');
+      return;
+    }
+
+    return this;
+  }
 }
