@@ -15,6 +15,6 @@ export class TranslationsTreeComponent implements OnInit {
   ngOnInit() { }
 
   onClickMenu(leaf: LocaleFolder): void {
-    leaf.expanded = !leaf.expanded;
+    leaf.toggle();
   }
 }

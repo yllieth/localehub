@@ -54,6 +54,6 @@ export class TranslationsService {
       this.merge(formattedDictionaries[lang], root);
     }
 
-    return root;
+    return root.expand(true);
   }
 }

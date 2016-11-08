@@ -62,6 +62,15 @@ export class LocaleFolder {
     return this;
   }
 
+  expand(state?: boolean): LocaleFolder {
+    this.expanded = (state === undefined) ? !this.expanded : state;
+    return this;
+  }
+
+  toggle(): LocaleFolder {
+    return this.expand();
+  }
+
   /**
    * Merge two sets of localefolders (from different languages).
    *
