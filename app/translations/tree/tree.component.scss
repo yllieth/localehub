@@ -19,12 +19,17 @@ i.octicon-triangle-right, i.octicon-triangle-down {
 
 .entry {
   cursor: pointer;
+  transition: background-color 200ms ease-in;
 
   &.no-child {
-    margin-left: $global-spacing + rem-calc(2);
+    padding-left: $global-spacing + rem-calc(2);
   }
 
   &.selected {
     background-color: $light-gray;
+  }
+
+  &:hover {
+    background-color: darken($light-gray, 1%);
   }
 }

@@ -3,7 +3,8 @@
        (click)="onClickMenu(leaf)"
        [ngClass]="{
          'with-child': leaf.hasChild(),
-         'no-child': !leaf.hasChild()}">
+         'no-child': !leaf.hasChild(),
+         'selected': leaf == selected}">
     <i class="octicon"
        [ngClass]="{
          'octicon-triangle-right': !leaf.expanded,
@@ -13,6 +14,7 @@
 
   <div *ngIf="leaf.expanded && leaf.hasChild()">
     <lh-translations-tree [leaf]="iteratee"
+                          [selected]="selected"
                           *ngFor="let iteratee of leaf.getChildren()"
                           (select)="onSelect($event)"></lh-translations-tree>
   </div>

@@ -4,7 +4,10 @@
 
 <div class="row full-width">
   <div class="columns large-2 medium-3">
-    <lh-translations-tree [leaf]="root" class="tree-root" (select)="onSelect($event)"></lh-translations-tree>
+    <lh-translations-tree  class="tree-root"
+      [leaf]="root"
+      [selected]="selected"
+      (select)="onSelect($event)"></lh-translations-tree>
   </div>
 
   <div class="columns large-10 medium-9">

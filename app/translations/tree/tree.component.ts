@@ -9,6 +9,7 @@ import { LocaleFolder } from '../../+models/locale-folder';
 })
 export class TranslationsTreeComponent implements OnInit {
   @Input() leaf: LocaleFolder;
+  @Input() selected: LocaleFolder;
   @Output() select = new EventEmitter<LocaleFolder>();
 
   constructor() { }
