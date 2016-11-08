@@ -14,6 +14,7 @@ export class Locale {
   key: string;
   values: Translation[];
   missing: string[];
+  expanded: boolean;
 
   constructor(key: string, value: string, currentLanguage: string, languages: string[]) {
     let translation = new Translation(currentLanguage, value);
@@ -24,10 +25,20 @@ export class Locale {
     this.missing = languages.filter((lang: string) => {
       return lang != currentLanguage;
     });
+    this.expanded = false;
   }
 
   getValues(): Translation[] {
     return this.values;
+  }
+
+  expand(state?: boolean): Locale {
+    this.expanded = (state === undefined) ? !this.expanded : state;
+    return this;
+  }
+
+  toggle(): Locale {
+    return this.expand();
   }
 
   /**

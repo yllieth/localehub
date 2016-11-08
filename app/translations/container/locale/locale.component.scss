@@ -1,0 +1,50 @@
+@import 'styles/app.scss';
+
+:host:first-child .expanded {
+  margin-top: 0;
+}
+
+.locale {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0px 0px 5px $border-color;
+  border-radius: $global-radius;
+  background-color: $white;
+  transition: margin 150ms ease-in-out;
+
+  &.expanded {
+    margin: $global-spacing $global-spacing*-1/2 $global-spacing $global-spacing*-1;
+    box-shadow: 0px 0px 10px $medium-gray;
+  }
+}
+
+.name {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  height: $translation-height;
+  user-select: none;
+
+  i {
+    @include offset(2px);
+
+    font-size: $small-font-size;
+    color: map-get($foundation-palette, secondary);
+    padding-right: 15px;
+  }
+}
+
+ul {
+  width: 100%;
+  border-top: 1px solid $border-color;
+  margin: 0;
+  padding: $global-spacing/2 0;
+
+  li {
+    margin: 0 $global-spacing;
+    list-style: none;
+    line-height: $translation-height;
+  }
+}

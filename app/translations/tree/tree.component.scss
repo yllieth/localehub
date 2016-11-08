@@ -3,7 +3,7 @@
 :host {
   display: flex;
   flex-direction: column;
-  line-height: $banner-height;
+  line-height: $translation-height;
   margin-left: $global-spacing;
 
   &.tree-root {
