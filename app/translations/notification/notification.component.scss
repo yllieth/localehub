@@ -1,0 +1,17 @@
+@import 'styles/app.scss';
+
+$height: 40px;
+
+:host {
+  display: flex;
+  margin: $height 0;
+  line-height: $height;
+}
+
+i.octicon-radio-tower {
+  margin-right: 5px;
+}
+
+.secondary {
+  color: map-get($foundation-palette, secondary);
+}

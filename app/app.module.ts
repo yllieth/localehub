@@ -21,6 +21,7 @@ import { NewProjectComponent } from "./projects/new/new-card.component";
 import { ProjectsCardComponent } from "./projects/projects-card/projects-card.component";
 
 import { TranslationsListComponent } from './translations/list.component';
+import { TranslationsNotificationComponent } from './translations/notification/notification.component';
 import { TranslationsTreeComponent } from './translations/translations-tree/tree.component';
 import { TranslationsContainerComponent } from './translations/translations-container/container.component';
 
@@ -44,6 +45,7 @@ import { TranslationsContainerComponent } from './translations/translations-cont
     NewProjectComponent,
     ProjectsCardComponent,
     TranslationsListComponent,
+    TranslationsNotificationComponent,
     TranslationsTreeComponent,
     TranslationsContainerComponent
   ],
