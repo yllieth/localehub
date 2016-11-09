@@ -1,6 +1,9 @@
 <div class="locale" [ngClass]="{expanded: locale.expanded}">
   <div class="row full-width name" (click)="locale.toggle()">
-    <div class="column"><i class="material-icons">add_box</i>{{ locale.key }}</div>
+    <div class="column">
+      <i class="material-icons">add_box</i>
+      <span>{{ locale.key }}</span>
+    </div>
   </div>
   <ul *ngIf="locale.expanded">
     <li *ngFor="let translation of locale.getValues()">

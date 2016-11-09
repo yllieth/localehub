@@ -5,6 +5,7 @@ import { Translation } from "./translation";
  *
  * Example
  * - key: "subtitle"
+ * - keyPath: "pages.about"
  * - values:
  *   - lang: fr,    string: %{brand} est fait par des <span>humains</span>
  *   - lang: en-US, string: %{brand% is made by <span>humans</span>
@@ -12,6 +13,7 @@ import { Translation } from "./translation";
  */
 export class Locale {
   key: string;
+  keyPath: string;
   values: Translation[];
   missing: string[];
   expanded: boolean;
@@ -19,8 +21,10 @@ export class Locale {
   constructor(key: string, value: string, currentLanguage: string, languages: string[]) {
     let translation = new Translation(currentLanguage, value);
     if (this.values === undefined) { this.values = [] }
+    let keyParts = key.split('.');
 
-    this.key = key;
+    this.key = keyParts.pop();
+    this.keyPath = keyParts.join('.');
     this.values.push(translation);
     this.missing = languages.filter((lang: string) => {
       return lang != currentLanguage;

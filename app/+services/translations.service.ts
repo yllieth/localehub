@@ -5,20 +5,21 @@ import { Locale } from '../+models/locale';
 @Injectable()
 export class TranslationsService {
   private format(locales: any, currentLanguage: string, allLanguages: string[]): LocaleFolder {
-    let serializeDeepKeys = (locales: any, folder: LocaleFolder) => {
+    let serializeDeepKeys = (jsonPath: string, locales: any, folder: LocaleFolder) => {
       for (let key in locales) {
         let value = locales[key];
+        let parent = (jsonPath === null) ? key : jsonPath + '.' + key;
         if (typeof value === 'object') {
-          serializeDeepKeys(value, folder.addTrustedChild(key));
+          serializeDeepKeys(parent, value, folder.addTrustedChild(key));
         }
         if (typeof value === 'string') {
-          folder.addTrustedLocale(key, value, currentLanguage, allLanguages);
+          folder.addTrustedLocale(parent, value, currentLanguage, allLanguages);
         }
       }
     };
 
     let root = new LocaleFolder(currentLanguage);
-    serializeDeepKeys(locales, root);
+    serializeDeepKeys(null, locales, root);
     return root;
   }
 
