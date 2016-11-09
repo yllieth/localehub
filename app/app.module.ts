@@ -7,6 +7,7 @@ import { MaterialModule } from '@angular/material';
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
 import { ErrorService } from './+services/error.service';
+import { EventService } from './+services/events.service';
 
 import { LoginComponent } from "./shared/login/login.component";
 import { ErrorContainerComponent } from './shared/error/error-container.component';
@@ -51,7 +52,7 @@ import { TranslationsLocaleComponent } from './translations/container/locale/loc
     TranslationsContainerComponent,
     TranslationsLocaleComponent
   ],
-  providers: [ ErrorService ],
+  providers: [ ErrorService, EventService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

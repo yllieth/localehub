@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Project } from '../+models/project';
+import { EventService } from "../+services/events.service";
 
 @Component({
   moduleId: module.id,
@@ -31,10 +32,16 @@ export class TitlebarComponent implements OnInit {
     this.router.navigate(['/projects']);
   }
 
+  onFold(): void {
+    EventService.get('titlebar::expand-locales').emit(false);
+  }
+
+  onUnfold(): void {
+    EventService.get('titlebar::expand-locales').emit(true);
+  }
+
   onOpenBranchSwitcher(): void {}
-  onFold(): void {}
   onDiff(): void {}
-  onUnfold(): void {}
   onExport(): void {}
   onCommit(): void {}
 }

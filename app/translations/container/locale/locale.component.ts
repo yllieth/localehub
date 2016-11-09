@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Locale } from '../../../+models/locale';
+import { EventService } from '../../../+services/events.service';
 
 @Component({
   moduleId: module.id,
@@ -12,7 +13,13 @@ export class TranslationsLocaleComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.locale.expand(false);
+
+    EventService
+      .get('titlebar::expand-locales')
+      .subscribe(value => this.locale.expand(value));
+  }
 
   formatForFlagAsset(language: string): string {
     let parts = language.split('-');
