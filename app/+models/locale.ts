@@ -32,6 +32,10 @@ export class Locale {
     return this.values;
   }
 
+  getMissingTranslations(): string[] {
+    return this.missing;
+  }
+
   expand(state?: boolean): Locale {
     this.expanded = (state === undefined) ? !this.expanded : state;
     return this;

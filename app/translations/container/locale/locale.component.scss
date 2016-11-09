@@ -46,5 +46,32 @@ ul {
     margin: 0 $global-spacing;
     list-style: none;
     line-height: $translation-height;
+
+    .flag-icon {
+      @include offset(-1px);
+    }
+
+    .flag-icon, .language {
+      margin-right: $global-spacing/2;
+    }
+
+    .language {
+      display: inline-flex;
+      color: map_get($foundation-palette, secondary);
+
+      @include breakpoint(large up) {
+        width: 5%;
+      }
+      
+      @include breakpoint(medium down) {
+        width: 10%;
+      }
+    }
+
+    .missing-translation {
+      text-transform: uppercase;
+      font-style: italic;
+      color: map_get($foundation-palette, secondary);
+    }
   }
 }

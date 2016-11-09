@@ -18,18 +18,24 @@ i.octicon-triangle-right, i.octicon-triangle-down {
 }
 
 .entry {
+  display: flex;
+  justify-content: space-between;
   cursor: pointer;
-  transition: background-color 200ms ease-in;
+  transition: background-color 300ms ease-in-out;
+
+  &:after {
+    @include css-triangle($translation-height/2, $body-background, left);
+  }
 
   &.no-child {
     padding-left: $global-spacing + rem-calc(2);
   }
 
   &.selected {
-    background-color: $light-gray;
+    background-color: $lighter-gray;
   }
 
   &:hover {
-    background-color: darken($light-gray, 1%);
+    background-color: darken($lighter-gray, 5%);
   }
 }

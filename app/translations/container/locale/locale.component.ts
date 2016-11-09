@@ -13,4 +13,9 @@ export class TranslationsLocaleComponent implements OnInit {
   constructor() { }
 
   ngOnInit() { }
+
+  formatForFlagAsset(language: string): string {
+    let parts = language.split('-');
+    return (parts.length === 2) ? parts[1].toLowerCase() : language;
+  }
 }

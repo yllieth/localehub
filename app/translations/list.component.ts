@@ -43,7 +43,7 @@ export class TranslationsListComponent implements OnInit {
     this.root = this.selected = this.translationsService.createList({
       "fr": TRANSLATIONS_FR,
       "en-US": TRANSLATIONS_EN,
-      "ja" : {}
+      "jp" : {}
     });
   }
 
