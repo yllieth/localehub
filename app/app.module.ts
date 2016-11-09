@@ -7,6 +7,7 @@ import { MaterialModule } from '@angular/material';
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
 import { ErrorService } from './+services/error.service';
+import { EventService } from './+services/events.service';
 
 import { LoginComponent } from "./shared/login/login.component";
 import { ErrorContainerComponent } from './shared/error/error-container.component';
@@ -17,10 +18,14 @@ import { TitlebarComponent } from './titlebar/titlebar.component';
 
 import { ProjectsComponent } from './projects/projects.component';
 import { SeparatorComponent } from './projects/separator/separator.component';
-import { NewProjectComponent } from "./projects/new/new-card.component";
-import { ProjectsCardComponent } from "./projects/projects-card/projects-card.component";
+import { NewProjectComponent } from './projects/new/new-card.component';
+import { ProjectsCardComponent } from './projects/projects-card/projects-card.component';
 
 import { TranslationsListComponent } from './translations/list.component';
+import { TranslationsNotificationComponent } from './translations/notification/notification.component';
+import { TranslationsTreeComponent } from './translations/tree/tree.component';
+import { TranslationsContainerComponent } from './translations/container/container.component';
+import { TranslationsLocaleComponent } from './translations/container/locale/locale.component';
 
 @NgModule({
   imports: [
@@ -41,9 +46,13 @@ import { TranslationsListComponent } from './translations/list.component';
     SeparatorComponent,
     NewProjectComponent,
     ProjectsCardComponent,
-    TranslationsListComponent
+    TranslationsListComponent,
+    TranslationsNotificationComponent,
+    TranslationsTreeComponent,
+    TranslationsContainerComponent,
+    TranslationsLocaleComponent
   ],
-  providers: [ ErrorService ],
+  providers: [ ErrorService, EventService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

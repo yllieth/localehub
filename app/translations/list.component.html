@@ -1,17 +1,16 @@
 <lh-titlebar [project]="project"></lh-titlebar>
 
-<!--<div class="row">-->
-  <!--<div class="column">-->
-    <!--<lh-notifications></lh-notifications>-->
-  <!--</div>-->
-<!--</div>-->
+<lh-translations-notification></lh-translations-notification>
 
-<!--<div class="row">-->
-  <!--<div class="column large-3">-->
-    <!--<lh-translations-menu></lh-translations-menu>-->
-  <!--</div>-->
+<div class="row full-width">
+  <div class="columns large-2 medium-3">
+    <lh-translations-tree  class="tree-root"
+      [leaf]="root"
+      [selected]="selected"
+      (select)="onSelect($event)"></lh-translations-tree>
+  </div>
 
-  <!--<div class="column large-9">-->
-    <!--<lh-translations-container></lh-translations-container>-->
-  <!--</div>-->
-<!--</div>-->
+  <div class="columns large-10 medium-9">
+    <lh-translations-container [selected]="selected"></lh-translations-container>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+@import 'styles/app.scss';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  line-height: $translation-height;
+  margin-left: $global-spacing;
+
+  &.tree-root {
+    margin-left: 0;
+  }
+}
+
+i.octicon-triangle-right, i.octicon-triangle-down {
+  font-size: $small-font-size;
+  width: $global-spacing;
+  text-align: center;
+}
+
+.entry {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: background-color 300ms ease-in-out;
+
+  &:after {
+    @include css-triangle($translation-height/2, $body-background, left);
+  }
+
+  &.no-child {
+    padding-left: $global-spacing + rem-calc(2);
+  }
+
+  &.selected {
+    background-color: $lighter-gray;
+  }
+
+  &:hover {
+    background-color: darken($lighter-gray, 5%);
+  }
+}

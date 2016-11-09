@@ -6,5 +6,7 @@ $global-spacing: rem-calc(20);
 $project-card-width: rem-calc(200);
 $project-card-height: rem-calc(250);
 $projects-minimal-gutter: $global-spacing;
+$notification-height: 35px;
+$translation-height: 40px;
 
 @import 'mixins';

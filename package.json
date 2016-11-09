@@ -2,8 +2,8 @@
   "name": "localehub",
   "version": "0.0.0",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/yllieth/localehub"
+    "type": "git",
+    "url": "https://github.com/yllieth/localehub"
   },
   "scripts": {
     "start": "tsc && npm run sass && concurrently \"tsc -w\" \"gulp watch\" \"lite-server\" ",
@@ -38,6 +38,7 @@
   "devDependencies": {
     "concurrently": "^3.1.0",
     "del": "^2.2.2",
+    "flag-icon-css": "^2.8.0",
     "foundation-sites": "6.2.4",
     "gulp": "^3.9.1",
     "gulp-sass": "^2.3.2",
