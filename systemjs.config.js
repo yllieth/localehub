@@ -12,6 +12,7 @@
     map: {
       // our app is within the app folder
       app: 'app',
+      mocks: 'app/+mocks',
       models: 'app/+models',
       // angular bundles
       '@angular/core': 'npm:@angular/core/bundles/core.umd.js',
@@ -34,9 +35,8 @@
         main: './main.js',
         defaultExtension: 'js'
       },
-      models: {
-        main: 'index'
-      },
+      mocks: { main: 'index' },
+      models: { main: 'index' },
       rxjs: {
         defaultExtension: 'js'
       },

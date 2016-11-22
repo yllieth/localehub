@@ -3,8 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Project, LocaleFolder } from '../+models';
 import { ProjectsService } from '../+services/projects.service';
 import { TranslationsService } from '../+services/translations.service';
-import { TRANSLATIONS_FR } from '../+mocks/translations-fr';
-import { TRANSLATIONS_EN } from '../+mocks/translations-en';
+import { TRANSLATIONS_FR, TRANSLATIONS_EN } from '../+mocks';
 
 @Component({
   moduleId: module.id,
