@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Locale } from '../../../+models/locale';
-import { EventService } from '../../../+services/events.service';
+import { Locale } from '../../../+models';
+import { EventService } from '../../../+services';
 
 @Component({
   moduleId: module.id,

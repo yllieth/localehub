@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LocaleFolder } from '../+models/locale-folder';
-import { Locale } from '../+models/locale';
+import { LocaleFolder, Locale } from '../+models';
 
 @Injectable()
 export class TranslationsService {

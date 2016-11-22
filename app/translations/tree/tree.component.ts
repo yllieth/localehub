@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { LocaleFolder } from '../../+models/locale-folder';
+import { LocaleFolder } from '../../+models';
 
 @Component({
   moduleId: module.id,

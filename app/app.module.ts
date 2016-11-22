@@ -4,15 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 
+import { TruncatePipe } from 'angular2-truncate';
+
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
-import { ErrorService } from './+services/error.service';
-import { EventService } from './+services/events.service';
+import { ErrorService, EventService } from './+services';
 
 import { LoginComponent } from "./shared/login/login.component";
 import { ErrorContainerComponent } from './shared/error/error-container.component';
-import { TruncatePipe } from 'angular2-truncate';
-
 import { TopbarComponent } from './shared/topbar/topbar.component';
 import { TitlebarComponent } from './titlebar/titlebar.component';
 

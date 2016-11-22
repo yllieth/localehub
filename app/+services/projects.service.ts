@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Group } from '../+models/group';
-import { Project } from '../+models/project';
-import { PROJECTS } from '../+mocks/projects-list.mock';
+import { Group, Project } from '../+models';
+import { PROJECTS } from '../+mocks';
 
 @Injectable()
 export class ProjectsService {
