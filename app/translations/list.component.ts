@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Project, LocaleFolder } from '../+models';
-import { ProjectsService } from '../+services/projects.service';
-import { TranslationsService } from '../+services/translations.service';
+import { ProjectsService, TranslationsService } from '../+services';
 import { TRANSLATIONS_FR, TRANSLATIONS_EN } from '../+mocks';
 
 @Component({

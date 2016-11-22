@@ -14,6 +14,7 @@
       app: 'app',
       mocks: 'app/+mocks',
       models: 'app/+models',
+      services: 'app/+services',
       // angular bundles
       '@angular/core': 'npm:@angular/core/bundles/core.umd.js',
       '@angular/common': 'npm:@angular/common/bundles/common.umd.js',
@@ -37,6 +38,7 @@
       },
       mocks: { main: 'index' },
       models: { main: 'index' },
+      services: { main: 'index' },
       rxjs: {
         defaultExtension: 'js'
       },
