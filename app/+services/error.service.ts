@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Router } from '@angular/router';
-import { ApplicationError } from '../+models/application-error';
+import { ApplicationError } from '../+models';
 
 @Injectable()
 export class ErrorService {

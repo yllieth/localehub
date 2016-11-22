@@ -1,6 +1,4 @@
-import { Group } from "../+models/group";
-import { User } from "../+models/user";
-import { Project } from "../+models/project";
+import { Group, User, Project } from "../+models";
 
 // Users sample
 const yllieth: User = {

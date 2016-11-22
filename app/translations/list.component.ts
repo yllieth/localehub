@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Project } from '../+models/project';
+import { Project, LocaleFolder } from '../+models';
 import { ProjectsService } from '../+services/projects.service';
 import { TranslationsService } from '../+services/translations.service';
 import { TRANSLATIONS_FR } from '../+mocks/translations-fr';
 import { TRANSLATIONS_EN } from '../+mocks/translations-en';
-import { LocaleFolder } from '../+models/locale-folder';
 
 @Component({
   moduleId: module.id,

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Group } from '../../+models/group';
+import { Group } from '../../+models';
 
 @Component({
   moduleId: module.id,

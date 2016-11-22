@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Locale } from '../../../+models/locale';
+import { Locale } from '../../../+models';
 import { EventService } from '../../../+services/events.service';
 
 @Component({

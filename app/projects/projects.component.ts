@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectsService } from '../+services/projects.service'
-import { Group } from '../+models/group';
+import { Group } from '../+models';
 import { ErrorService } from '../+services/error.service';
 
 @Component({
