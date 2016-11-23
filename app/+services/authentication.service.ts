@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Params } from '@angular/router';
+import { Params, Router } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs';
+import { ErrorService } from './';
 
 @Injectable()
-export class GithubAuthService {
+export class AuthenticationService {
   /**
    * Required.
    *
@@ -12,7 +13,7 @@ export class GithubAuthService {
    * @type {string}
    */
   // clientId: string = 'aa8083e66d77ff3c2b25';   // Application "Localehub" créée par Sylvain
-  clientId: string = '4c94850689acfd142b09';   // Application "TEST2" créée par Eric
+  private clientId: string = '4c94850689acfd142b09';   // Application "TEST2" créée par Eric
 
   /**
    * Optional.
@@ -20,7 +21,7 @@ export class GithubAuthService {
    * The URL in your application where users will be sent after authorization. See details below about redirect urls (https://developer.github.com/v3/oauth/#redirect-urls).
    * @type {string}
    */
-  redirectUri: string = 'http://localhost:3000/login';
+  private redirectUri: string = 'http://localhost:3000/login';
 
   /**
    * Optional.
@@ -33,7 +34,7 @@ export class GithubAuthService {
    * provide a scope will receive a token with user and repo scope.
    * @type {string}
    */
-  scope: string = 'user';
+  private scope: string = 'user';
 
   /**
    * Optional.
@@ -41,7 +42,7 @@ export class GithubAuthService {
    * An unguessable random string. It is used to protect against cross-site request forgery attacks.
    * @type {string}
    */
-  state: string = '42';
+  private state: string = '42';
 
   /**
    * Optional.
@@ -50,13 +51,31 @@ export class GithubAuthService {
    * The default is true. Use false in the case that a policy prohibits signups.
    * @type {string}
    */
-  allowSignup: string = 'true';
+  private allowSignup: string = 'true';
+
+  /**
+   * The result of oauth negociation.
+   *
+   * This token isn't a github token. The github token is stored in aws database and associated with an internal token.
+   * This is that internal token which is stored here and sent in the Authorization header.
+   *
+   * @type {string}
+   * @example 3d15ae18-b193-11e6-a173-aea74eb5190e
+   */
+  private token: string;
 
   constructor(
-    private $http: Http
+    private $http: Http,
+    private $router: Router,
+    private errorService: ErrorService
   ) {}
 
-  createAuthorizationUrl(): string {
+  private static isValidToken(token: string): boolean {
+    let pattern = new RegExp(/[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}/);
+    return token.length == 36 && pattern.test(token);
+  }
+
+  githubLoginUrl(): string {
     return 'https://github.com/login/oauth/authorize' +
       '?client_id=' + this.clientId +
       '&redirect_uri=' + this.redirectUri +
@@ -71,12 +90,36 @@ export class GithubAuthService {
       && query['state'] === this.state;
   }
 
-  getAccessToken(code: string): Observable<Response> {
+  requestToken(code: string): Observable<Response> {
     let url = 'https://3v1dssezil.execute-api.eu-central-1.amazonaws.com/prod/login';
     let body = { state: this.state, code: code };
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
     return this.$http.post(url, body, options);
+  }
+
+  hasToken(): boolean {
+    return this.token !== undefined;
+  }
+
+  getToken(): string {
+    return this.token;
+  }
+
+  saveToken(token: string): AuthenticationService {
+    if (AuthenticationService.isValidToken(token) === true) {
+      this.token = token;
+    } else {
+      this.errorService.handleHttpError('422-001', { token: token });
+    }
+
+    return this;
+  }
+
+  redirection():void {
+    if (this.hasToken()) {
+      this.$router.navigate(['/projects']);
+    }
   }
 }
