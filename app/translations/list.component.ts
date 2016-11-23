@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Project, LocaleFolder } from '../+models';
 import { ProjectsService, TranslationsService } from '../+services';
 import { TRANSLATIONS_FR, TRANSLATIONS_EN } from '../+mocks';
+import {ErrorService} from "../+services/error.service";
 
 @Component({
   moduleId: module.id,
@@ -21,6 +22,7 @@ export class TranslationsListComponent implements OnInit {
 
   constructor(
     private $route: ActivatedRoute,
+    private errorService: ErrorService,
     private projectsService: ProjectsService,
     private translationsService: TranslationsService
   ) { }
@@ -34,7 +36,11 @@ export class TranslationsListComponent implements OnInit {
 
       this.projectsService
         .getProject(this.projectOwner, this.projectRepo)
-        .then(project => this.project = project);
+        .then(project => this.project = project)
+        .catch((_) => this.errorService.handleHttpError('404-002', {
+          owner: this.projectOwner,
+          repo: this.projectRepo
+        }));
     });
 
     this.root = this.selected = this.translationsService.createList({

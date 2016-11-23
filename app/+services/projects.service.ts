@@ -16,10 +16,15 @@ export class ProjectsService {
         });
 
         let projects = group.projects;
-        
-        return projects.find(function(project: Project) {
+        let project = projects.find(function(project: Project) {
           return project.name === repo;
         });
-      })
+
+        if (project === undefined) {
+          throw new Error;
+        }
+
+        return project;
+      });
   }
 }

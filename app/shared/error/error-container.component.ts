@@ -13,14 +13,11 @@ export class ErrorContainerComponent implements OnInit {
   error: ApplicationError;
   detailed: boolean = false;
 
-  constructor(
-    private route: ActivatedRoute,
-    private errorService: ErrorService
-  ) { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
-      this.error = this.errorService.init(params['errorId'], this.route);
+      this.error = ErrorService.init(params['errorId']);
     });
   }
 

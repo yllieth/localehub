@@ -2,6 +2,11 @@ const ERRORS = {
   "404-001": {
     message: "Unable to fetch the list of projects",
     debug: "Please check your internet connection"
+  },
+  "404-002": {
+    message: "Unable to find the project [${projectRepo}/${projectName}]",
+    debug: "Click on the link below to see your existing projects and try to open your project from the list.",
+    redirections: [{ name: "Your existing projects", route: "/projects" }]
   }
 };
 
@@ -22,7 +27,7 @@ export class ApplicationError {
     this.metadata = metadata;
 
     if (ERRORS.hasOwnProperty(id) === true) {
-      this.userMessage = ERRORS[id].message;
+      this.userMessage = this.replaceMetadata(ERRORS[id].message);
       this.debug = (ERRORS[id].hasOwnProperty('debug') === true)
         ? ERRORS[id].debug
         : ERRORS[id].message;
@@ -34,5 +39,10 @@ export class ApplicationError {
       this.hasDebug = false;
       this.redirections = [];
     }
+  }
+
+  private replaceMetadata(message): string {
+    console.log(this.metadata);
+    return message;
   }
 }

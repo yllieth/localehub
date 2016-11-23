@@ -6,18 +6,18 @@ import { ApplicationError } from '../+models';
 export class ErrorService {
   constructor(private router: Router) { }
 
-  init(errorId: string, metadata: any): ApplicationError {
+  static init(errorId: string, metadata?: any): ApplicationError {
     return new ApplicationError(errorId, metadata);
   }
 
-  log(errorId: string, metadata: any) {
-    let error = this.init(errorId, metadata);
+  static log(errorId: string, metadata: any) {
+    let error = ErrorService.init(errorId, metadata);
     console.error('ERROR: ' + errorId + ': ' + error.userMessage, error);
   }
 
-  handleHttpError(errorId: string, metadata: any, log: boolean = true) {
+  handleHttpError(errorId: string, metadata?: any, log: boolean = true) {
     if (log === true) {
-      this.log(errorId, metadata);
+      ErrorService.log(errorId, metadata);
     }
 
     this.router.navigate(['error', errorId]);

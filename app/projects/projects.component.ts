@@ -20,7 +20,7 @@ export class ProjectsComponent implements OnInit {
   ngOnInit(): void {
     this.projectsService.getProjectList()
       .then(projectsList => this.projectsList = projectsList)
-      .catch(error => this.errorService.handleHttpError('404-001', error));
+      .catch((_) => this.errorService.handleHttpError('404-001'));
   }
 
   toggle(group: Group): void {
