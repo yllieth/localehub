@@ -6,6 +6,7 @@
     "url": "https://github.com/yllieth/localehub"
   },
   "scripts": {
+    "prestart": "gulp clean",
     "start": "tsc && npm run sass && concurrently \"tsc -w\" \"gulp watch\" \"lite-server\" ",
     "lite": "lite-server",
     "postinstall": "typings install",
