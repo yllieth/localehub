@@ -8,7 +8,7 @@ import { TruncatePipe } from 'angular2-truncate';
 
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
-import { ErrorService, EventService } from './+services';
+import { ApiService, AuthenticationService, ErrorService, EventService } from './+services';
 
 import { LoginComponent } from "./shared/login/login.component";
 import { ErrorContainerComponent } from './shared/error/error-container.component';
@@ -51,7 +51,7 @@ import { TranslationsLocaleComponent } from './translations/container/locale/loc
     TranslationsContainerComponent,
     TranslationsLocaleComponent
   ],
-  providers: [ ErrorService, EventService ],
+  providers: [ ApiService, AuthenticationService, ErrorService, EventService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

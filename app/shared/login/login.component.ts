@@ -7,8 +7,7 @@ import { AuthenticationService } from '../../+services';
   moduleId: module.id,
   selector: 'lh-login',
   templateUrl: 'login.component.html',
-  styleUrls: [ 'login.component.css' ],
-  providers: [ AuthenticationService ]
+  styleUrls: [ 'login.component.css' ]
 })
 export class LoginComponent implements OnInit {
   constructor(

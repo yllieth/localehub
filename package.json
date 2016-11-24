@@ -6,8 +6,8 @@
     "url": "https://github.com/yllieth/localehub"
   },
   "scripts": {
-    "prestart": "gulp clean",
-    "start": "tsc && npm run sass && concurrently \"tsc -w\" \"gulp watch\" \"lite-server\" ",
+    "prestart": "gulp clean && tsc && npm run sass",
+    "start": "concurrently \"node node_modules/localehub-mock/index.js\" \"tsc -w\" \"gulp watch\" \"lite-server\" ",
     "lite": "lite-server",
     "postinstall": "typings install",
     "sass": "gulp sass",
@@ -45,6 +45,7 @@
     "gulp-sass": "^2.3.2",
     "gulp-sourcemaps": "2.2.0",
     "lite-server": "^2.2.2",
+    "localehub-mock": "file:../localehub-mock",
     "motion-ui": "^1.2.2",
     "typescript": "^2.0.3",
     "typings": "1.5.0"
