@@ -53,17 +53,6 @@ export class AuthenticationService {
    */
   private allowSignup: string = 'true';
 
-  /**
-   * The result of oauth negociation.
-   *
-   * This token isn't a github token. The github token is stored in aws database and associated with an internal token.
-   * This is that internal token which is stored here and sent in the Authorization header.
-   *
-   * @type {string}
-   * @example 3d15ae18-b193-11e6-a173-aea74eb5190e
-   */
-  private token: string;
-
   constructor(
     private $http: Http,
     private $router: Router,
@@ -99,17 +88,17 @@ export class AuthenticationService {
     return this.$http.post(url, body, options);
   }
 
-  hasToken(): boolean {
-    return this.token !== undefined;
+  static hasToken(): boolean {
+    return localStorage.getItem('token') !== null;
   }
 
-  getToken(): string {
-    return this.token;
+  static getToken(): string {
+    return localStorage.getItem('token');
   }
 
   saveToken(token: string): AuthenticationService {
     if (AuthenticationService.isValidToken(token) === true) {
-      this.token = token;
+      localStorage.setItem('token', token)
     } else {
       this.errorService.handleHttpError('422-001', { token: token });
     }
@@ -118,7 +107,7 @@ export class AuthenticationService {
   }
 
   redirection():void {
-    if (this.hasToken()) {
+    if (AuthenticationService.hasToken()) {
       this.$router.navigate(['/projects']);
     }
   }

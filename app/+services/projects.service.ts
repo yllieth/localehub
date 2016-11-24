@@ -9,13 +9,10 @@ import { ApiService, AuthenticationService } from './';
 export class ProjectsService {
   private projectsUrl = ApiService.baseUrl + '/projects';
 
-  constructor(
-    private $http: Http,
-    private authentication: AuthenticationService
-  ) {}
+  constructor(private $http: Http) {}
 
   getProjectList(): Promise<Group[]> {
-    let headers = new Headers({ 'Authorization': this.authentication.getToken() });
+    let headers = new Headers({ 'Authorization': AuthenticationService.getToken() });
     let options = new RequestOptions({ headers: headers });
 
     return this.$http
