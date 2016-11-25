@@ -27,6 +27,8 @@ export class TranslationsListComponent implements OnInit {
 
   ngOnInit() {
     this.project = new Project;
+    this.root = new LocaleFolder('');
+    this.selected = new LocaleFolder('');
 
     this.$route.params.forEach((params: Params) => {
       this.projectOwner = params['projectOwner'];
@@ -34,13 +36,13 @@ export class TranslationsListComponent implements OnInit {
 
       this.projectsService
         .getProject(this.projectOwner, this.projectRepo)
-        .then(project => this.project = project);
-    });
+        .then(project => this.project = project)
+        .catch(error => /* TODO improve error handling */ console.log('Error while fetching projects', error));
 
-    this.root = this.selected = this.translationsService.createList({
-      "fr": TRANSLATIONS_FR,
-      "en-US": TRANSLATIONS_EN,
-      "jp" : {}
+      this.translationsService
+        .getDictionaries(this.projectOwner, this.projectRepo)
+        .then(dictionaries => this.root = this.selected = this.translationsService.createList(dictionaries))
+        .catch(error => /* TODO improve error handling */ console.log('Error while fetching translations', error));
     });
   }
 
