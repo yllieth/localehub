@@ -4,7 +4,7 @@ import { ApplicationError } from '../+models';
 
 @Injectable()
 export class ErrorService {
-  constructor(private router: Router) { }
+  constructor(private $router: Router) { }
 
   init(errorId: string, metadata: any): ApplicationError {
     return new ApplicationError(errorId, metadata);
@@ -20,6 +20,6 @@ export class ErrorService {
       this.log(errorId, metadata);
     }
 
-    this.router.navigate(['error', errorId]);
+    this.$router.navigate(['error', errorId]);
   }
 }
