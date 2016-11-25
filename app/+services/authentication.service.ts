@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { ErrorService } from './';
+import { ApiService, ErrorService } from './';
 
 @Injectable()
 export class AuthenticationService {
@@ -80,7 +80,7 @@ export class AuthenticationService {
   }
 
   requestToken(code: string): Observable<Response> {
-    let url = 'https://3v1dssezil.execute-api.eu-central-1.amazonaws.com/prod/login';
+    let url = `${ApiService.endpoint}/login`;
     let body = { state: this.state, code: code };
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
