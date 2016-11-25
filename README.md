@@ -56,6 +56,7 @@
 ## Project Installation
 
 ```
+git clone git@github.com:yllieth/localehub-mock.git
 git clone git@github.com:yllieth/localehub.git
 cd localehub
 npm install
