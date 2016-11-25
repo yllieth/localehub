@@ -88,8 +88,10 @@ export class AuthenticationService {
     return this.$http.post(url, body, options);
   }
 
-  static hasToken(): boolean {
-    return localStorage.getItem('token') !== null;
+  static hasToken(valid: boolean = false): boolean {
+    return (valid === true)
+      ? localStorage.getItem('token') !== null && AuthenticationService.isValidToken(localStorage.getItem('token'))
+      : localStorage.getItem('token') !== null;
   }
 
   static getToken(): string {
