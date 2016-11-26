@@ -7,8 +7,8 @@ import { ApiService, AuthenticationService } from './';
 
 @Injectable()
 export class ProjectsService {
-  private all = () => `${ApiService.baseUrl}/projects`;
-  private one = (owner: string, repo: string) => `${ApiService.baseUrl}/projects/${owner}/${repo}`;
+  private all = () => `${ApiService.endpoint.mock}/projects`;
+  private one = (owner: string, repo: string) => `${ApiService.endpoint.mock}/projects/${owner}/${repo}`;
 
   constructor(private $http: Http) {}
 

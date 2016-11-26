@@ -80,7 +80,7 @@ export class AuthenticationService {
   }
 
   requestToken(code: string): Observable<Response> {
-    let url = `${ApiService.endpoint}/login`;
+    let url = `${ApiService.endpoint.prod}/login`;
     let body = { state: this.state, code: code };
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });

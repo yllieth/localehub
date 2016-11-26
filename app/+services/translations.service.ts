@@ -5,7 +5,7 @@ import { AuthenticationService, ApiService } from './';
 
 @Injectable()
 export class TranslationsService {
-  private all = (owner: string, repo: string) => `${ApiService.baseUrl}/translations/${owner}/${repo}`;
+  private all = (owner: string, repo: string) => `${ApiService.endpoint.mock}/translations/${owner}/${repo}`;
 
   constructor(private $http: Http) {}
 
