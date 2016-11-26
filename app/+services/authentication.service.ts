@@ -80,12 +80,10 @@ export class AuthenticationService {
   }
 
   requestToken(code: string): Observable<Response> {
-    let url = `${ApiService.endpoint.prod}/login`;
-    let body = { state: this.state, code: code };
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    return this.$http.post(url, body, options);
+    return this.$http.post(
+      `${ApiService.endpoint.prod}/login`,
+      { state: this.state, code: code }
+    );
   }
 
   static hasToken(valid: boolean = false): boolean {

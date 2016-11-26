@@ -64,11 +64,8 @@ export class TranslationsService {
   }
 
   getDictionaries(owner: string, repo: string): Promise<any> {
-    let headers = new Headers({ 'Authorization': AuthenticationService.getToken() });
-    let options = new RequestOptions({ headers: headers });
-
     return this.$http
-      .get(this.all(owner, repo), options)
+      .get(this.all(owner, repo))
       .toPromise()
       .then((response: Response) => response.json())
       .catch(error => Promise.reject(error));

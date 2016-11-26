@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, XHRBackend, RequestOptions } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 
 import { TruncatePipe } from 'angular2-truncate';
@@ -52,11 +52,17 @@ import { TranslationsLocaleComponent } from './translations/container/locale/loc
     TranslationsLocaleComponent
   ],
   providers: [
-    ApiService,
     AuthenticationService,
     AuthenticationGuardService,
     ErrorService,
-    EventService
+    EventService,
+    {
+      provide: ApiService,
+      useFactory: (backend: XHRBackend, options: RequestOptions) => {
+        return new ApiService(backend, options);
+      },
+      deps: [XHRBackend, RequestOptions]
+    }
   ],
   bootstrap: [ AppComponent ]
 })
