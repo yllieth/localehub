@@ -20,13 +20,13 @@
 ## Features specification
 
 ### MVP - v1.0
-- `TODO` Login to the application from a github account.
-- `TODO` Create a project from an existing github repository.
-- `TODO` List created project and show the number of I18N strings, available branches, and, supported languages.
-- `TODO` Allow the user to edit I18N files in a secured way: it must guarantee that any other file will be modified.
-- `TODO` Allow the user to work on different github branches.
-- `TODO` Once all modification are done, create a pull-request with -at least- one assignee.
-- `TODO` Allow the user to receive notifications from github on each change on the current repository and see if it affects his current work.
+- :white_check_mark: `DONE` Login to the application from a github account.
+- :soon: `TODO` Create a project from an existing github repository.
+- :soon: `TODO` List created project and show the number of I18N strings, available branches, and, supported languages.
+- :soon: `TODO` Allow the user to edit I18N files in a secured way: it must guarantee that any other file will be modified.
+- :soon: `TODO` Allow the user to work on different github branches.
+- :soon: `TODO` Once all modification are done, create a pull-request with -at least- one assignee.
+- :soon: `TODO` Allow the user to receive notifications from github on each change on the current repository and see if it affects his current work.
 
 ### Additional cool features - v1.1
 
@@ -56,8 +56,11 @@
 ## Project Installation
 
 ```
+git clone git@github.com:yllieth/localehub-mock.git
 git clone git@github.com:yllieth/localehub.git
 cd localehub
 npm install
 npm start
 ```
+
+AWS account: https://673077269136.signin.aws.amazon.com/console

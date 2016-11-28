@@ -2,6 +2,12 @@ const ERRORS = {
   "404-001": {
     message: "Unable to fetch the list of projects",
     debug: "Please check your internet connection"
+  },
+  "422-001": {
+    message: "Login failed due to a badly formatted token. %{token} is not a valid token",
+    redirection: [
+      { name: "Back to login page.", route: '/login' }
+    ]
   }
 };
 

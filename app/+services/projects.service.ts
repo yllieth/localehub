@@ -1,25 +1,30 @@
 import { Injectable } from '@angular/core';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import 'rxjs/add/operator/toPromise';
+
 import { Group, Project } from '../+models';
-import { PROJECTS } from '../+mocks';
+import { ApiService } from './';
 
 @Injectable()
 export class ProjectsService {
+  private all = () => `${ApiService.endpoint.mock}/projects`;
+  private one = (owner: string, repo: string) => `${ApiService.endpoint.mock}/projects/${owner}/${repo}`;
+
+  constructor(private api: ApiService) {}
+
   getProjectList(): Promise<Group[]> {
-    return Promise.resolve(PROJECTS);
+    return this.api
+      .get(this.all())
+      .toPromise()
+      .then((response: Response) => response.json() as Group[])
+      .catch(error => Promise.reject(error));
   }
 
   getProject(owner: string, repo: string): Promise<Project> {
-    return this.getProjectList()
-      .then((projectList: Group[]) => {
-        let group = projectList.find(function(project: Group) {
-          return project.user.pseudo === owner;
-        });
-
-        let projects = group.projects;
-        
-        return projects.find(function(project: Project) {
-          return project.name === repo;
-        });
-      })
+    return this.api
+      .get(this.one(owner, repo))
+      .toPromise()
+      .then((response: Response) => response.json() as Project)
+      .catch(error => Promise.reject(error));
   }
 }

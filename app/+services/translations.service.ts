@@ -1,8 +1,14 @@
 import { Injectable } from '@angular/core';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { LocaleFolder, Locale } from '../+models';
+import { AuthenticationService, ApiService } from './';
 
 @Injectable()
 export class TranslationsService {
+  private all = (owner: string, repo: string) => `${ApiService.endpoint.mock}/translations/${owner}/${repo}`;
+
+  constructor(private $http: Http) {}
+
   private format(locales: any, currentLanguage: string, allLanguages: string[]): LocaleFolder {
     let serializeDeepKeys = (jsonPath: string, locales: any, folder: LocaleFolder) => {
       for (let key in locales) {
@@ -55,5 +61,13 @@ export class TranslationsService {
     }
 
     return root.expand(true);
+  }
+
+  getDictionaries(owner: string, repo: string): Promise<any> {
+    return this.$http
+      .get(this.all(owner, repo))
+      .toPromise()
+      .then((response: Response) => response.json())
+      .catch(error => Promise.reject(error));
   }
 }
