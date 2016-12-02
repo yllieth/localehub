@@ -1,10 +1,10 @@
 import json
 import httplib
 
-def organizations_request(access_token):
+def user_request(access_token):
     method = "GET"
     endpoint = "api.github.com"
-    url = "/user/orgs"
+    url = "/user"
     headers = {
         "Authorization": "token " + access_token,   # https://developer.github.com/v3/#oauth2-token-sent-in-a-header
         "Content-Type": "application/json",
@@ -17,7 +17,7 @@ def organizations_request(access_token):
 
 def lambda_handler(event, context):
     github_token = event['requestContext']['authorizer']['githob']
-    response = organizations_request(github_token)
+    response = user_request(github_token)
     status = response.status
     data = json.loads(json.dumps(response.read()))
     #print(response.status, response.reason) # 200 OK

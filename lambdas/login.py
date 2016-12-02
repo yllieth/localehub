@@ -45,5 +45,3 @@ def lambda_handler(event, context):
   token = str(uuid.uuid1())
   save_token(token, github_token)
   return { 'token': token }
-  
-    

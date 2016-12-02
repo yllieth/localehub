@@ -4,12 +4,9 @@ client_dynamo = boto3.client('dynamodb')
 
 def lambda_handler(event, context):
     token = event['authorizationToken']
-    
-    
     auth_info = client_dynamo.get_item(TableName='tokens', Key={'token': { 'S': token } }).get('Item')
-    
+
     if (auth_info):
-        print 'sfsdff'
         print auth_info
         return generatePolicy('user', event['methodArn'], { 'githob': auth_info['github_token']['S'] })
     else:
