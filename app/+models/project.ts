@@ -1,7 +1,8 @@
 export class Project {
-  owner: string;
+  id: string;
   name: string;
-  url: string;
+  user: string;
+  owner: string;
   availableBranches: string[];
   lastActiveBranch: string;
 }

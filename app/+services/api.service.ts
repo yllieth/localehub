@@ -6,7 +6,7 @@ import { AuthenticationService } from './';
 export class ApiService extends Http {
   public static endpoint = {
     prod: 'https://hrjyk83zp5.execute-api.eu-central-1.amazonaws.com/prod',
-    mock: 'http://localhost:3002'
+    mock: 'http://localhost:3003'
   };
 
   constructor(backend: XHRBackend, defaultOptions: RequestOptions) {
