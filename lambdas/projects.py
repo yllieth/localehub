@@ -1,5 +1,6 @@
 import boto3
 import json
+import decimal  # used for JSON serialization
 from boto3.dynamodb.conditions import Key
 from boto3 import client as boto3_client
 
@@ -11,12 +12,13 @@ from boto3 import client as boto3_client
 # - lastActiveBranch  (string)    - The name of the last branch used within the app. Ex: 'master'
 # - user              (url)       - The github url of the project's creator. Ex: https://api.github.com/users/yllieth
 # - owner             (url)       - The github url of the repository's creator. Ex: https://api.github.com/orgs/PredicSis
+# - i18nFiles         (object)    - contains info on translation files (count, path, format)
 def lambda_handler(event, context):
     github_token = event['requestContext']['authorizer']['githob']
     user = json.loads(get_current_user(github_token)).get('body')
     current_user = json.loads(user).get('url')
 
-    response = json.dumps(fetch_projects(current_user), default=json_serializer)
+    response = json.dumps(fetch_projects(current_user), cls=CustomJSONEncoder)
 
     return {
         "statusCode": 200,
@@ -26,11 +28,6 @@ def lambda_handler(event, context):
             "Content-Type": "application/json"
         }
     }
-
-def json_serializer(obj):
-    if isinstance(obj, set):
-        return list(obj)
-    raise TypeError
 
 # DynamoDB request: SELECT * FROM projects where 'user'=current_user
 # Retreive all existing projects from the connected user
@@ -63,3 +60,16 @@ def get_current_user(access_token):
         status = 500
 
     return response
+
+
+class CustomJSONEncoder(json.JSONEncoder):
+    map_encoding = {
+        set: list,
+        decimal.Decimal: float,
+        # ma_class: ma_transformation
+        # ...
+    }
+    def default(self, obj):
+        if type(obj) in self.map_encoding.keys():
+            return self.map_encoding[type(obj)](obj)
+        return json.JSONEncoder.default(self, obj)
