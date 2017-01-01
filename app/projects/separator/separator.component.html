@@ -4,19 +4,19 @@
 
   <span class="identity">
     <!-- Avatar -->
-    <span *ngIf="group.user.avatarUrl">
-      <img src="{{ group.user.avatarUrl }}" alt="{{ group.user.pseudo }}" />
+    <span *ngIf="group.user.avatar_url">
+      <img src="{{ group.user.avatar_url }}" alt="{{ group.user.login }}" />
     </span>
-    <span *ngIf="!group.user.avatarUrl" class="avatar-placeholder">
+    <span *ngIf="!group.user.avatar_url" class="avatar-placeholder">
       <span class="avatar-fake">
         <i class="octicon octicon-octoface"></i>
       </span>
     </span>
 
     <!-- Name -->
-    <span *ngIf="group.user.isOrganization">{{ group.user.fullname }}&nbsp;<span class="organization-tag">|&nbsp;organization</span></span>
-    <span *ngIf="!group.user.isOrganization">{{ group.user.pseudo }} ({{ group.user.fullname }})</span>
-    <a href="{{ group.user.profileUrl }}" target="_blank"><i class="material-icons open_in_new">open_in_new</i></a>
+    <span *ngIf="group.user.is_organization">{{ group.user.login }}&nbsp;<span class="organization-tag">|&nbsp;organization</span></span>
+    <span *ngIf="!group.user.is_organization">{{ group.user.login }} ({{ group.user.description }})</span>
+    <a href="{{ group.user.url }}" target="_blank"><i class="material-icons open_in_new">open_in_new</i></a>
   </span>
   <hr />
 </div>
