@@ -4,7 +4,11 @@
 <div class="branch-switcher">
   <i class="octicon octicon-git-branch"></i>&nbsp;Branch:
   <select name="" id="">
-    <option value="master">master</option>
+    <option *ngFor="let branch of project.availableBranches"
+            [attr.value]="branch"
+            [attr.selected]="branch == project.lastActiveBranch ? true : null">
+      {{ branch }}
+    </option>
   </select>
 </div>
 <div class="number-of-strings">
