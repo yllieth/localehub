@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Locale } from '../../../+models';
-import { EventService } from '../../../+services';
+import { EventService, FlagService } from '../../../+services';
 
 @Component({
   moduleId: module.id,
@@ -21,8 +21,11 @@ export class TranslationsLocaleComponent implements OnInit {
       .subscribe(value => this.locale.expand(value));
   }
 
-  formatForFlagAsset(language: string): string {
-    let parts = language.split('-');
-    return (parts.length === 2) ? parts[1].toLowerCase() : language;
+  flagOf(countryCode: string): string {
+    return FlagService.getClassName(countryCode);
+  }
+
+  languageName(countryCode: string): string {
+    return FlagService.getLanguageName(countryCode);
   }
 }

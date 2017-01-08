@@ -7,13 +7,13 @@
   </div>
   <ul *ngIf="locale.expanded">
     <li *ngFor="let translation of locale.getValues()">
-      <span class="flag-icon flag-icon-{{ formatForFlagAsset(translation.lang) }}"></span>
-      <span class="language">{{ translation.lang }}</span>
+      <span class="flag-icon {{ flagOf(translation.lang) }}"></span>
+      <span class="language" title="{{ languageName(translation.lang) }}">{{ translation.lang }}</span>
       <span class="translated-string">{{ translation.string }}</span>
     </li>
     <li *ngFor="let missing of locale.getMissingTranslations()">
-      <span class="flag-icon flag-icon-{{ formatForFlagAsset(missing) }}"></span>
-      <span class="language">{{ missing }}</span>
+      <span class="flag-icon {{ flagOf(missing) }}"></span>
+      <span class="language" title="{{ languageName(missing) }}">{{ missing }}</span>
       <span class="missing-translation">Missing translation</span>
     </li>
   </ul>
