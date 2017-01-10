@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="column">
+    <h1 md-dialog-title="">New project</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="small-5 columns middle">
+    Select repository
+  </div>
+  <div class="small-7 columns">
+    <md-menu #menu="mdMenu">
+      <button md-menu-item *ngFor="let repository of repositoryList" (click)="selectedRepo = repository">
+        {{ repository }}
+      </button>
+    </md-menu>
+
+    <button md-raised-button [mdMenuTriggerFor]="menu">
+      Github User: {{ githubUsername }}
+      <i class="material-icons expand_more">expand_more</i>
+    </button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="column">
+    <md-dialog-actions>
+      <button md-raised-button color="primary" (click)="newProjectDialog.close('yes')">Create</button>
+      <button md-raised-button md-dialog-close>Cancel</button>
+    </md-dialog-actions>
+  </div>
+</div>

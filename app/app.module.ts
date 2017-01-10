@@ -18,6 +18,7 @@ import { TitlebarComponent } from './titlebar/titlebar.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { SeparatorComponent } from './projects/separator/separator.component';
 import { NewProjectComponent } from './projects/new/new-card.component';
+import { NewProjectDialog } from "./projects/new/dialog/new-project.component";
 import { ProjectsCardComponent } from './projects/projects-card/projects-card.component';
 
 import { TranslationsListComponent } from './translations/list.component';
@@ -52,12 +53,16 @@ const apiFactory = {
     ProjectsComponent,
     SeparatorComponent,
     NewProjectComponent,
+    NewProjectDialog,
     ProjectsCardComponent,
     TranslationsListComponent,
     TranslationsNotificationComponent,
     TranslationsTreeComponent,
     TranslationsContainerComponent,
     TranslationsLocaleComponent
+  ],
+  entryComponents: [
+    NewProjectDialog
   ],
   providers: [
     apiFactory,
