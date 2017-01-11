@@ -8,7 +8,7 @@ import { TruncatePipe } from 'angular2-truncate';
 
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
-import { ApiService, AuthenticationService, AuthenticationGuardService, ErrorService, EventService } from './+services';
+import { ApiService, AuthenticationService, AuthenticationGuardService, ErrorService, EventService, GithubService } from './+services';
 
 import { LoginComponent } from './shared/login/login.component';
 import { ErrorContainerComponent } from './shared/error/error-container.component';
@@ -69,7 +69,8 @@ const apiFactory = {
     AuthenticationService,
     AuthenticationGuardService,
     ErrorService,
-    EventService
+    EventService,
+    GithubService
   ],
   bootstrap: [ AppComponent ]
 })
