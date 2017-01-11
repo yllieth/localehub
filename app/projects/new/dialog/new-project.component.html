@@ -11,7 +11,7 @@
   <div class="small-7 columns">
     <md-menu #menu="mdMenu">
       <button md-menu-item *ngFor="let repository of repositoryList" (click)="selectedRepo = repository">
-        {{ repository }}
+        {{ repository.name }}
       </button>
     </md-menu>
 
