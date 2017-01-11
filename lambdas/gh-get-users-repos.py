@@ -1,8 +1,9 @@
 import json
 import httplib
+import urllib
 
 # See https://developer.github.com/v3/repos/#list-user-repositories
-# A github repository object look like:
+# A complete github repository object look like:
 # {
 #   "id": 41301239,
 #   "name": "angular-http-status",
@@ -96,10 +97,10 @@ import httplib
 #     "pull": true
 #   }
 # }
-def repositories_request(access_token, username):
+def repositories_request(access_token, username, query_params):
     method = "GET"
     endpoint = "api.github.com"
-    url = "/users/" + username + "/repos"
+    url = "/users/" + username + "/repos" + build_query(query_params)
     headers = {
         "Authorization": "token " + access_token,   # https://developer.github.com/v3/#oauth2-token-sent-in-a-header
         "Content-Type": "application/json",
@@ -111,10 +112,17 @@ def repositories_request(access_token, username):
     conn.request(method, url, None, headers)
     return conn.getresponse()
 
+def build_query(params):
+    if bool(params):
+        return '?' + urllib.urlencode(params)
+    else:
+        return ''
+
 def lambda_handler(event, context):
+    query_params = event["queryStringParameters"]
     github_token = event['requestContext']['authorizer']['githob']
     github_username = event['pathParameters']['username']
-    response = repositories_request(github_token, github_username)
+    response = repositories_request(github_token, github_username, query_params)
     status = response.status
     data = json.loads(json.dumps(response.read()))
     #print(response.status, response.reason) # 200 OK

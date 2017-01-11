@@ -12,7 +12,8 @@ exports.handler = function(event, context, callback) {
     LogType: 'Tail',
     Payload: JSON.stringify({
       "requestContext": event.requestContext,
-      "pathParameters": event.pathParameters
+      "pathParameters": event.pathParameters,
+      "queryStringParameters": { "type": "all" }
     })
   };
 
@@ -21,7 +22,7 @@ exports.handler = function(event, context, callback) {
       done(callback, error, JSON.parse(data), data.StatusCode);
     } else {
       let response = JSON.parse(JSON.parse(data.Payload).body);
-      done(callback, null, format(response), data.StatusCode);
+      done(callback, null, buildOutput(response), data.StatusCode);
     }
   });
 };
@@ -37,7 +38,12 @@ function done(callback, error, data, statusCode) {
   });
 }
 
-function format(repositories) {
+/**
+ * Remove a lot of properties from original github response
+ *
+ * @param {repos[]} repositories - Github repositories
+ */
+function buildOutput(repositories) {
   let formattedList = [];
 
   for(let repo of repositories) {
@@ -57,7 +63,7 @@ function format(repositories) {
       },
       private: repo.private,
       fork: repo.fork
-    })
+    });
   }
 
   return formattedList;
