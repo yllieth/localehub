@@ -12,7 +12,7 @@ import { GithubRepository } from "../../../+models";
 export class NewProjectDialog implements OnInit {
   githubUsername: string; // from ProjectsComponent.openNewProjectDialog : newProjectDialog.componentInstance.githubUser = username;
   githubUserUrl: string;
-  selectedRepo: string;
+  selectedRepo: GithubRepository;
   repositoryList: GithubRepository[];
 
   constructor(
@@ -27,8 +27,12 @@ export class NewProjectDialog implements OnInit {
     this.repositoryList = [fake];
 
     this.githubService
-      .getRepositories()
+      .getRepositories(this.githubUsername)
       .then(repoList => this.repositoryList = repoList)
       /*.catch(error => this.errorService.handleHttpError('404-001', error))*/;
+  }
+
+  onClickRepo(repository: GithubRepository): void {
+    this.selectedRepo = repository;
   }
 }

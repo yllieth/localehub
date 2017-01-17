@@ -4,21 +4,32 @@
   </div>
 </div>
 
+<!-- Repository list -->
 <div class="row">
-  <div class="small-5 columns middle">
-    Select repository
-  </div>
-  <div class="small-7 columns">
+  <div class="large-6 column">
     <md-menu #menu="mdMenu">
-      <button md-menu-item *ngFor="let repository of repositoryList" (click)="selectedRepo = repository">
+      <button md-menu-item *ngFor="let repository of repositoryList" (click)="onClickRepo(repository)">
         {{ repository.name }}
       </button>
     </md-menu>
 
     <button md-raised-button [mdMenuTriggerFor]="menu">
-      Github User: {{ githubUsername }}
+      Select repository:
+      <span *ngIf="!selectedRepo">Github User: {{ githubUsername }}</span>
+      <span *ngIf="selectedRepo">{{ selectedRepo.name }}</span>
       <i class="material-icons expand_more">expand_more</i>
     </button>
+  </div>
+  
+  <div class="large-6 column hide-for-small-only hide-for-medium-only" *ngIf="selectedRepo">
+    <div class="row">
+      <div class="column medium-5"><strong>Description:</strong></div>
+      <div class="column medium-7">{{ selectedRepo.description }}</div>
+    </div>
+    <div class="row">
+      <div class="column medium-5"><strong>Open in github:</strong></div>
+      <div class="column medium-7"><a href="{{ selectedRepo.url }}" target="_blank">Click here</a></div>
+    </div>
   </div>
 </div>
 

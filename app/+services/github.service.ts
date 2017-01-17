@@ -9,12 +9,9 @@ import { GithubRepository } from "../+models";
 export class GithubService {
   constructor(private api: ApiService) {}
 
-  getRepositories(onlyNames?: boolean): Promise<GithubRepository[]> {
-    onlyNames = onlyNames || false;
-    let url = `${ApiService.endpoint.prod}/repositories`;
-
+  getRepositories(username: string): Promise<GithubRepository[]> {
     return this.api
-      .get((onlyNames === true) ? url + '?format=names' : url)
+      .get(`${ApiService.endpoint.prod}/repositories/${username}`)
       .toPromise()
       .then((response: Response) => response.json() as GithubRepository[])
       .catch(error => Promise.reject(error));
