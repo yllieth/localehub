@@ -61,6 +61,7 @@ function buildOutput(repositories) {
         repos_url: repo.owner.repos_url,
         is_organization: repo.owner.type !== 'User'
       },
+      url: repo.html_url,
       private: repo.private,
       fork: repo.fork
     });
