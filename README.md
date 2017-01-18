@@ -39,6 +39,11 @@
   - usages of this translation in his code
 - `TODO` Automatically find translation files according to project type (Rails, Django, Play, Symfony, ... all these frameworks have usual location for them)
 
+## Known limitations
+
+### Github limitations
+- Impossible to work with translation files larger than 1MB (https://developer.github.com/v3/repos/contents/#get-contents)
+
 ## Mockups
 
 ### Login
