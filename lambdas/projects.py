@@ -12,7 +12,7 @@ from boto3 import client as boto3_client
 # - lastActiveBranch  (string)    - The name of the last branch used within the app. Ex: 'master'
 # - user              (url)       - The github url of the project's creator. Ex: https://api.github.com/users/yllieth
 # - owner             (url)       - The github url of the repository's creator. Ex: https://api.github.com/orgs/PredicSis
-# - i18nFiles         (object)    - contains info on translation files (count, path, format)
+# - i18nFiles         (object[])  - contains info on translation files (languageCode, count, path, format)
 def lambda_handler(event, context):
     github_token = event['requestContext']['authorizer']['githob']
     user = json.loads(get_current_user(github_token)).get('body')
