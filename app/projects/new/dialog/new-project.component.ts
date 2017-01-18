@@ -35,4 +35,8 @@ export class NewProjectDialog implements OnInit {
   onClickRepo(repository: GithubRepository): void {
     this.selectedRepo = repository;
   }
+
+  isSaveDisabled(): boolean {
+    return this.selectedRepo === undefined;
+  }
 }

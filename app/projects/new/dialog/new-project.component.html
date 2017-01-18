@@ -36,7 +36,7 @@
 <div class="row">
   <div class="column">
     <md-dialog-actions>
-      <button md-raised-button color="primary" (click)="newProjectDialog.close('yes')">Create</button>
+      <button md-raised-button color="primary" (click)="newProjectDialog.close('yes')" disabled="{{ isSaveDisabled() }}">Create</button>
       <button md-raised-button md-dialog-close>Cancel</button>
     </md-dialog-actions>
   </div>
