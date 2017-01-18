@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from "@angular/material";
-import { GithubService, ErrorService } from "../../../+services";
-import { GithubRepository } from "../../../+models";
+import { ErrorService, FlagService, GithubService } from "../../../+services";
+import { GithubRepository, I18nFileInfo } from "../../../+models";
 
 @Component({
   moduleId: module.id,
@@ -11,9 +11,11 @@ import { GithubRepository } from "../../../+models";
 })
 export class NewProjectDialog implements OnInit {
   githubUsername: string; // from ProjectsComponent.openNewProjectDialog : newProjectDialog.componentInstance.githubUser = username;
-  githubUserUrl: string;
+  githubUserUrl: string;  // from ProjectsComponent.openNewProjectDialog : newProjectDialog.componentInstance.githubUserUrl = userUrl;
   selectedRepo: GithubRepository;
   repositoryList: GithubRepository[];
+  languages: {languageName: string, languageCode: string, flagClass: string}[];
+  selectedLanguages: I18nFileInfo[];
 
   constructor(
     private githubService: GithubService,
@@ -25,6 +27,7 @@ export class NewProjectDialog implements OnInit {
     let fake = new GithubRepository();
     fake.name = 'Loading...';
     this.repositoryList = [fake];
+    this.languages = FlagService.getCountriesList();
 
     this.githubService
       .getRepositories(this.githubUsername)
@@ -36,7 +39,11 @@ export class NewProjectDialog implements OnInit {
     this.selectedRepo = repository;
   }
 
+  onClickAddLanguage(): void {
+
+  }
+
   isSaveDisabled(): boolean {
-    return this.selectedRepo === undefined;
+    return this.selectedRepo === undefined || this.selectedLanguages.length === 0;
   }
 }

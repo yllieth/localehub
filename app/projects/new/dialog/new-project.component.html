@@ -33,6 +33,54 @@
   </div>
 </div>
 
+<!-- Languages -->
+<div class="row">
+  <div class="column">
+    Setup supported languages
+  </div>
+</div>
+
+<div class="row">
+  <div class="column large-6">
+    <!-- Select language -->
+    <div class="row">
+      <div class="column small-3">
+        Language:
+      </div>
+
+      <div class="column small-9">
+        <select>
+          <option *ngFor="let country of languages" [value]="country.languageCode">
+            {{ country.languageCode }} - {{ country.languageName }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Translation file path -->
+    <div class="row">
+      <div class="column small-3">
+        I18n file:
+      </div>
+
+      <div class="column small-9">
+        <input type="text" placeholder="(ex: /config/locales/fr.yml)">
+      </div>
+    </div>
+
+    <!-- Button -->
+    <div class="row">
+      <div class="column">
+        <button md-raised-button color="primary" style="width: 100%" (click)="onClickAddLanguage()">Add language</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="column large-6 hide-for-medium-only hide-for-small-only">
+
+  </div>
+</div>
+
 <div class="row">
   <div class="column">
     <md-dialog-actions>
