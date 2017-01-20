@@ -20,16 +20,20 @@ exports.handler = function(event, context, callback) {
   };
 
   lambda.invoke(params, function(error, data) {
-    if (error) {
-      done(callback, error, JSON.parse(data), data.StatusCode);
-    } else {
-      let response = JSON.parse(JSON.parse(data.Payload).body);
-      if (typeof response === 'object') {
-        done(callback, null, buildOutput(response, body), data.StatusCode);
+    let response       = JSON.parse(data.Payload);
+    let responseBody   = JSON.parse(response.body);
+    let responseStatus = response.statusCode;
+
+    if (responseStatus === 200) {
+      if (typeof responseBody !== 'object') {
+        responseBody = {message: "Given file [" + body.path + "] is not a valid json object"};
+        responseStatus = 422;
       } else {
-        done(callback, {message: "Given file is not a json"}, null, 422);
+        responseBody = buildOutput(responseBody, body);
       }
     }
+
+    done(callback, error, responseBody, responseStatus);
   });
 };
 

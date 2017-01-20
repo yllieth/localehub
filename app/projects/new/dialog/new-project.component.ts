@@ -16,6 +16,9 @@ export class NewProjectDialog implements OnInit {
   repositoryList: GithubRepository[];
   languages: {languageName: string, languageCode: string, flagClass: string}[];
   selectedLanguages: I18nFileInfo[];
+  newFileLanguage: {languageName: string, languageCode: string, flagClass: string};
+  newFilePath: string;
+  parsingFile: {path: string, languageCode: string};
 
   constructor(
     private githubService: GithubService,
@@ -28,6 +31,8 @@ export class NewProjectDialog implements OnInit {
     fake.name = 'Loading...';
     this.repositoryList = [fake];
     this.languages = FlagService.getCountriesList();
+    this.selectedLanguages = [];
+    this.parsingFile = null;
 
     this.githubService
       .getRepositories(this.githubUsername)
@@ -35,12 +40,24 @@ export class NewProjectDialog implements OnInit {
       /*.catch(error => this.errorService.handleHttpError('404-001', error))*/;
   }
 
-  onClickRepo(repository: GithubRepository): void {
-    this.selectedRepo = repository;
+  onClickAddLanguage(languageCode, path): void {
+    this.parsingFile = {path, languageCode};
+    this.githubService
+      .checkI18nfile(this.githubUsername, 'angular-translate', path, languageCode)
+      .then(fileInfo => {
+        this.selectedLanguages.push(fileInfo);
+        this.parsingFile = null;
+        this.newFileLanguage = null;
+        this.newFilePath = null;
+      });
   }
 
-  onClickAddLanguage(): void {
+  flagOf(countryCode: string): string {
+    return FlagService.getClassName(countryCode);
+  }
 
+  languageName(countryCode: string): string {
+    return FlagService.getLanguageName(countryCode);
   }
 
   isSaveDisabled(): boolean {

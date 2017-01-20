@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
-import { GithubRepository, User } from '../+models';
+import { GithubRepository, I18nFileInfo, User } from '../+models';
 import { ApiService } from './';
 
 @Injectable()
@@ -23,6 +23,27 @@ export class GithubService {
       .get(`${ApiService.endpoint.prod}/repositories/${username}`)
       .toPromise()
       .then((response: Response) => response.json() as GithubRepository[])
+      .catch(error => Promise.reject(error));
+  }
+
+  /**
+   * Checks if file given in the path parameter exists in the giver repo.
+   * If so, it parses the json object and count the number of defined translations.
+   * Github base request : GET api.github.com/repos/:owner/:repo/contents/:path
+   *   | using lambda: gh-get-repos-content
+   *   | using lambda: i18nFile-parse
+   *
+   * @param {string} owner
+   * @param {string} repo
+   * @param {string} path
+   * @param {string} languageCode
+   * @returns {Promise<I18nFileInfo>}
+   */
+  checkI18nfile(owner, repo, path, languageCode): Promise<I18nFileInfo> {
+    return this.api
+      .post(`${ApiService.endpoint.prod}/i18n/file`, {owner, repo, path, languageCode})
+      .toPromise()
+      .then((response: Response) => response.json() as I18nFileInfo)
       .catch(error => Promise.reject(error));
   }
 
