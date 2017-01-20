@@ -39,7 +39,7 @@ export class GithubService {
    * @param {string} languageCode
    * @returns {Promise<I18nFileInfo>}
    */
-  checkI18nfile(owner, repo, path, languageCode): Promise<I18nFileInfo> {
+  checkI18nfile(owner: string, repo: string, path: string, languageCode: string): Promise<I18nFileInfo> {
     return this.api
       .post(`${ApiService.endpoint.prod}/i18n/file`, {owner, repo, path, languageCode})
       .toPromise()
@@ -60,6 +60,20 @@ export class GithubService {
       .get(`${ApiService.endpoint.prod}/organizations`)
       .toPromise()
       .then((response: Response) => response.json() as User[])
+      .catch(error => Promise.reject(error));
+  }
+
+  /** Get all branches' names from the giver username/repository couple.
+   *
+   * @param {string} username
+   * @param {string} repository
+   * @returns {Promise<string[]>}
+   */
+  getBranches(username: string, repository: string): Promise<string[]> {
+    return this.api
+      .get(`${ApiService.endpoint.prod}/branches/${username}/${repository}`)
+      .toPromise()
+      .then((response: Response) => response.json() as string[])
       .catch(error => Promise.reject(error));
   }
 }

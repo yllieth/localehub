@@ -14,6 +14,8 @@ export class NewProjectDialog implements OnInit {
   githubUserUrl: string;  // from ProjectsComponent.openNewProjectDialog : newProjectDialog.componentInstance.githubUserUrl = userUrl;
   selectedRepo: GithubRepository;
   repositoryList: GithubRepository[];
+  branchList: string[];
+  selectedBranch: string;
   languages: {languageName: string, languageCode: string, flagClass: string}[];
   selectedLanguages: I18nFileInfo[];
   newFileLanguage: {languageName: string, languageCode: string, flagClass: string};
@@ -40,10 +42,23 @@ export class NewProjectDialog implements OnInit {
       /*.catch(error => this.errorService.handleHttpError('404-001', error))*/;
   }
 
+  onSelectRepository(repository: GithubRepository) {
+    this.branchList = ['Loading...'];
+    this.selectedBranch = undefined;
+    this.githubService
+      .getBranches(this.githubUsername, repository.name)
+      .then(branches => {
+        this.branchList = branches;
+        if (branches.indexOf('master') > -1) {
+          this.selectedBranch = 'master';
+        }
+      });
+  }
+
   onClickAddLanguage(languageCode, path): void {
     this.parsingFile = {path, languageCode};
     this.githubService
-      .checkI18nfile(this.githubUsername, 'angular-translate', path, languageCode)
+      .checkI18nfile(this.githubUsername, this.selectedRepo.name, path, languageCode)
       .then(fileInfo => {
         this.selectedLanguages.push(fileInfo);
         this.parsingFile = null;
@@ -61,6 +76,6 @@ export class NewProjectDialog implements OnInit {
   }
 
   isSaveDisabled(): boolean {
-    return this.selectedRepo === undefined || this.selectedLanguages.length === 0;
+    return this.selectedRepo === undefined || this.selectedBranch === undefined || this.selectedLanguages.length === 0;
   }
 }
