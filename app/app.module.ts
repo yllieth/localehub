@@ -14,6 +14,7 @@ import { LoginComponent } from './shared/login/login.component';
 import { ErrorContainerComponent } from './shared/error/error-container.component';
 import { TopbarComponent } from './shared/topbar/topbar.component';
 import { TitlebarComponent } from './titlebar/titlebar.component';
+import { LoaderComponent } from './shared/loader/loader.component';
 
 import { ProjectsComponent } from './projects/projects.component';
 import { SeparatorComponent } from './projects/separator/separator.component';
@@ -50,6 +51,7 @@ const apiFactory = {
     ErrorContainerComponent,
     TopbarComponent,
     TitlebarComponent,
+    LoaderComponent,
     ProjectsComponent,
     SeparatorComponent,
     NewProjectComponent,

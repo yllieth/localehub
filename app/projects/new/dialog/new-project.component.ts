@@ -31,9 +31,8 @@ export class NewProjectDialog implements OnInit {
   ) { }
 
   ngOnInit() {
-    let fake = new GithubRepository();
-    fake.name = 'Loading...';
-    this.repositoryList = [fake];
+    this.repositoryList = undefined;  // tested in the view to show the loader
+    this.branchList = undefined;      // tested in the view to show the loader
     this.languages = FlagService.getCountriesList();
     this.selectedLanguages = [];
     this.parsingFile = null;
@@ -47,8 +46,7 @@ export class NewProjectDialog implements OnInit {
   }
 
   onSelectRepository(repository: GithubRepository) {
-    this.branchList = ['Loading...'];
-    this.selectedBranch = undefined;
+    this.selectedBranch = undefined;  // reset branch if the repo changes after selecting a branch for a previous one
     this.githubService
       .getBranches(this.githubUsername, repository.name)
       .then(branches => {
