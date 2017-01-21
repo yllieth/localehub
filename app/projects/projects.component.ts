@@ -44,11 +44,13 @@ export class ProjectsComponent implements OnInit {
     newProjectDialog.afterClosed().subscribe((result: Project) => {
       newProjectDialog = null;
 
-      this.projectsList.map(function (group) {
-        if (group.user.login === username) {
-          group.projects.push(result);
-        }
-      });
+      if (result !== undefined) {
+        this.projectsList.map(function (group) {
+          if (group.user.login === username) {
+            group.projects.push(result);
+          }
+        });
+      }
     });
   }
 }
