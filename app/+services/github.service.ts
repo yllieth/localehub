@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
-import { GithubRepository, I18nFileInfo, User } from '../+models';
+import { GithubRepository, I18nFileInfo, Project, User } from '../+models';
 import { ApiService } from './';
 
 @Injectable()
@@ -74,6 +74,14 @@ export class GithubService {
       .get(`${ApiService.endpoint.prod}/branches/${username}/${repository}`)
       .toPromise()
       .then((response: Response) => response.json() as string[])
+      .catch(error => Promise.reject(error));
+  }
+
+  createProject(payload: any): Promise<Project> {
+    return this.api
+      .post(`${ApiService.endpoint.prod}/projects`, payload)
+      .toPromise()
+      .then((response: Response) => response.json() as Project)
       .catch(error => Promise.reject(error));
   }
 }
