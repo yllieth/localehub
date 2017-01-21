@@ -10,8 +10,9 @@ import { GithubRepository, I18nFileInfo } from "../../../+models";
   styleUrls: [ 'new-project.component.css' ]
 })
 export class NewProjectDialog implements OnInit {
-  githubUsername: string; // from ProjectsComponent.openNewProjectDialog : newProjectDialog.componentInstance.githubUser = username;
-  githubUserUrl: string;  // from ProjectsComponent.openNewProjectDialog : newProjectDialog.componentInstance.githubUserUrl = userUrl;
+  githubUsername: string;     // from ProjectsComponent.openNewProjectDialog : newProjectDialog.componentInstance.githubUser = user.login;
+  githubUserUrl: string;      // from ProjectsComponent.openNewProjectDialog : newProjectDialog.componentInstance.githubUserUrl = user.url;
+  existingProjects: string[]; // from ProjectsComponent.openNewProjectDialog : newProjectDialog.componentInstance.existingProjects = projects.map(project => project.name);
   selectedRepo: GithubRepository;
   repositoryList: GithubRepository[];
   branchList: string[];
@@ -41,7 +42,7 @@ export class NewProjectDialog implements OnInit {
 
     this.githubService
       .getRepositories(this.githubUsername)
-      .then(repoList => this.repositoryList = repoList)
+      .then(repoList => this.repositoryList = repoList.filter((githubRepo: GithubRepository) => this.existingProjects.indexOf(githubRepo.name) === -1))
       /*.catch(error => this.errorService.handleHttpError('404-001', error))*/;
   }
 
