@@ -72,10 +72,18 @@
           </div>
         </div>
       </div>
+
+      <div class="row" *ngIf="!showLanguageForm">
+        <div class="column">
+          <a (click)="showLanguageForm = true">
+            <i class="material-icons">add_circle_outline</i> Define a new language
+          </a>
+        </div>
+      </div>
     </div>
 
     <!-- Add language form -->
-    <div class="column large-7">
+    <div class="column large-7" *ngIf="showLanguageForm">
       <!-- Select language -->
       <div class="row">
         <div class="column small-3">
@@ -105,7 +113,18 @@
       <!-- Button -->
       <div class="row">
         <div class="column">
-          <button md-raised-button color="primary" style="width: 100%" (click)="onClickAddLanguage(newFileLanguage.languageCode, newFilePath)">Add language</button>
+          <button md-raised-button
+                  style="width: 49%"
+                  color="primary"
+                  disabled="{{ isAddLanguageDisabled() }}"
+                  (click)="onClickAddLanguage(newFileLanguage.languageCode, newFilePath)">
+            Add language
+          </button>
+          <button md-raised-button
+                  style="width: 49%"
+                  (click)="onClickResetLanguage(newFileLanguage.languageCode, newFilePath)">
+            Cancel
+          </button>
         </div>
       </div>
     </div>

@@ -22,6 +22,7 @@ export class NewProjectDialog implements OnInit {
   newFilePath: string;
   parsingFile: {path: string, languageCode: string};
   isCreatingProject: boolean;
+  showLanguageForm: boolean;
 
   constructor(
     private githubService: GithubService,
@@ -37,6 +38,7 @@ export class NewProjectDialog implements OnInit {
     this.selectedLanguages = [];
     this.parsingFile = null;
     this.isCreatingProject = false;
+    this.showLanguageForm = false;
 
     this.githubService
       .getRepositories(this.githubUsername)
@@ -64,9 +66,15 @@ export class NewProjectDialog implements OnInit {
       .then(fileInfo => {
         this.selectedLanguages.push(fileInfo);
         this.parsingFile = null;
-        this.newFileLanguage = null;
-        this.newFilePath = null;
+        this.newFileLanguage = undefined;
+        this.newFilePath = undefined;
       });
+  }
+
+  onClickResetLanguage(): void {
+    this.newFileLanguage = undefined;
+    this.newFilePath = undefined;
+    this.showLanguageForm = false;
   }
 
   flagOf(countryCode: string): string {
@@ -79,6 +87,10 @@ export class NewProjectDialog implements OnInit {
 
   isSaveDisabled(): boolean {
     return this.selectedRepo === undefined || this.selectedBranch === undefined || this.selectedLanguages.length === 0;
+  }
+
+  isAddLanguageDisabled(): boolean {
+    return this.newFileLanguage === undefined || this.newFilePath === undefined;
   }
 
   createProject(dialogRef: MdDialogRef<NewProjectDialog>): void {
