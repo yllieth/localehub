@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialogRef, MdDialog, MdDialogConfig } from "@angular/material";
 import { ProjectsService, ErrorService } from '../+services';
-import { Group, Project } from '../+models';
+import { Group, Project, User } from '../+models';
 import { NewProjectDialog } from "./new/dialog/new-project.component";
 
 @Component({
@@ -30,7 +30,7 @@ export class ProjectsComponent implements OnInit {
     group.expanded = !group.expanded;
   }
 
-  openNewProjectDialog(username, userUrl): void {
+  openNewProjectDialog(user: User, projects: Project[]): void {
     let newProjectDialog: MdDialogRef<NewProjectDialog>;
     let dialogConfig = new MdDialogConfig();
     dialogConfig.disableClose = false;
@@ -38,15 +38,16 @@ export class ProjectsComponent implements OnInit {
     dialogConfig.height = '50%';
 
     newProjectDialog = this.dialog.open(NewProjectDialog, dialogConfig);
-    newProjectDialog.componentInstance.githubUsername = username;
-    newProjectDialog.componentInstance.githubUserUrl = userUrl;
+    newProjectDialog.componentInstance.githubUsername = user.login;
+    newProjectDialog.componentInstance.githubUserUrl = user.url;
+    newProjectDialog.componentInstance.existingProjects = projects.map(project => project.name);
 
     newProjectDialog.afterClosed().subscribe((result: Project) => {
       newProjectDialog = null;
 
       if (result !== undefined) {
         this.projectsList.map(function (group) {
-          if (group.user.login === username) {
+          if (group.user.login === user.login) {
             group.projects.push(result);
           }
         });
