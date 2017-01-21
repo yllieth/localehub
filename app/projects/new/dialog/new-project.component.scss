@@ -1,9 +1,21 @@
+@import 'styles/app.scss';
+
 fieldset {
-  border: 1px solid lightgray;
-  border-radius: 3px;
-  padding-bottom: 20px;
+  border: 1px solid $border-color;
+  border-radius: $global-radius;
+  padding-bottom: $global-spacing;
 }
 
 legend {
-  margin: 20px;
+  margin: $global-spacing;
+}
+
+i.material-icons {
+  &.info, &.add_circle_outline {
+    @include offset(6px)
+  }
+}
+
+small.info {
+  color: map-get($foundation-palette, secondary);
 }
