@@ -9,11 +9,13 @@
   <legend>Select a repository: </legend>
   <div class="row">
     <div class="large-5 column">
-      <select [(ngModel)]="selectedRepo" (change)="onSelectRepository(selectedRepo)">
+      <select [(ngModel)]="selectedRepo" (change)="onSelectRepository(selectedRepo)" *ngIf="repositoryList != undefined">
         <option *ngFor="let repository of repositoryList" [ngValue]="repository">
           {{ repository.name }}
         </option>
       </select>
+
+      <lh-loader [message]="'Loading repositories ...'" *ngIf="repositoryList == undefined"></lh-loader>
     </div>
 
     <div class="large-7 column hide-for-small-only hide-for-medium-only" *ngIf="selectedRepo">
@@ -24,11 +26,13 @@
       <div class="row">
         <div class="column medium-5"><strong>Branches:</strong></div>
         <div class="column medium-7">
-          <select [(ngModel)]="selectedBranch">
+          <select [(ngModel)]="selectedBranch" *ngIf="branchList != undefined">
             <option *ngFor="let branch of branchList" [ngValue]="branch">
               {{ branch }}
             </option>
           </select>
+
+          <lh-loader [message]="'Loading branches ...'" *ngIf="branchList == undefined"></lh-loader>
         </div>
       </div>
       <div class="row">
@@ -54,6 +58,7 @@
       </div>
 
       <div *ngIf="parsingFile != null">
+        <lh-loader></lh-loader>
         <em>Parsing file <em><span class="flag-icon {{ flagOf(parsingFile.languageCode) }}"></span> {{ parsingFile.path }}</em></em>
       </div>
 
