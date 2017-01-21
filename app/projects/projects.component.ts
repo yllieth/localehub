@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {MdDialogRef, MdDialog, MdDialogConfig} from "@angular/material";
+import { MdDialogRef, MdDialog, MdDialogConfig } from "@angular/material";
 import { ProjectsService, ErrorService } from '../+services';
-import { Group } from '../+models';
+import { Group, Project } from '../+models';
 import { NewProjectDialog } from "./new/dialog/new-project.component";
 
 @Component({
@@ -41,9 +41,14 @@ export class ProjectsComponent implements OnInit {
     newProjectDialog.componentInstance.githubUsername = username;
     newProjectDialog.componentInstance.githubUserUrl = userUrl;
 
-    newProjectDialog.afterClosed().subscribe(result => {
-      console.log('result: ' + result);
+    newProjectDialog.afterClosed().subscribe((result: Project) => {
       newProjectDialog = null;
+
+      this.projectsList.map(function (group) {
+        if (group.user.login === username) {
+          group.projects.push(result);
+        }
+      });
     });
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from "@angular/material";
-import { ErrorService, FlagService, GithubService } from "../../../+services";
+import { ApiService, ErrorService, FlagService, GithubService } from "../../../+services";
 import { GithubRepository, I18nFileInfo } from "../../../+models";
 
 @Component({
@@ -21,6 +21,7 @@ export class NewProjectDialog implements OnInit {
   newFileLanguage: {languageName: string, languageCode: string, flagClass: string};
   newFilePath: string;
   parsingFile: {path: string, languageCode: string};
+  isCreatingProject: boolean;
 
   constructor(
     private githubService: GithubService,
@@ -35,6 +36,7 @@ export class NewProjectDialog implements OnInit {
     this.languages = FlagService.getCountriesList();
     this.selectedLanguages = [];
     this.parsingFile = null;
+    this.isCreatingProject = false;
 
     this.githubService
       .getRepositories(this.githubUsername)
@@ -77,5 +79,25 @@ export class NewProjectDialog implements OnInit {
 
   isSaveDisabled(): boolean {
     return this.selectedRepo === undefined || this.selectedBranch === undefined || this.selectedLanguages.length === 0;
+  }
+
+  createProject(dialogRef: MdDialogRef<NewProjectDialog>): void {
+    let payload = {
+      id: ApiService.generateUUID(),
+      name: this.selectedRepo.name,
+      owner: this.selectedRepo.owner.url,
+      user: this.githubUserUrl,
+      availableBranches: this.branchList,
+      lastActiveBranch: this.selectedBranch,
+      i18nFiles: this.selectedLanguages
+    };
+
+    this.isCreatingProject = true;
+    this.githubService
+      .createProject(payload)
+      .then(project => {
+        this.isCreatingProject = false;
+        dialogRef.close(project);
+      });
   }
 }
