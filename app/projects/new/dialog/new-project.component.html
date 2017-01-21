@@ -14,6 +14,12 @@
           {{ repository.name }}
         </option>
       </select>
+      <div *ngIf="repositoryList != undefined">
+        <small class="info">
+          <i class="material-icons info">info</i>
+          Repositories with an existing project aren't displayed in this list. You cannot create a project which already exists.
+        </small>
+      </div>
 
       <lh-loader [message]="'Loading repositories ...'" *ngIf="repositoryList == undefined"></lh-loader>
     </div>
@@ -81,7 +87,7 @@
       <div class="row" *ngIf="!showLanguageForm">
         <div class="column">
           <a (click)="showLanguageForm = true">
-            <i class="material-icons">add_circle_outline</i> Define a new language
+            <i class="material-icons add_circle_outline">add_circle_outline</i> Define a new language
           </a>
         </div>
       </div>
