@@ -1,9 +1,7 @@
 'use strict';
 
 let AWS = require('aws-sdk');
-let lambda = new AWS.Lambda({
-  region: 'eu-central-1'
-});
+let lambda = new AWS.Lambda({ region: 'eu-central-1' });
 
 exports.handler = function(event, context, callback) {
   let body = JSON.parse(event.body);
@@ -21,16 +19,24 @@ exports.handler = function(event, context, callback) {
 
   lambda.invoke(params, function(error, data) {
     let response       = JSON.parse(data.Payload);
-    let responseBody   = JSON.parse(response.body);
-    let responseStatus = response.statusCode;
+    let responseStatus = 500;
+    let responseBody   = {};
+
+    try {
+      responseBody = JSON.parse(response.body);
+      responseStatus = response.statusCode;
+    } catch (e) {
+      console.log('catch', e);
+      responseBody = {message: "Given file is not a valid json object", body};
+      responseStatus = 422;
+    }
+
+    console.log('response', responseBody);
 
     if (responseStatus === 200) {
-      if (typeof responseBody !== 'object') {
-        responseBody = {message: "Given file [" + body.path + "] is not a valid json object"};
-        responseStatus = 422;
-      } else {
-        responseBody = buildOutput(responseBody, body);
-      }
+      responseBody = buildOutput(responseBody, body);
+    } else if (responseStatus === 404) {
+      responseBody = {message: "File not found", body};
     }
 
     done(callback, error, responseBody, responseStatus);

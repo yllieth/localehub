@@ -19,6 +19,11 @@
   .width-#{$size}{ width: #{$size + '%'}; }
 }
 
+@each $label, $color in $foundation-palette {
+  .color-#{$label} { color: $color; }
+  .border-#{$label} { border: 1px solid $color; }
+}
+
 .width-auto { width: auto; }
 .cursor-not-allowed { cursor: not-allowed; }
 .cursor-pointer { cursor: pointer; }

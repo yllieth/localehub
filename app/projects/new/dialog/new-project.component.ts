@@ -24,6 +24,8 @@ export class NewProjectDialog implements OnInit {
   parsingFile: {path: string, languageCode: string};
   isCreatingProject: boolean;
   showLanguageForm: boolean;
+  isNewFileNotFound: boolean;
+  isNewFileNotValid: boolean;
 
   constructor(
     private githubService: GithubService,
@@ -39,6 +41,8 @@ export class NewProjectDialog implements OnInit {
     this.parsingFile = null;
     this.isCreatingProject = false;
     this.showLanguageForm = false;
+    this.isNewFileNotFound = false;
+    this.isNewFileNotValid = false;
 
     this.githubService
       .getRepositories(this.githubUsername)
@@ -60,6 +64,7 @@ export class NewProjectDialog implements OnInit {
 
   onClickAddLanguage(languageCode, path): void {
     this.parsingFile = {path, languageCode};
+    this.resetNewFileErrors();
     this.githubService
       .checkI18nfile(this.githubUsername, this.selectedRepo.name, path, languageCode)
       .then(fileInfo => {
@@ -67,7 +72,17 @@ export class NewProjectDialog implements OnInit {
         this.parsingFile = null;
         this.newFileLanguage = undefined;
         this.newFilePath = undefined;
+      })
+      .catch(error => {
+        this.isNewFileNotFound = error.status === 404;
+        this.isNewFileNotValid = error.status === 422;
+        this.parsingFile = null;
       });
+  }
+
+  resetNewFileErrors(): void {
+    this.isNewFileNotValid = false;
+    this.isNewFileNotFound = false;
   }
 
   onClickResetLanguage(): void {
