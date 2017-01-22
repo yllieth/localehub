@@ -63,7 +63,11 @@ export class GithubService {
       .catch(error => Promise.reject(error));
   }
 
-  /** Get all branches' names from the giver username/repository couple.
+  /**
+   * Get all branches' names from the giver username/repository couple.
+   * Github base request : GET api.github.com/repos/{owner}/{repo}/branches
+   *   | using lambda: gh-get-repos-branches
+   *   | using lambda: branches-get
    *
    * @param {string} username
    * @param {string} repository
@@ -77,6 +81,25 @@ export class GithubService {
       .catch(error => Promise.reject(error));
   }
 
+  /**
+   * Send given payload (with no transformation) in the Project dynamoDB table.
+   * AWS base request : POST ##endpoint##/projects
+   *   | using lambda: projects-create
+   *
+   * Payload contains the following properties:
+   * {
+   *   {string}   id                - generated unique identifier
+   *   {string}   name              - github repository's name
+   *   {string}   owner             - github url of the repository's owner
+   *   {string}   user              - github url of the connected user
+   *   {string[]} availableBranches - list of github branches' name
+   *   {string}   lastActiveBranch  - default branch name
+   *   {I18nFileInfo[]} i18nFiles   - supported languges
+   * }
+   *
+   * @param {object} payload
+   * @returns {Promise<Project>}
+   */
   createProject(payload: any): Promise<Project> {
     return this.api
       .post(`${ApiService.endpoint.prod}/projects`, payload)
