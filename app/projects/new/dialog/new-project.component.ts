@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from "@angular/material";
-import { ApiService, ErrorService, FlagService, GithubService } from "../../../+services";
-import { GithubRepository, I18nFileInfo } from "../../../+models";
+import { ApiService, CountryService, ErrorService, GithubService } from "../../../+services";
+import { Country, GithubRepository, I18nFileInfo } from "../../../+models";
 
 @Component({
   moduleId: module.id,
@@ -17,9 +17,9 @@ export class NewProjectDialog implements OnInit {
   repositoryList: GithubRepository[];
   branchList: string[];
   selectedBranch: string;
-  languages: {languageName: string, languageCode: string, flagClass: string}[];
+  languages: Country[];
   selectedLanguages: I18nFileInfo[];
-  newFileLanguage: {languageName: string, languageCode: string, flagClass: string};
+  newFileLanguage: Country;
   newFilePath: string;
   parsingFile: {path: string, languageCode: string};
   isCreatingProject: boolean;
@@ -36,7 +36,7 @@ export class NewProjectDialog implements OnInit {
   ngOnInit() {
     this.repositoryList = undefined;  // tested in the view to show the loader
     this.branchList = undefined;      // tested in the view to show the loader
-    this.languages = FlagService.getCountriesList();
+    this.languages = CountryService.entireList();
     this.selectedLanguages = [];
     this.parsingFile = null;
     this.isCreatingProject = false;
@@ -91,12 +91,8 @@ export class NewProjectDialog implements OnInit {
     this.showLanguageForm = false;
   }
 
-  flagOf(countryCode: string): string {
-    return FlagService.getClassName(countryCode);
-  }
-
-  languageName(countryCode: string): string {
-    return FlagService.getLanguageName(countryCode);
+  countryOf(languageCode: string): Country {
+    return CountryService.find(languageCode);
   }
 
   isSaveDisabled(): boolean {

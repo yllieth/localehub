@@ -70,17 +70,25 @@
 
       <div *ngIf="parsingFile != null">
         <lh-loader></lh-loader>
-        <em>Parsing file <em><span class="flag-icon {{ flagOf(parsingFile.languageCode) }}"></span> {{ parsingFile.path }}</em></em>
+        <em>
+          Parsing file
+          <em>
+            <span class="flag-icon flag-icon-{{ countryOf(parsingFile.languageCode).flagClass }}"></span>
+            {{ parsingFile.path }}
+          </em>
+        </em>
       </div>
 
       <div *ngIf="selectedLanguages.length != 0">
         <div class="row" *ngFor="let i18nFile of selectedLanguages">
           <div class="column small-2">
-            <span class="flag-icon {{ flagOf(i18nFile.languageCode) }}" mdTooltip="{{ languageName(i18nFile.languageCode) }}" mdTooltipPosition="below"></span>
+            <span class="flag-icon flag-icon-{{ countryOf(i18nFile.languageCode).flagClass }}"
+                  mdTooltip="{{ countryOf(i18nFile.languageCode).languageName }}"
+                  mdTooltipPosition="below"></span>
           </div>
 
           <div class="column small-5">
-            {{ languageName(i18nFile.languageCode) }} <small>{{ i18nFile.languageCode }}</small>
+            {{ countryOf(i18nFile.languageCode).languageName }} <small>{{ i18nFile.languageCode }}</small>
           </div>
 
           <div class="column small-5">

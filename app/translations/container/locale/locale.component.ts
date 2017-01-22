@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Locale } from '../../../+models';
-import { EventService, FlagService } from '../../../+services';
+import { Country, Locale } from '../../../+models';
+import { CountryService, EventService } from '../../../+services';
 
 @Component({
   moduleId: module.id,
@@ -21,11 +21,7 @@ export class TranslationsLocaleComponent implements OnInit {
       .subscribe(value => this.locale.expand(value));
   }
 
-  flagOf(countryCode: string): string {
-    return FlagService.getClassName(countryCode);
-  }
-
-  languageName(countryCode: string): string {
-    return FlagService.getLanguageName(countryCode);
+  countryOf(languageCode: string): Country {
+    return CountryService.find(languageCode);
   }
 }
