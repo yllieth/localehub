@@ -6,4 +6,4 @@ export * from './authentication.service';
 export * from './github.service';     // must be before project.service
 export * from './projects.service';
 export * from './translations.service';
-export * from './country.service';
+export * from './language.service';
