@@ -25,11 +25,14 @@
     </div>
 
     <div class="large-7 column hide-for-small-only hide-for-medium-only" *ngIf="selectedRepo">
-      <div class="row">
+      <!-- Repository description -->
+      <div class="row align-middle margin-bottom-half">
         <div class="column medium-5"><strong>Description:</strong></div>
         <div class="column medium-7">{{ selectedRepo.description }}</div>
       </div>
-      <div class="row">
+
+      <!-- Branches -->
+      <div class="row align-middle margin-bottom-half">
         <div class="column medium-5"><strong>Branches:</strong></div>
         <div class="column medium-7">
           <select [(ngModel)]="selectedBranch" *ngIf="branchList != undefined">
@@ -41,7 +44,9 @@
           <lh-loader [message]="'Loading branches ...'" *ngIf="branchList == undefined"></lh-loader>
         </div>
       </div>
-      <div class="row">
+
+      <!-- Link to github  -->
+      <div class="row align-middle">
         <div class="column medium-5"><strong>Open in github:</strong></div>
         <div class="column medium-7"><a [attr.href]="selectedRepo.url" target="_blank">Click here</a></div>
       </div>
@@ -96,7 +101,7 @@
     <!-- Add language form -->
     <div class="column large-7" *ngIf="showLanguageForm">
       <!-- Select language -->
-      <div class="row">
+      <div class="row align-middle margin-bottom-half">
         <div class="column small-3">
           Language:
         </div>
@@ -111,7 +116,7 @@
       </div>
 
       <!-- Translation file path -->
-      <div class="row">
+      <div class="row align-middle margin-bottom-half">
         <div class="column small-3">
           I18n file:
         </div>

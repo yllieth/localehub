@@ -19,3 +19,7 @@ i.material-icons {
 small.info {
   color: map-get($foundation-palette, secondary);
 }
+
+select, input {
+  margin-bottom: 0;
+}
