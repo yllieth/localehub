@@ -21,7 +21,7 @@
 
 ### MVP - v1.0
 - :white_check_mark: `DONE` Login to the application from a github account.
-- :soon: `TODO` Create a project from an existing github repository.
+- :white_check_mark: `DONE` Create a project from an existing github repository.
 - :soon: `TODO` List created project and show the number of I18N strings, available branches, and, supported languages.
 - :soon: `TODO` Allow the user to edit I18N files in a secured way: it must guarantee that any other file will be modified.
 - :soon: `TODO` Allow the user to work on different github branches.
