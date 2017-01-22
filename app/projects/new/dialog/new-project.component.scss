@@ -1,0 +1,21 @@
+@import 'styles/app.scss';
+
+fieldset {
+  border: 1px solid $border-color;
+  border-radius: $global-radius;
+  padding-bottom: $global-spacing;
+}
+
+legend {
+  margin: $global-spacing;
+}
+
+i.material-icons {
+  &.info, &.add_circle_outline {
+    @include offset(6px)
+  }
+}
+
+select, input {
+  margin-bottom: 0;
+}

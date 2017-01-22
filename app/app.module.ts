@@ -8,16 +8,18 @@ import { TruncatePipe } from 'angular2-truncate';
 
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
-import { ApiService, AuthenticationService, AuthenticationGuardService, ErrorService, EventService } from './+services';
+import { ApiService, AuthenticationService, AuthenticationGuardService, ErrorService, EventService, GithubService } from './+services';
 
 import { LoginComponent } from './shared/login/login.component';
 import { ErrorContainerComponent } from './shared/error/error-container.component';
 import { TopbarComponent } from './shared/topbar/topbar.component';
 import { TitlebarComponent } from './titlebar/titlebar.component';
+import { LoaderComponent } from './shared/loader/loader.component';
 
 import { ProjectsComponent } from './projects/projects.component';
 import { SeparatorComponent } from './projects/separator/separator.component';
 import { NewProjectComponent } from './projects/new/new-card.component';
+import { NewProjectDialog } from "./projects/new/dialog/new-project.component";
 import { ProjectsCardComponent } from './projects/projects-card/projects-card.component';
 
 import { TranslationsListComponent } from './translations/list.component';
@@ -49,9 +51,11 @@ const apiFactory = {
     ErrorContainerComponent,
     TopbarComponent,
     TitlebarComponent,
+    LoaderComponent,
     ProjectsComponent,
     SeparatorComponent,
     NewProjectComponent,
+    NewProjectDialog,
     ProjectsCardComponent,
     TranslationsListComponent,
     TranslationsNotificationComponent,
@@ -59,12 +63,16 @@ const apiFactory = {
     TranslationsContainerComponent,
     TranslationsLocaleComponent
   ],
+  entryComponents: [
+    NewProjectDialog
+  ],
   providers: [
     apiFactory,
     AuthenticationService,
     AuthenticationGuardService,
     ErrorService,
-    EventService
+    EventService,
+    GithubService
   ],
   bootstrap: [ AppComponent ]
 })

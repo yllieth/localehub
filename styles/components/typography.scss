@@ -1,8 +1,48 @@
+@import 'styles/app.scss';
+
+@each $property in (margin, padding) {
+  .#{$property} { #{$property}: $global-spacing; }
+
+  @each $position in (top, right, bottom, left) {
+    .no-#{$property} { #{$property}: 0 !important;}
+    .no-#{$property}-#{$position} { #{$property}-#{$position}: 0 !important;}
+    .#{$property}-#{$position} { #{$property}-#{$position}: $global-spacing;}
+    .#{$property}-#{$position}-double { #{$property}-#{$position}: $global-spacing * 2;}
+    .#{$property}-#{$position}-half { #{$property}-#{$position}: $global-spacing / 2;}
+
+    .border-#{$position} { border-#{$position}: 1px solid $border-color; }
+    .no-border-#{$position} { border-#{$position}: none; }
+  }
+}
+
+@each $size in (5,10,15,20,25,30,35,40,50,70,100) {
+  .width-#{$size}{ width: #{$size + '%'}; }
+}
+
+@each $label, $color in $foundation-palette {
+  .color-#{$label} { color: $color; }
+  .border-#{$label} { border: 1px solid $color; }
+}
+
+.width-auto { width: auto; }
+.cursor-not-allowed { cursor: not-allowed; }
+.cursor-pointer { cursor: pointer; }
+.margin-vertical { margin-top: $global-spacing/2; margin-bottom: $global-spacing/2 }
+.color-white { color: $white; }
+.color-alert { color: map-get($foundation-palette, alert); }
+.color-primary { color: map-get($foundation-palette, primary); }
+.color-secondary { color: map-get($foundation-palette, secondary); }
+.color-success { color: map-get($foundation-palette, success); }
+.color-warning { color: map-get($foundation-palette, warning); }
+.color-alert { color: map-get($foundation-palette, alert); }
+.color-grey-medium { color: $medium-gray; }
+.color-grey-light { color: $light-gray; }
+.bold { font-weight: 600; }
 .no-underline { text-decoration: none; }
 .underline { text-decoration: underline; }
-
 .no-emphasis { font-style: normal; }
 .emphasis { font-style: italic; }
+.full-page { height: 100vh; }
 
 button, input, textarea {
   outline: none;

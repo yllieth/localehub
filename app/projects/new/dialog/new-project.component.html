@@ -1,0 +1,174 @@
+<div class="row">
+  <div class="column">
+    <h1 md-dialog-title="">New project</h1>
+  </div>
+</div>
+
+<!-- Repository list -->
+<fieldset>
+  <legend>Select a repository: </legend>
+  <div class="row">
+    <div class="small-12 large-5 column">
+      <select [(ngModel)]="selectedRepo" (change)="onSelectRepository(selectedRepo)" *ngIf="repositoryList != undefined">
+        <option *ngFor="let repository of repositoryList" [ngValue]="repository">
+          {{ repository.name }}
+        </option>
+      </select>
+      <div *ngIf="repositoryList != undefined">
+        <small class="color-secondary">
+          <i class="material-icons info">info</i>
+          Repositories with an existing project aren't displayed in this list. You cannot create a project which already exists.
+        </small>
+      </div>
+
+      <lh-loader [message]="'Loading repositories ...'" *ngIf="repositoryList == undefined"></lh-loader>
+    </div>
+
+    <div class="small-12 large-7 column" *ngIf="selectedRepo">
+      <!-- Repository description -->
+      <div class="row align-middle margin-bottom-half">
+        <div class="column medium-5"><strong>Description:</strong></div>
+        <div class="column medium-7">{{ selectedRepo.description }}</div>
+      </div>
+
+      <!-- Branches -->
+      <div class="row align-middle margin-bottom-half">
+        <div class="column medium-5"><strong>Branches:</strong></div>
+        <div class="column medium-7">
+          <select [(ngModel)]="selectedBranch" *ngIf="branchList != undefined">
+            <option *ngFor="let branch of branchList" [ngValue]="branch">
+              {{ branch }}
+            </option>
+          </select>
+
+          <lh-loader [message]="'Loading branches ...'" *ngIf="branchList == undefined"></lh-loader>
+        </div>
+      </div>
+
+      <!-- Link to github  -->
+      <div class="row align-middle">
+        <div class="column medium-5"><strong>Open in github:</strong></div>
+        <div class="column medium-7"><a [attr.href]="selectedRepo.url" target="_blank">Click here</a></div>
+      </div>
+    </div>
+  </div>
+</fieldset>
+
+
+<!-- Languages -->
+<fieldset>
+  <legend>
+    Supported languages:
+  </legend>
+
+  <div class="row">
+    <!-- Defined languages -->
+    <div class="column small-12 large-5">
+      <div *ngIf="selectedLanguages.length == 0 && parsingFile == null">
+        <em>No Language defined</em>
+      </div>
+
+      <div *ngIf="parsingFile != null">
+        <lh-loader></lh-loader>
+        <em>Parsing file <em><span class="flag-icon {{ flagOf(parsingFile.languageCode) }}"></span> {{ parsingFile.path }}</em></em>
+      </div>
+
+      <div *ngIf="selectedLanguages.length != 0">
+        <div class="row" *ngFor="let i18nFile of selectedLanguages">
+          <div class="column small-2">
+            <span class="flag-icon {{ flagOf(i18nFile.languageCode) }}" mdTooltip="{{ languageName(i18nFile.languageCode) }}" mdTooltipPosition="below"></span>
+          </div>
+
+          <div class="column small-5">
+            {{ languageName(i18nFile.languageCode) }} <small>{{ i18nFile.languageCode }}</small>
+          </div>
+
+          <div class="column small-5">
+            {{ i18nFile.count }} strings
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="!showLanguageForm">
+        <div class="column">
+          <a (click)="showLanguageForm = true">
+            <i class="material-icons add_circle_outline">add_circle_outline</i> Define a new language
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add language form -->
+    <div class="column small-12 large-7" *ngIf="showLanguageForm">
+      <!-- Select language -->
+      <div class="row align-middle margin-bottom-half">
+        <div class="column small-3">
+          Language:
+        </div>
+
+        <div class="column small-9">
+          <select [(ngModel)]="newFileLanguage">
+            <option *ngFor="let country of languages" [ngValue]="country">
+              {{ country.languageCode }} - {{ country.languageName }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Translation file path -->
+      <div class="row align-middle margin-bottom-half">
+        <div class="column small-3">
+          I18n file:
+        </div>
+
+        <div class="column small-9">
+          <input type="text"
+                 placeholder="(ex: config/locales/fr.yml)"
+                 (focus)="resetNewFileErrors()"
+                 [(ngModel)]="newFilePath"
+                 [class]="(isNewFileNotFound || isNewFileNotValid) ? 'border-alert color-alert' : ''">
+        </div>
+      </div>
+
+      <div *ngIf="isNewFileNotFound" class="color-alert margin-bottom">
+        <strong>File not found in {{ selectedRepo.name }}/{{ githubUsername }} repository.</strong>
+      </div>
+
+      <div *ngIf="isNewFileNotValid" class="color-alert margin-bottom">
+        <strong>Unable to read {{ newFilePath }} as a JSON object. We only accept valid JSON files.</strong>
+      </div>
+
+      <!-- Button -->
+      <div class="row">
+        <div class="column">
+          <button md-raised-button
+                  style="width: 49%"
+                  color="primary"
+                  disabled="{{ isAddLanguageDisabled() }}"
+                  (click)="onClickAddLanguage(newFileLanguage.languageCode, newFilePath)">
+            Add language
+          </button>
+          <button md-raised-button
+                  style="width: 49%"
+                  (click)="onClickResetLanguage(newFileLanguage.languageCode, newFilePath)">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</fieldset>
+
+
+
+<div class="row">
+  <div class="column">
+    <md-dialog-actions>
+      <button md-raised-button color="primary" (click)="createProject(newProjectDialog)" disabled="{{ isSaveDisabled() }}">
+        <span *ngIf="isCreatingProject">Saving...</span>
+        <span *ngIf="!isCreatingProject">Create</span>
+      </button>
+      <button md-raised-button md-dialog-close>Cancel</button>
+    </md-dialog-actions>
+  </div>
+</div>

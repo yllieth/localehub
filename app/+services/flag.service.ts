@@ -262,6 +262,23 @@ export class FlagService {
     }
   }
 
+  // public methods
+
+  public static getCountriesList(): any[] {
+    let list = [];
+
+    for(let code in LANG) {
+      let country = LANG[code];
+      list.push({
+        languageName: country.name,
+        languageCode: code,
+        flagClass: country.css
+      });
+    }
+
+    return list;
+  }
+
   public static getClassName(countryCode: string): string {
     let contryDetails = FlagService.getCountry(countryCode);
     let prefix = 'flag-icon-';
