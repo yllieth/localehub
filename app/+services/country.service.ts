@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Country } from "../+models";
+import { Language } from "../+models";
 
 const LANG = {
   "af":     { flagClass:"",   languageName: "Afrikaans", },
@@ -244,7 +244,7 @@ const LANG = {
 };
 
 @Injectable()
-export class CountryService {
+export class LanguageService {
   private static getCountryOrParent(languageCode: string): any {
     let allLanguages = Object.keys(LANG);
 
@@ -265,7 +265,7 @@ export class CountryService {
 
   // public methods
 
-  public static entireList(): Country[] {
+  public static entireList(): Language[] {
     let list = [];
 
     for(let code in LANG) {
@@ -277,14 +277,14 @@ export class CountryService {
     return list;
   }
 
-  public static find(languageCode: string): Country {
+  public static find(languageCode: string): Language {
     if (LANG.hasOwnProperty(languageCode) === true) {
       let country = LANG[languageCode];
       country.languageCode = languageCode;
 
       return country;
     } else {
-      return new Country();
+      return new Language();
     }
   }
 }

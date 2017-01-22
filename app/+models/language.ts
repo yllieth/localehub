@@ -1,4 +1,4 @@
-export class Country {
+export class Language {
   languageName: string;
   languageCode: string;
   flagClass: string;
