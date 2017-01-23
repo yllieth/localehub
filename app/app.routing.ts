@@ -9,7 +9,7 @@ import { AuthenticationGuardService } from './+services';
 
 let errorPage = 'error/:errorId';
 let projectPage = 'projects';
-let translationPage = 'translations/:projectOwner/:projectRepo';
+let translationPage = 'translations/:projectId';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/projects', pathMatch: 'full' },

@@ -16,9 +16,7 @@ export class ProjectsCardComponent implements OnInit {
 
   ngOnInit() { }
 
-  onOpen(projectOwnerUrl: string, projectRepo: string): void {
-    let owner = projectOwnerUrl.split('/').pop();
-
-    this.router.navigate(['/translations', owner, projectRepo]);
+  onOpen(project: Project): void {
+    this.router.navigate(['/translations', project.id]);
   }
 }

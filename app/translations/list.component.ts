@@ -12,8 +12,6 @@ import { ProjectsService, TranslationsService } from '../+services';
 })
 export class TranslationsListComponent implements OnInit {
   project: Project;
-  projectOwner: string;
-  projectRepo: string;
   // expandedNewTranslation: boolean;
   root: LocaleFolder;
   selected: LocaleFolder;
@@ -30,18 +28,14 @@ export class TranslationsListComponent implements OnInit {
     this.selected = new LocaleFolder('');
 
     this.$route.params.forEach((params: Params) => {
-      this.projectOwner = params['projectOwner'];
-      this.projectRepo = params['projectRepo'];
-
       this.projectsService
-        .getProject(this.projectOwner, this.projectRepo)
+        .getProject(params['projectId'])
         .then(project => this.project = project)
+        .then((_) => this.translationsService
+          .getDictionaries(this.project)
+          .then(dictionaries => this.root = this.selected = this.translationsService.createList(dictionaries))
+          .catch(error => /* TODO improve error handling */ console.log('Error while fetching translations', error)))
         .catch(error => /* TODO improve error handling */ console.log('Error while fetching projects', error));
-
-      this.translationsService
-        .getDictionaries(this.projectOwner, this.projectRepo)
-        .then(dictionaries => this.root = this.selected = this.translationsService.createList(dictionaries))
-        .catch(error => /* TODO improve error handling */ console.log('Error while fetching translations', error));
     });
   }
 
