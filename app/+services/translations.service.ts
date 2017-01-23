@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { LocaleFolder, Locale } from '../+models';
-import { AuthenticationService, ApiService } from './';
+import { RequestOptions, URLSearchParams} from "@angular/http";
+import { I18nFileInfo, LocaleFolder, Locale, Project } from '../+models';
+import { ApiService } from './';
 
 @Injectable()
 export class TranslationsService {
-  private all = (owner: string, repo: string) => `${ApiService.endpoint.mock}/translations/${owner}/${repo}`;
-
-  constructor(private $http: Http) {}
+  constructor(private api: ApiService,) {}
 
   private format(locales: any, currentLanguage: string, allLanguages: string[]): LocaleFolder {
     let serializeDeepKeys = (jsonPath: string, locales: any, folder: LocaleFolder) => {
@@ -40,6 +38,15 @@ export class TranslationsService {
     }
   }
 
+  private prepareDictionaries(responses: {content: any, metadata: I18nFileInfo}[]): any {
+    let dictionaries = {};
+    for (let response of responses) {
+      dictionaries[response.metadata.languageCode] = response.content;
+    }
+
+    return dictionaries
+  }
+
   createList(dictionaries: any): LocaleFolder {
     let root = new LocaleFolder('##ROOT##');
     let languages = Object.keys(dictionaries);
@@ -63,11 +70,29 @@ export class TranslationsService {
     return root.expand(true);
   }
 
-  getDictionaries(owner: string, repo: string): Promise<any> {
-    return this.$http
-      .get(this.all(owner, repo))
+  getDictionaries(project: Project): Promise<any> {
+    let requestLanguages = [];
+    for (let i18nFile of project.i18nFiles) {
+      requestLanguages.push(this.getTranslation(project.id, i18nFile.languageCode, project.lastActiveBranch));
+    }
+
+    return Promise.all(requestLanguages)
+      .then(response => this.prepareDictionaries(response))
+      .catch(error => Promise.reject(error));
+  }
+
+  getTranslation(projectId: string, languageCode: string, branch: string): Promise<{content: any, metadata: I18nFileInfo}> {
+    let queryStringParameters = new URLSearchParams();
+    queryStringParameters.set('languageCode', languageCode);
+    queryStringParameters.set('branch', branch);
+
+    let options = new RequestOptions();
+    options.search = queryStringParameters;
+
+    return this.api
+      .get(`${ApiService.endpoint.prod}/projects/${projectId}/translations`, options)
       .toPromise()
-      .then((response: Response) => response.json())
+      .then(response => response.json())
       .catch(error => Promise.reject(error));
   }
 }

@@ -39,9 +39,9 @@ export class ProjectsService {
       .catch(error => Promise.reject(error));
   }
 
-  getProject(owner: string, repo: string): Promise<Project> {
+  getProject(id: string): Promise<Project> {
     return this.api
-      .get(`${ApiService.endpoint.mock}/projects/${owner}/${repo}`)
+      .get(`${ApiService.endpoint.prod}/projects/${id}`)
       .toPromise()
       .then((response: Response) => response.json() as Project)
       .catch(error => Promise.reject(error));
