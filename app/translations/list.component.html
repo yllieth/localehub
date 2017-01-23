@@ -2,7 +2,7 @@
 
 <lh-translations-notification></lh-translations-notification>
 
-<div class="row full-width">
+<div class="row full-width" *ngIf="root != undefined && selected != undefined">
   <div class="columns large-2 medium-3">
     <lh-translations-tree  class="tree-root"
       [leaf]="root"
@@ -12,5 +12,26 @@
 
   <div class="columns large-10 medium-9">
     <lh-translations-container [selected]="selected"></lh-translations-container>
+  </div>
+</div>
+
+<div class="row align-middle margin-top-double" *ngIf="root == undefined && selected == undefined">
+  <!-- Project loader -->
+  <div class="column small-12 text-center margin-bottom" *ngIf="project == undefined" style="height: 40px">
+    <lh-loader [message]="'Loading project...'"></lh-loader>
+  </div>
+  <div class="column small-12 text-center margin-bottom" *ngIf="project != undefined" style="height: 40px">
+    <i class="material-icons check_circle color-success">check_circle</i>
+    Project found: {{ project.name }} - {{ project.i18nFiles.length }} file(s):
+    <span *ngFor="let lang of project.i18nFiles">
+      <span class="flag-icon flag-icon-{{ countryOf(lang.languageCode).flagClass }} margin-right"
+            mdTooltip="{{ lang.languageCode }} - {{ countryOf(lang.languageCode).languageName }}"
+            mdTooltipPosition="below"></span>
+    </span>
+  </div>
+
+  <!-- Translation loader -->
+  <div class="column small-12 text-center margin-bottom" *ngIf="root == undefined && selected == undefined" style="height: 40px">
+    <lh-loader [message]="'Loading translations...'"></lh-loader>
   </div>
 </div>

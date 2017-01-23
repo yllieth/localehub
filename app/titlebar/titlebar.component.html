@@ -1,6 +1,6 @@
 <md-toolbar>
   <div class="titlebar-content" *ngIf="isProjectsList">Projects</div>
-  <div class="titlebar-content" *ngIf="isTranlationsList">
+  <div class="titlebar-content" *ngIf="isTranlationsList && project != undefined">
     <div class="current-project">
       <span (click)="onClickProjects()" class="cursor-pointer underline">Projects</span>
       <span><i class="material-icons keyboard_arrow_right">keyboard_arrow_right</i></span>

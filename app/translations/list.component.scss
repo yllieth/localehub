@@ -1,0 +1,5 @@
+@import 'styles/app.scss';
+
+i.check_circle {
+  @include offset(6px);
+}

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Project, LocaleFolder } from '../+models';
 import { ProjectsService, TranslationsService } from '../+services';
+import {Language} from "../+models/language";
+import {LanguageService} from "../+services/language.service";
 
 @Component({
   moduleId: module.id,
@@ -11,10 +13,9 @@ import { ProjectsService, TranslationsService } from '../+services';
   providers: [ ProjectsService, TranslationsService ]
 })
 export class TranslationsListComponent implements OnInit {
-  project: Project;
-  // expandedNewTranslation: boolean;
-  root: LocaleFolder;
-  selected: LocaleFolder;
+  project: Project;       // undefined value is tested in the template to show the loader
+  root: LocaleFolder;     // undefined value is tested in the template to show the loader
+  selected: LocaleFolder; // undefined value is tested in the template to show the loader
 
   constructor(
     private $route: ActivatedRoute,
@@ -23,10 +24,6 @@ export class TranslationsListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.project = new Project;
-    this.root = new LocaleFolder('');
-    this.selected = new LocaleFolder('');
-
     this.$route.params.forEach((params: Params) => {
       this.projectsService
         .getProject(params['projectId'])
@@ -41,5 +38,9 @@ export class TranslationsListComponent implements OnInit {
 
   onSelect(entry): void {
     this.selected = entry;
+  }
+
+  countryOf(languageCode: string): Language {
+    return LanguageService.find(languageCode);
   }
 }
