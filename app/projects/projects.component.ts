@@ -12,7 +12,7 @@ import { NewProjectDialog } from "./new/dialog/new-project.component";
   providers: [ ProjectsService ]
 })
 export class ProjectsComponent implements OnInit {
-  projectsList: Group[];
+  projectsList: Group[];  // undefined value is tested in the template to show the loader
 
   constructor(
     private projectsService: ProjectsService,
