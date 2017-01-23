@@ -1,6 +1,6 @@
 <lh-titlebar></lh-titlebar>
 
-<main>
+<main *ngIf="projectsList != undefined">
   <section *ngFor="let group of projectsList">
     <lh-projects-separator [group]="group" (click)="toggle(group)"></lh-projects-separator>
     <div *ngIf="group.expanded" class="cards-container">
@@ -9,4 +9,12 @@
       <span class="projects-filler"></span>
     </div>
   </section>
+</main>
+
+<main *ngIf="projectsList == undefined">
+  <div class="row align-middle main-full-height">
+    <div class="column">
+      <lh-loader [message]="'Loading projects...'"></lh-loader>
+    </div>
+  </div>
 </main>

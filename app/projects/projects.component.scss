@@ -20,3 +20,7 @@ section {
 .projects-filler {
   flex-grow: 1;
 }
+
+.row.main-full-height {
+  height: calc(100% - 2*50px);
+}
