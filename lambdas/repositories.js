@@ -11,8 +11,8 @@ exports.handler = function(event, context, callback) {
     InvocationType: 'RequestResponse',
     LogType: 'Tail',
     Payload: JSON.stringify({
-      "requestContext": event.requestContext,
-      "pathParameters": event.pathParameters,
+      "requestContext": event.requestContext,     // required to let foreign lambda access the authorization token
+      "pathParameters": event.pathParameters,     // required to let foreign lambda access the username parameter in the url
       "queryStringParameters": { "type": "all" }
     })
   };
@@ -50,18 +50,18 @@ function buildOutput(repositories) {
     formattedList.push({
       id: repo.id,
       name: repo.name,
+      fullName: repo.full_name,
       description: repo.description,
       owner: {
         id: repo.owner.id,
         login: repo.owner.login,
-        description: null,
-        url: repo.owner.url,
+        description: repo.owner.bio,
+        url: repo.owner.html_url,
         events_url: repo.owner.events_url,
         avatar_url: repo.owner.avatar_url,
         repos_url: repo.owner.repos_url,
-        is_organization: repo.owner.type !== 'User'
+        is_organization: repo.owner.type === 'User'
       },
-      url: repo.html_url,
       private: repo.private,
       fork: repo.fork
     });

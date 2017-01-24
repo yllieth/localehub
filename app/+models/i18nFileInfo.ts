@@ -4,7 +4,9 @@
  *    "languageCode": "en",
  *    "count": 29,
  *    "path": "assets/test/en.json",
- *    "format": "json"
+ *    "format": "json",
+ *    "repo": "yllieth/localehub",
+ *    "branch": "master"
  * }
  */
 export class I18nFileInfo {
@@ -12,4 +14,6 @@ export class I18nFileInfo {
   count: number;
   path: string;
   format: string;
+  repo: string;
+  branch: string;
 }

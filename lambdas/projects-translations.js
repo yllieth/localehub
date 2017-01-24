@@ -7,17 +7,19 @@ let dynamo = new AWS.DynamoDB.DocumentClient({ region: 'eu-central-1' });
 exports.handler = function(event, context, callback) {
   let projectId = event.pathParameters.id;
   let languageCode = event.queryStringParameters.languageCode;
-  let branch = event.queryStringParameters.branch;
 
   dynamo.get({TableName: 'projects', Key: { id: projectId }}, function(error, data) {
     if (error) {
       done(callback, error, {message: 'Project not found', body: projectId}, 404);
     } else {
       let project = data.Item;
-      let owner = project.owner.split('/').pop();
-      let repo = project.name;
+      let repo = project.repository.name;
+      let owner = project.repository.owner.login;
       let i18nFile = project.i18nFiles.filter(fileInfo => fileInfo.languageCode === languageCode);
       let path = i18nFile[0].path;
+      let branch = (event.hasOwnProperty('queryStringParameters') && event.queryStringParameters.hasOwnProperty('branch'))
+        ? event.queryStringParameters.branch
+        : project.lastActiveBranch;
 
       let params = {
         FunctionName: 'arn:aws:lambda:eu-central-1:673077269136:function:gh-get-repos-contents',
@@ -26,7 +28,7 @@ exports.handler = function(event, context, callback) {
         Payload: JSON.stringify({
           "requestContext": event.requestContext,
           "pathParameters": {owner, repo, path},
-          "queryStringParameters": { "media": "raw" }
+          "queryStringParameters": { "media": "raw", ref: branch }
         })
       };
 
@@ -44,7 +46,7 @@ exports.handler = function(event, context, callback) {
         }
 
         if (responseStatus === 200) {
-          responseBody = buildOutput(responseBody, languageCode, path);
+          responseBody = buildOutput(responseBody, repo, branch, languageCode, path);
         } else if (responseStatus === 404) {
           responseBody = {message: "File not found"};
         }
@@ -66,13 +68,13 @@ function done(callback, error, data, statusCode) {
   });
 }
 
-function buildOutput(fileContent, languageCode, path) {
+function buildOutput(fileContent, repo, branch, languageCode, path) {
   let keys = [];
   deepKeySerializer(null, fileContent, keys);
   let count = keys.length;
 
   return {
-    metadata: { languageCode, path, count, format: 'json' },
+    metadata: { languageCode, path, count, format: 'json', repo, branch },
     content: fileContent
   };
 }

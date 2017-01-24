@@ -18,7 +18,7 @@ export class ProjectsService {
       groups.push({
         expanded: !user.is_organization,  // TODO improve this when connected user will be stored: expanded = true if user = connected user
         user: user,
-        projects: projects.filter(project => { return project.owner === user.url; })
+        projects: projects.filter(project => { return project.repository.owner.login === user.login; })
       });
     }
 
