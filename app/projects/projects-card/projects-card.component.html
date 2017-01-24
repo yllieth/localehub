@@ -15,25 +15,9 @@
   <span class="badge">{{ maximumNumberOfTranslation(project) }}</span>
 </div>
 <div class="card-content">
-  <div class="row padding-vertical-half language-row"
-       *ngFor="let file of project.i18nFiles"
-       mdTooltip="{{ file.languageCode }} - {{ languageOf(file.languageCode).languageName }}"
-       mdTooltipPosition="right">
-    <div class="column small-3">
-      <span class="flag-icon flag-icon-{{ languageOf(file.languageCode).flagClass }}"></span>
-    </div>
-
-    <div class="column small-6 color-secondary">
-      <i class="material-icons report_problem color-warning"
-         *ngIf="file.count < maximumNumberOfTranslation(project)"
-         mdTooltip="{{ maximumNumberOfTranslation(project) - file.count }} missing translation(s)">report_problem</i>
-      {{ file.languageCode }}
-    </div>
-
-    <div class="column small-3 color-secondary text-right">
-      {{ file.count }}
-    </div>
-  </div>
+  <lh-language-details *ngFor="let file of project.i18nFiles"
+                       [languages]="project.i18nFiles"
+                       [file]="file"></lh-language-details>
 </div>
 <button (click)="onOpen(project)" class="cursor-pointer">
   Open

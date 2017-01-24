@@ -1,0 +1,18 @@
+@import 'styles/app.scss';
+
+.row {
+  &:hover {
+    cursor: help;
+    background-color: $lighter-gray;
+  }
+
+  .flag-icon {
+    @include offset(4px);
+  }
+
+  i.report_problem {
+    @include offset(2px);
+    font-size: $small-font-size;
+    font-weight: bold;
+  }
+}

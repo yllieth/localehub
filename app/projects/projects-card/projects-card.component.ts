@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { I18nFileInfo, Language, Project } from '../../+models';
-import { LanguageService } from "../../+services";
+import { I18nFileInfo, Project } from '../../+models';
 
 @Component({
   moduleId: module.id,
@@ -24,9 +23,5 @@ export class ProjectsCardComponent implements OnInit {
   maximumNumberOfTranslation(project: Project): number {
     let counts = project.i18nFiles.map((file: I18nFileInfo) => file.count);
     return Math.max(...counts);
-  }
-
-  languageOf(languageCode: string): Language {
-    return LanguageService.find(languageCode);
   }
 }

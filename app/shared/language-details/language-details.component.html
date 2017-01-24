@@ -1,0 +1,18 @@
+<div class="row padding-vertical-half"
+     mdTooltip="{{ language.languageCode }} - {{ language.languageName }}"
+     mdTooltipPosition="right">
+  <div class="column small-3">
+    <span class="flag-icon flag-icon-{{ language.flagClass }}"></span>
+  </div>
+
+  <div class="column small-6 color-secondary">
+    <i class="material-icons report_problem color-warning"
+       *ngIf="missingTranslations > 0"
+       mdTooltip="{{ missingTranslations }} missing translation(s)">report_problem</i>
+    {{ language.languageCode }}
+  </div>
+
+  <div class="column small-3 color-secondary text-right">
+    {{ file.count }}
+  </div>
+</div>

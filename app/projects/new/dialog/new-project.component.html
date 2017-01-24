@@ -73,28 +73,16 @@
         <em>
           Parsing file
           <em>
-            <span class="flag-icon flag-icon-{{ countryOf(parsingFile.languageCode).flagClass }}"></span>
+            <span class="flag-icon flag-icon-{{ languageOf(parsingFile.languageCode).flagClass }}"></span>
             {{ parsingFile.path }}
           </em>
         </em>
       </div>
 
       <div *ngIf="selectedLanguages.length != 0">
-        <div class="row" *ngFor="let i18nFile of selectedLanguages">
-          <div class="column small-2">
-            <span class="flag-icon flag-icon-{{ countryOf(i18nFile.languageCode).flagClass }}"
-                  mdTooltip="{{ countryOf(i18nFile.languageCode).languageName }}"
-                  mdTooltipPosition="below"></span>
-          </div>
-
-          <div class="column small-5">
-            {{ countryOf(i18nFile.languageCode).languageName }} <small>{{ i18nFile.languageCode }}</small>
-          </div>
-
-          <div class="column small-5">
-            {{ i18nFile.count }} strings
-          </div>
-        </div>
+        <lh-language-details *ngFor="let i18nFile of selectedLanguages"
+                             [file]="i18nFile"
+                             [languages]="selectedLanguages"></lh-language-details>
       </div>
 
       <div class="row" *ngIf="!showLanguageForm">

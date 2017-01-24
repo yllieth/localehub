@@ -93,7 +93,7 @@ export class NewProjectDialog implements OnInit {
     this.showLanguageForm = false;
   }
 
-  countryOf(languageCode: string): Language {
+  languageOf(languageCode: string): Language {
     return LanguageService.find(languageCode);
   }
 

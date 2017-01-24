@@ -76,23 +76,6 @@ $z-index: 10;
   flex-grow: 1;
   max-height: $project-card-height - ($title-height + $branch-switcher-height + $button-height);
   overflow: auto;
-
-  .language-row {
-    &:hover {
-      cursor: help;
-      background-color: $lighter-gray;
-    }
-
-    .flag-icon {
-      @include offset(4px);
-    }
-
-    i.report_problem {
-      @include offset(2px);
-      font-size: $small-font-size;
-      font-weight: bold;
-    }
-  }
 }
 
 button {
