@@ -33,15 +33,15 @@ export class GithubService {
    *   | using lambda: gh-get-repos-content
    *   | using lambda: i18nFile-parse
    *
-   * @param {string} owner
-   * @param {string} repo
-   * @param {string} path
-   * @param {string} languageCode
+   * @param {string} repo - Ex: yllieth/localehub
+   * @param {string} path - Ex: assets/test/en.json
+   * @param {string} languageCode - Ex: en.json
+   * @param {string} branch - Ex: master
    * @returns {Promise<I18nFileInfo>}
    */
-  checkI18nfile(owner: string, repo: string, path: string, languageCode: string): Promise<I18nFileInfo> {
+  checkI18nfile(repo: string, path: string, languageCode: string, branch: string): Promise<I18nFileInfo> {
     return this.api
-      .post(`${ApiService.endpoint.prod}/i18n/file`, {owner, repo, path, languageCode})
+      .post(`${ApiService.endpoint.prod}/i18n/file`, {repo, path, languageCode, branch})
       .toPromise()
       .then((response: Response) => response.json() as I18nFileInfo)
       .catch(error => Promise.reject(error));

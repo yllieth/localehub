@@ -22,10 +22,10 @@ import urllib
 #     "html": "https://github.com/yllieth/localehub/blob/master/README.md"
 #   }
 # }
-def contents_request(access_token, owner, repo, path, media_type):
+def contents_request(access_token, owner, repo, path, branch, media_type):
     method = "GET"
     endpoint = "api.github.com"
-    url = "/repos/" + owner + "/" + repo + "/contents/" + path
+    url = "/repos/" + owner + "/" + repo + "/contents/" + path + "?ref=" + branch
     headers = {
         "Authorization": "token " + access_token,   # https://developer.github.com/v3/#oauth2-token-sent-in-a-header
         "Accept": media_type,                       # https://developer.github.com/v3/repos/contents/#custom-media-types
@@ -52,10 +52,11 @@ def build_media_type(query_string_parameters):
 def lambda_handler(event, context):
     github_token = event['requestContext']['authorizer']['githob']
     media_type = build_media_type(event["queryStringParameters"])
+    branch = event["queryStringParameters"]["ref"]
     owner = event['pathParameters']['owner']
     repo  = event['pathParameters']['repo']
     path  = event['pathParameters']['path']
-    response = contents_request(github_token, owner, repo, path, media_type)
+    response = contents_request(github_token, owner, repo, path, branch, media_type)
     status = response.status
     data = json.loads(json.dumps(response.read()))
     #print(response.status, response.reason) # 200 OK

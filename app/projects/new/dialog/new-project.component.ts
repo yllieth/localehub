@@ -66,7 +66,7 @@ export class NewProjectDialog implements OnInit {
     this.parsingFile = {path, languageCode};
     this.resetNewFileErrors();
     this.githubService
-      .checkI18nfile(this.githubUsername, this.selectedRepo.name, path, languageCode)
+      .checkI18nfile(this.githubUsername + '/' + this.selectedRepo.name, path, languageCode, this.selectedBranch)
       .then(fileInfo => {
         this.selectedLanguages.push(fileInfo);
         this.parsingFile = null;

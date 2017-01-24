@@ -5,6 +5,17 @@ let lambda = new AWS.Lambda({ region: 'eu-central-1' });
 
 exports.handler = function(event, context, callback) {
   let body = JSON.parse(event.body);
+  let owner, repo, path, branch;
+
+  try {
+    owner = body.repo.split('/')[0];
+    repo = body.repo.split('/')[1];
+    path = encodeURIComponent(body.path);
+    branch = body.branch;
+  } catch(e) {
+    done(callback, e, {message: "Missing parameter. Needs: repo (owner/name), path, branch", body}, 412);
+    return;
+  }
 
   let params = {
     FunctionName: 'arn:aws:lambda:eu-central-1:673077269136:function:gh-get-repos-contents',
@@ -12,8 +23,8 @@ exports.handler = function(event, context, callback) {
     LogType: 'Tail',
     Payload: JSON.stringify({
       "requestContext": event.requestContext,
-      "pathParameters": {owner: body.owner, repo: body.repo, path: encodeURIComponent(body.path)},
-      "queryStringParameters": { "media": "raw" }
+      "pathParameters": { owner, repo, path },
+      "queryStringParameters": { media: "raw", ref: branch }
     })
   };
 
@@ -26,12 +37,9 @@ exports.handler = function(event, context, callback) {
       responseBody = JSON.parse(response.body);
       responseStatus = response.statusCode;
     } catch (e) {
-      console.log('catch', e);
-      responseBody = {message: "Given file is not a valid json object", body};
+      responseBody = {message: "Given file is not a valid json object", body, fileContent: responseBody};
       responseStatus = 422;
     }
-
-    console.log('response', responseBody);
 
     if (responseStatus === 200) {
       responseBody = buildOutput(responseBody, body);
@@ -62,7 +70,9 @@ function buildOutput(fileContent, body) {
     languageCode: body.languageCode,
     count: keys.length,
     path: body.path,
-    format: 'json'
+    format: 'json',
+    repo: body.repo,
+    branch: body.branch
   };
 }
 
