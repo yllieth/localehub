@@ -2,6 +2,12 @@
 
 @each $property in (margin, padding) {
   .#{$property} { #{$property}: $global-spacing; }
+  .#{$property}-vertical { #{$property}-top: $global-spacing/2; #{$property}-bottom: $global-spacing/2; }
+  .#{$property}-vertical-half { #{$property}-top: $global-spacing/4; #{$property}-bottom: $global-spacing/4; }
+  .#{$property}-vertical-double { #{$property}-top: $global-spacing; #{$property}-bottom: $global-spacing; }
+  .#{$property}-horizontal { #{$property}-left: $global-spacing/2; #{$property}-right: $global-spacing/2; }
+  .#{$property}-horizontal-half { #{$property}-left: $global-spacing/4; #{$property}-right: $global-spacing/4; }
+  .#{$property}-horizontal-double { #{$property}-left: $global-spacing; #{$property}-right: $global-spacing; }
 
   @each $position in (top, right, bottom, left) {
     .no-#{$property} { #{$property}: 0 !important;}
@@ -27,7 +33,6 @@
 .width-auto { width: auto; }
 .cursor-not-allowed { cursor: not-allowed; }
 .cursor-pointer { cursor: pointer; }
-.margin-vertical { margin-top: $global-spacing/2; margin-bottom: $global-spacing/2 }
 .color-white { color: $white; }
 .color-alert { color: map-get($foundation-palette, alert); }
 .color-primary { color: map-get($foundation-palette, primary); }
