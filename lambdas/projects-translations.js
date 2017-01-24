@@ -13,8 +13,8 @@ exports.handler = function(event, context, callback) {
       done(callback, error, {message: 'Project not found', body: projectId}, 404);
     } else {
       let project = data.Item;
-      let owner = project.owner.split('/').pop();
-      let repo = project.name;
+      let repo = project.repository.name;
+      let owner = project.repository.owner.login;
       let i18nFile = project.i18nFiles.filter(fileInfo => fileInfo.languageCode === languageCode);
       let path = i18nFile[0].path;
       let branch = (event.hasOwnProperty('queryStringParameters') && event.queryStringParameters.hasOwnProperty('branch'))

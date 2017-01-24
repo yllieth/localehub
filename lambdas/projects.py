@@ -1,7 +1,7 @@
 import boto3
 import json
 import decimal  # used for JSON serialization
-from boto3.dynamodb.conditions import Key
+from boto3.dynamodb.conditions import Attr
 from boto3 import client as boto3_client
 
 # Returns the list of existing projects of connected user
@@ -10,13 +10,13 @@ from boto3 import client as boto3_client
 # - name              (string)    - The project's name. Initialized with github repository name but could be different
 # - availableBranches (string[])  - List of available branches. Ex: ['master', 'tp-branch1', 'pu-20161002']
 # - lastActiveBranch  (string)    - The name of the last branch used within the app. Ex: 'master'
-# - user              (url)       - The github url of the project's creator. Ex: https://api.github.com/users/yllieth
-# - owner             (url)       - The github url of the repository's creator. Ex: https://api.github.com/orgs/PredicSis
-# - i18nFiles         (object[])  - contains info on translation files (languageCode, count, path, format)
+# - i18nFiles         (object[])  - contains info on translation files (languageCode, count, path, format, repo, branch)
+# - repository        (object)    - simplified version of the github repository
+# - createdBy         (object)    - simplified version of the github user who created the project
 def lambda_handler(event, context):
     github_token = event['requestContext']['authorizer']['githob']
     user = json.loads(get_current_user(github_token)).get('body')
-    current_user = json.loads(user).get('url')
+    current_user = json.loads(user).get('login')
 
     response = json.dumps(fetch_projects(current_user), cls=CustomJSONEncoder)
 
@@ -32,11 +32,11 @@ def lambda_handler(event, context):
 # DynamoDB request: SELECT * FROM projects where 'user'=current_user
 # Retreive all existing projects from the connected user
 #
-# @param user {String|Url} - User who creates project. Example: "https://api.github.com/users/yllieth"
+# @param user {String} - User who creates project. Example: "yllieth"
 def fetch_projects(user):
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('projects')
-    return table.scan(FilterExpression=Key('user').eq(user)).get('Items')
+    return table.scan(FilterExpression=Attr('createdBy.login').eq(user)).get('Items')
 
 
 # Github request: GET /user

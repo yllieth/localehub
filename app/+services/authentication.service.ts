@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs';
+import 'rxjs/add/operator/toPromise';
+
+import { User } from '../+models';
 import { ApiService, ErrorService } from './';
 
 @Injectable()
@@ -53,9 +56,12 @@ export class AuthenticationService {
    */
   private allowSignup: string = 'true';
 
+  private currentUser: User;
+
   constructor(
     private $http: Http,
     private $router: Router,
+    private api: ApiService,
     private errorService: ErrorService
   ) {}
 
@@ -98,7 +104,7 @@ export class AuthenticationService {
 
   saveToken(token: string): AuthenticationService {
     if (AuthenticationService.isValidToken(token) === true) {
-      localStorage.setItem('token', token)
+      localStorage.setItem('token', token);
     } else {
       this.errorService.handleHttpError('422-001', { token: token });
     }
@@ -110,5 +116,19 @@ export class AuthenticationService {
     if (AuthenticationService.hasToken()) {
       this.$router.navigate(['/projects']);
     }
+  }
+
+  initCurrentUser(): void {
+    if (this.currentUser === undefined) {
+      this.api
+        .get(`${ApiService.endpoint.prod}/user`)
+        .toPromise()
+        .then((response: Response) => this.currentUser = response.json() as User)
+        .catch(error => Promise.reject(error));
+    }
+  }
+
+  getCurrentUser(): User {
+    return this.currentUser;
   }
 }

@@ -3,6 +3,7 @@ import { MdDialogRef, MdDialog, MdDialogConfig } from "@angular/material";
 import { ProjectsService, ErrorService } from '../+services';
 import { Group, Project, User } from '../+models';
 import { NewProjectDialog } from "./new/dialog/new-project.component";
+import {AuthenticationService} from "../+services/authentication.service";
 
 @Component({
   moduleId: module.id,
@@ -15,12 +16,14 @@ export class ProjectsComponent implements OnInit {
   projectsList: Group[];  // undefined value is tested in the template to show the loader
 
   constructor(
+    private authenticationService: AuthenticationService,
     private projectsService: ProjectsService,
     private errorService: ErrorService,
     public dialog: MdDialog
   ) { }
 
   ngOnInit(): void {
+    this.authenticationService.initCurrentUser();
     this.projectsService.getProjectList()
       .then(projectsList => this.projectsList = projectsList)
       .catch(error => this.errorService.handleHttpError('404-001', error));

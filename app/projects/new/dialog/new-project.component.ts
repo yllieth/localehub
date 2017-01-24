@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from "@angular/material";
-import { ApiService, ErrorService, GithubService, LanguageService } from "../../../+services";
+import { ApiService, AuthenticationService, ErrorService, GithubService, LanguageService } from "../../../+services";
 import { GithubRepository, I18nFileInfo, Language } from "../../../+models";
 
 @Component({
@@ -30,6 +30,7 @@ export class NewProjectDialog implements OnInit {
   constructor(
     private githubService: GithubService,
     private errorService: ErrorService,
+    private authenticationService: AuthenticationService,
     public newProjectDialog: MdDialogRef<NewProjectDialog>
   ) { }
 
@@ -51,6 +52,7 @@ export class NewProjectDialog implements OnInit {
   }
 
   onSelectRepository(repository: GithubRepository) {
+    this.branchList = undefined;      // tested in the view to show the loader
     this.selectedBranch = undefined;  // reset branch if the repo changes after selecting a branch for a previous one
     this.githubService
       .getBranches(this.githubUsername, repository.name)
@@ -66,7 +68,7 @@ export class NewProjectDialog implements OnInit {
     this.parsingFile = {path, languageCode};
     this.resetNewFileErrors();
     this.githubService
-      .checkI18nfile(this.githubUsername + '/' + this.selectedRepo.name, path, languageCode, this.selectedBranch)
+      .checkI18nfile(this.selectedRepo.fullName, path, languageCode, this.selectedBranch)
       .then(fileInfo => {
         this.selectedLanguages.push(fileInfo);
         this.parsingFile = null;
@@ -107,11 +109,11 @@ export class NewProjectDialog implements OnInit {
     let payload = {
       id: ApiService.generateUUID(),
       name: this.selectedRepo.name,
-      owner: this.selectedRepo.owner.url,
-      user: this.githubUserUrl,
       availableBranches: this.branchList,
       lastActiveBranch: this.selectedBranch,
-      i18nFiles: this.selectedLanguages
+      i18nFiles: this.selectedLanguages,
+      repository: this.selectedRepo,
+      createdBy: this.authenticationService.getCurrentUser()
     };
 
     this.isCreatingProject = true;

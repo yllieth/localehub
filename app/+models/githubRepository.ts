@@ -5,6 +5,7 @@ import { User } from "./user";
  * {
  *   "id": 69961239,
  *   "name": "localehub",
+ *   "fullName": "yllieth/localehub"
  *   "description": "[WebApp] Add/update versionned I18N support to an existing application",
  *   "owner": {
  *     "id": 1174557,
@@ -24,6 +25,7 @@ import { User } from "./user";
 export class GithubRepository {
   id: number;
   name: string;
+  fullName: string;
   description: string;
   url: string;
   owner: User;

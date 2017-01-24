@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Project, LocaleFolder } from '../+models';
-import { ProjectsService, TranslationsService } from '../+services';
-import {Language} from "../+models/language";
-import {LanguageService} from "../+services/language.service";
+import { Project, Language, LocaleFolder } from '../+models';
+import { AuthenticationService, LanguageService, ProjectsService, TranslationsService } from '../+services';
 
 @Component({
   moduleId: module.id,
@@ -19,11 +17,13 @@ export class TranslationsListComponent implements OnInit {
 
   constructor(
     private $route: ActivatedRoute,
+    private authenticationService: AuthenticationService,
     private projectsService: ProjectsService,
     private translationsService: TranslationsService
   ) { }
 
   ngOnInit() {
+    this.authenticationService.initCurrentUser();
     this.$route.params.forEach((params: Params) => {
       this.projectsService
         .getProject(params['projectId'])
