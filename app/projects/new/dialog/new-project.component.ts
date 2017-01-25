@@ -55,7 +55,7 @@ export class NewProjectDialog implements OnInit {
     this.branchList = undefined;      // tested in the view to show the loader
     this.selectedBranch = undefined;  // reset branch if the repo changes after selecting a branch for a previous one
     this.githubService
-      .getBranches(this.githubUsername, repository.name)
+      .getBranches(repository.fullName)
       .then(branches => {
         this.branchList = branches;
         if (branches.indexOf('master') > -1) {

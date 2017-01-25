@@ -1,15 +1,27 @@
 <div class="card-title">
   {{ project.name | truncate : 18 }}
+
+  <button md-icon-button [mdMenuTriggerFor]="menu" class="menu-button">
+    <md-icon>more_vert</md-icon>
+  </button>
+
+  <md-menu #menu="mdMenu">
+    <button md-menu-item (click)="refreshBranchList()">Refresh branch list</button>
+    <button md-menu-item class="color-alert">Delete project</button>
+  </md-menu>
 </div>
 <div class="branch-switcher">
   <i class="octicon octicon-git-branch"></i>&nbsp;Branch:
-  <select>
+  <select *ngIf="!isRefrechingBranches">
     <option *ngFor="let branch of project.availableBranches"
             [attr.value]="branch"
             [attr.selected]="branch == project.lastActiveBranch ? true : null">
       {{ branch }}
     </option>
   </select>
+  <small *ngIf="isRefrechingBranches">
+    <lh-loader [message]="'Refreshing...'"></lh-loader>
+  </small>
 </div>
 <div class="number-of-strings">
   <span class="badge">{{ maximumNumberOfTranslation(project) }}</span>
@@ -19,6 +31,6 @@
                        [languages]="project.i18nFiles"
                        [file]="file"></lh-language-details>
 </div>
-<button (click)="onOpen(project)" class="cursor-pointer">
+<button (click)="onOpen(project)" class="cursor-pointer open-button">
   Open
 </button>
