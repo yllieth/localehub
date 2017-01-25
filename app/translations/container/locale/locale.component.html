@@ -1,4 +1,5 @@
 <div class="locale" [ngClass]="{expanded: locale.expanded}">
+  <!-- Key -->
   <div class="row full-width name" (click)="locale.toggle()">
     <div class="column">
       <i class="material-icons">add_box</i>
@@ -11,11 +12,49 @@
       </span>
     </div>
   </div>
+
+  <!-- Values -->
   <ul *ngIf="locale.expanded">
     <li *ngFor="let translation of locale.getValues()">
-      <span class="flag-icon flag-icon-{{ translation.language.flagClass }}"></span>
-      <span class="language" mdTooltip="{{ translation.language.languageName }}">{{ translation.language.languageCode }}</span>
-      <span class="translated-string">{{ translation.string }}</span>
+      <div class="row align-middle" style="margin: 0">
+        <!-- Flag -->
+        <div class="column small-1">
+          <span class="flag-icon flag-icon-{{ translation.language.flagClass }}"></span>
+        </div>
+
+        <!-- Language code -->
+        <div class="column small-2 large-1 language" mdTooltip="{{ translation.language.languageName }}">
+          {{ translation.language.languageCode }}
+        </div>
+
+        <!-- i18n value / input -->
+        <div class="column small-9 large-10 translated-string">
+          <div *ngIf="translation.editedString == null" class="cursor-pointer" (click)="edit(translation)">
+            {{ translation.string }}
+          </div>
+          <div *ngIf="translation.editedString != null">
+            <div class="row">
+              <div class="column small-9">
+                <input type="text" [(ngModel)]="translation.editedString" autofocus />
+              </div>
+
+              <div class="column small-3">
+                <button md-raised-button color="primary"
+                        (click)="saveEdition(translation)"
+                        disabled="{{ translation.editedString == translation.string }}">
+                  <span *ngIf="isSavingTranslation">Saving...</span>
+                  <span *ngIf="!isSavingTranslation">Save</span>
+                </button>
+                <button md-raised-button color="secondary"
+                        disabled="{{ isSavingTranslation }}"
+                        (click)="cancelEdition(translation)">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </li>
     <li *ngFor="let missing of locale.getMissingTranslations()">
       <span class="flag-icon flag-icon-{{ missing.flagClass }}"></span>

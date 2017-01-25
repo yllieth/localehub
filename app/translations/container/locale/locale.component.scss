@@ -43,28 +43,18 @@ ul {
   padding: $global-spacing/2 0;
 
   li {
-    margin: 0 $global-spacing;
     list-style: none;
     line-height: $translation-height;
-
-    .flag-icon {
-      @include offset(-1px);
-    }
-
-    .flag-icon, .language {
-      margin-right: $global-spacing/2;
-    }
 
     .language {
       display: inline-flex;
       color: map_get($foundation-palette, secondary);
+    }
 
-      @include breakpoint(large up) {
-        width: 5%;
-      }
-      
-      @include breakpoint(medium down) {
-        width: 10%;
+    .translated-string {
+      input {
+        margin-bottom: 0;
+        border: 2px solid $blue2;
       }
     }
 
