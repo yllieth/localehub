@@ -6,8 +6,8 @@ import { ApplicationError } from '../+models';
 export class ErrorService {
   constructor(private $router: Router) { }
 
-  init(errorId: string, metadata: any): ApplicationError {
-    return new ApplicationError(errorId, metadata);
+  init(errorId: string, metadata: any ): ApplicationError {
+    return new ApplicationError(errorId, metadata.value);
   }
 
   log(errorId: string, metadata: any) {
@@ -20,6 +20,6 @@ export class ErrorService {
       this.log(errorId, metadata);
     }
 
-    this.$router.navigate(['error', errorId]);
+    this.$router.navigate(['error', errorId], { queryParams: metadata });
   }
 }
