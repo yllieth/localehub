@@ -20,6 +20,12 @@ const ERRORS = {
       { name: "Back to the projects list", route: '/projects' }
     ]
   },
+  "404-004": {
+    message: "Unable to remove project ${name}",
+    redirections: [
+      { name: "Back to the projects list", route: '/projects' }
+    ]
+  },
   "422-001": {
     message: "Login failed due to a badly formatted token. ${token} is not a valid token",
     redirections: [

@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { I18nFileInfo, Project } from '../../+models';
-import { ErrorService, GithubService } from '../../+services';
+import { ErrorService, GithubService, ProjectsService } from '../../+services';
 
 @Component({
   moduleId: module.id,
@@ -11,16 +11,21 @@ import { ErrorService, GithubService } from '../../+services';
 })
 export class ProjectsCardComponent implements OnInit {
   @Input() project: Project;
+  @Output() removedProject = new EventEmitter<Project>();
   isRefrechingBranches: boolean;
+  isLoading: boolean;
+  loadingMessage: string;
 
   constructor(
     private $router: Router,
     private githubService: GithubService,
+    private projectService: ProjectsService,
     private errorService: ErrorService
   ) { }
 
   ngOnInit() {
     this.isRefrechingBranches = false;
+    this.isLoading = false;
   }
 
   onOpen(project: Project): void {
@@ -46,5 +51,14 @@ export class ProjectsCardComponent implements OnInit {
         }
       })
       .catch((_) => this.errorService.handleHttpError("404-003", { repo: this.project.repository.fullName }));
+  }
+
+  deleteProject(): void {
+    this.isLoading = true;
+    this.loadingMessage = "Removing...";
+    this.projectService
+      .remove(this.project.id)
+      .then((_) => this.removedProject.emit(this.project))
+      .catch(error => this.errorService.handleHttpError("404-004", { name: this.project.name }));
   }
 }
