@@ -18,7 +18,7 @@ export class ProjectsService {
       groups.push({
         expanded: !user.is_organization,  // TODO improve this when connected user will be stored: expanded = true if user = connected user
         user: user,
-        projects: projects.filter(project => { return project.repository.owner.login === user.login; })
+        projects: projects.filter(project => project.repository.owner.login === user.login)
       });
     }
 
@@ -42,6 +42,14 @@ export class ProjectsService {
   getProject(id: string): Promise<Project> {
     return this.api
       .get(`${ApiService.endpoint.prod}/projects/${id}`)
+      .toPromise()
+      .then((response: Response) => response.json() as Project)
+      .catch(error => Promise.reject(error));
+  }
+
+  remove(projectId: string): Promise<Project> {
+    return this.api
+      .delete(`${ApiService.endpoint.prod}/projects/${projectId}`)
       .toPromise()
       .then((response: Response) => response.json() as Project)
       .catch(error => Promise.reject(error));

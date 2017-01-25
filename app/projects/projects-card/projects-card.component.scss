@@ -28,6 +28,19 @@ $z-index: 10;
   border-top-left-radius: $global-radius;
   border-top-right-radius: $global-radius;
   box-shadow: 0 $shadow-y $shadow-blur $shadow-color;
+
+  .menu-button {
+    position: absolute;
+    top: 10px;
+    right: 0;
+  }
+}
+
+button.confirm {
+  background-color: map_get($foundation-palette, alert);
+  border-radius: 0;
+  color: $white;
+  font-weight: bold;
 }
 
 .branch-switcher {
@@ -78,7 +91,7 @@ $z-index: 10;
   overflow: auto;
 }
 
-button {
+.open-button {
   height: $button-height;
   width: $project-card-width;
   background-color: $blue3;

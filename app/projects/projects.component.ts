@@ -57,4 +57,15 @@ export class ProjectsComponent implements OnInit {
       }
     });
   }
+
+  onRemoveProject(project: Project): void {
+    let owner = project.repository.owner.login;
+    let projectName = project.name;
+
+    for(let group of this.projectsList) {
+      if (group.user.login === owner) {
+        group.projects = group.projects.filter(project => project.name !== projectName);
+      }
+    }
+  }
 }

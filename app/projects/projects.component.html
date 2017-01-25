@@ -5,7 +5,7 @@
     <lh-projects-separator [group]="group" (click)="toggle(group)"></lh-projects-separator>
     <div *ngIf="group.expanded" class="cards-container">
       <lh-projects-new (click)="openNewProjectDialog(group.user, group.projects)" class="cursor-pointer"></lh-projects-new>
-      <lh-projects-card *ngFor="let project of group.projects" [project]="project"></lh-projects-card>
+      <lh-projects-card *ngFor="let project of group.projects" [project]="project" (removedProject)="onRemoveProject($event)"></lh-projects-card>
       <span class="projects-filler"></span>
     </div>
   </section>

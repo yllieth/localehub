@@ -20,11 +20,7 @@ export class ErrorContainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
-      this.error = this.errorService.init(params['errorId'], this.route);
+      this.error = this.errorService.init(params['errorId'], this.route.queryParams);
     });
   }
-
-  // onOpenDetails(): void {
-  //   this.detailed = !this.detailed;
-  // }
 }
