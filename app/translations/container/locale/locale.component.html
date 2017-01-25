@@ -3,17 +3,23 @@
     <div class="column">
       <i class="material-icons">add_box</i>
       <span>{{ locale.key }}</span>
+      <span *ngIf="locale.hasMissingTranslations()" class="color-secondary">
+        <span class="margin-horizontal">&mdash; Missing:</span>
+        <span *ngFor="let missing of locale.getMissingTranslations()"
+              mdTooltip="{{ missing.languageName }}"
+              class="flag-icon flag-icon-{{ missing.flagClass }} margin-right"></span>
+      </span>
     </div>
   </div>
   <ul *ngIf="locale.expanded">
     <li *ngFor="let translation of locale.getValues()">
-      <span class="flag-icon flag-icon-{{ countryOf(translation.lang).flagClass }}"></span>
-      <span class="language" title="{{ countryOf(translation.lang).languageName }}">{{ translation.lang }}</span>
+      <span class="flag-icon flag-icon-{{ translation.language.flagClass }}"></span>
+      <span class="language" mdTooltip="{{ translation.language.languageName }}">{{ translation.language.languageCode }}</span>
       <span class="translated-string">{{ translation.string }}</span>
     </li>
     <li *ngFor="let missing of locale.getMissingTranslations()">
-      <span class="flag-icon flag-icon-{{ countryOf(missing).flagClass }}"></span>
-      <span class="language" title="{{ countryOf(missing).languageName }}">{{ missing }}</span>
+      <span class="flag-icon flag-icon-{{ missing.flagClass }}"></span>
+      <span class="language" mdTooltip="{{ missing.languageName }}">{{ missing.languageCode }}</span>
       <span class="missing-translation">Missing translation</span>
     </li>
   </ul>

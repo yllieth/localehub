@@ -1,4 +1,4 @@
-import { Translation } from "./translation";
+import { Language, Translation } from './';
 
 /**
  * A locale associates an i18n key with one (or more) translation(s).
@@ -15,10 +15,10 @@ export class Locale {
   key: string;
   keyPath: string;
   values: Translation[];
-  missing: string[];
+  missing: Language[];
   expanded: boolean;
 
-  constructor(key: string, value: string, currentLanguage: string, languages: string[]) {
+  constructor(key: string, value: string, currentLanguage: Language, languages: Language[]) {
     let translation = new Translation(currentLanguage, value);
     if (this.values === undefined) { this.values = [] }
     let keyParts = key.split('.');
@@ -26,9 +26,7 @@ export class Locale {
     this.key = keyParts.pop();
     this.keyPath = keyParts.join('.');
     this.values.push(translation);
-    this.missing = languages.filter((lang: string) => {
-      return lang != currentLanguage;
-    });
+    this.missing = languages.filter((lang: Language) => lang != currentLanguage);
     this.expanded = false;
   }
 
@@ -36,7 +34,11 @@ export class Locale {
     return this.values;
   }
 
-  getMissingTranslations(): string[] {
+  hasMissingTranslations(): boolean {
+    return this.missing.length > 0;
+  }
+
+  getMissingTranslations(): Language[] {
     return this.missing;
   }
 
@@ -71,7 +73,7 @@ export class Locale {
       } else if (found.length === 1) {
         for (let translation of locale.values) {
           found[0].values.push(translation);
-          found[0].missing = found[0].missing.filter(lang => { return lang != translation.lang; })
+          found[0].missing = found[0].missing.filter(language => language.languageCode != translation.language.languageCode)
         }
       } else {
         console.error('Internal error: the key ' + searchedKey + ' has been found ' + found.length + ' times. The input file is errored.')

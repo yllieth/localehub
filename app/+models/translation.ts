@@ -1,12 +1,14 @@
+import { Language } from './';
+
 /**
  * A translation associates ONE language to ONE string (written in this language)
  */
 export class Translation {
-  lang: string;
+  language: Language;
   string: string;
 
-  constructor(lang: string, string: string) {
-    this.lang = lang;
+  constructor(language: Language, string: string) {
+    this.language = language;
     this.string = string;
   }
 }

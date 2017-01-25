@@ -1,4 +1,4 @@
-import { Locale } from "./locale";
+import { Language, Locale } from './';
 
 /**
  * The LocaleFolder groups several Locales and structures them. It's a structure developed close to the
@@ -19,7 +19,7 @@ export class LocaleFolder {
     this.expanded = false;
   }
 
-  addTrustedLocale(key: string, value: string, currentLanguage: string, allLanguage: string[]): LocaleFolder {
+  addTrustedLocale(key: string, value: string, currentLanguage: Language, allLanguage: Language[]): LocaleFolder {
     this.locales.push(new Locale(key, value, currentLanguage, allLanguage));
 
     return this;
@@ -46,7 +46,7 @@ export class LocaleFolder {
 
   initialize(children: LocaleFolder[], locales: Locale[]): LocaleFolder {
     if (this.children.length === 0) {
-      this.children = children
+      this.children = children;
     } else {
       console.error('Internal error: Cannot set children of non-empty LocaleFolder. Overwrite risks!', this.children);
       return;
@@ -59,6 +59,7 @@ export class LocaleFolder {
       return;
     }
 
+    this.expanded = true;
     return this;
   }
 

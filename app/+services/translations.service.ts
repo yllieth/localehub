@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { RequestOptions, URLSearchParams} from "@angular/http";
-import { I18nFileInfo, LocaleFolder, Locale, Project } from '../+models';
-import { ApiService } from './';
+import { I18nFileInfo, Language, LocaleFolder, Locale, Project } from '../+models';
+import { ApiService, LanguageService } from './';
 
 @Injectable()
 export class TranslationsService {
   constructor(private api: ApiService,) {}
 
-  private format(locales: any, currentLanguage: string, allLanguages: string[]): LocaleFolder {
+  private format(locales: any, currentLanguage: Language, allLanguages: Language[]): LocaleFolder {
     let serializeDeepKeys = (jsonPath: string, locales: any, folder: LocaleFolder) => {
       for (let key in locales) {
         let value = locales[key];
@@ -21,7 +21,7 @@ export class TranslationsService {
       }
     };
 
-    let root = new LocaleFolder(currentLanguage);
+    let root = new LocaleFolder(currentLanguage.languageCode); // languageCode is just for debugging purposes (being able to differentiate iterations)
     serializeDeepKeys(null, locales, root);
     return root;
   }
@@ -38,36 +38,29 @@ export class TranslationsService {
     }
   }
 
-  private prepareDictionaries(responses: {content: any, metadata: I18nFileInfo}[]): any {
-    let dictionaries = {};
-    for (let response of responses) {
-      dictionaries[response.metadata.languageCode] = response.content;
-    }
-
-    return dictionaries
-  }
-
-  createList(dictionaries: any): LocaleFolder {
+  createList(dictionaries: {content: any, metadata: I18nFileInfo}[]): LocaleFolder {
     let root = new LocaleFolder('##ROOT##');
-    let languages = Object.keys(dictionaries);
-    let formattedDictionaries = {};
+    let languages: Language[] = dictionaries.map(d => LanguageService.find(d.metadata.languageCode));
+    let formattedDictionaries = []; // { content: any, language: Language }
 
     // format each dictionary
-    for (let lang in dictionaries) {
-      formattedDictionaries[lang] = this.format(dictionaries[lang], lang, languages);
+    for (let dictionary of dictionaries) {
+      let language = LanguageService.find(dictionary.metadata.languageCode);
+      formattedDictionaries.push({
+        content: this.format(dictionary.content, language, languages),
+        language
+      });
     }
 
     // initialize root dictionary with the first formatted dictionary
-    let first = languages.shift();
-    root.initialize(formattedDictionaries[first].getChildren(), formattedDictionaries[first].getLocales());
+    root.initialize(formattedDictionaries[0].content.getChildren(), formattedDictionaries[0].content.getLocales());
 
     // merge other formatted dictionaries inside root element
-    for (let lang of languages) {
-      // console.info('Merging ' + lang + ' into ' + first);
-      this.merge(formattedDictionaries[lang], root);
+    for (let i = 1 ; i < formattedDictionaries.length ; i++) {
+      this.merge(formattedDictionaries[i].content, root);
     }
 
-    return root.expand(true);
+    return root;
   }
 
   getDictionaries(project: Project): Promise<any> {
@@ -76,9 +69,7 @@ export class TranslationsService {
       requestLanguages.push(this.getTranslation(project.id, i18nFile.languageCode, project.lastActiveBranch));
     }
 
-    return Promise.all(requestLanguages)
-      .then(response => this.prepareDictionaries(response))
-      .catch(error => Promise.reject(error));
+    return Promise.all(requestLanguages).catch(error => Promise.reject(error));
   }
 
   getTranslation(projectId: string, languageCode: string, branch: string): Promise<{content: any, metadata: I18nFileInfo}> {
