@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { LocaleFolder } from '../../+models';
+import { LocaleFolder, Project } from '../../+models';
 
 @Component({
   moduleId: module.id,
@@ -9,6 +9,7 @@ import { LocaleFolder } from '../../+models';
 })
 export class TranslationsContainerComponent {
   @Input() selected: LocaleFolder;
+  @Input() project: Project;  // transmitted to locale.component
 
   constructor() { }
 }

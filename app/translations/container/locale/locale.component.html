@@ -57,9 +57,22 @@
       </div>
     </li>
     <li *ngFor="let missing of locale.getMissingTranslations()">
-      <span class="flag-icon flag-icon-{{ missing.flagClass }}"></span>
-      <span class="language" mdTooltip="{{ missing.languageName }}">{{ missing.languageCode }}</span>
-      <span class="missing-translation">Missing translation</span>
+      <div class="row align-middle" style="margin: 0">
+        <!-- Flag -->
+        <div class="column small-1">
+          <span class="flag-icon flag-icon-{{ missing.flagClass }}"></span>
+        </div>
+
+        <!-- Language code -->
+        <div class="column small-2 large-1 language" mdTooltip="{{ missing.languageName }}">
+          {{ missing.languageCode }}
+        </div>
+
+        <!-- i18n value / input -->
+        <div class="column small-9 large-10 missing-translation">
+          Missing translation
+        </div>
+      </div>
     </li>
   </ul>
 </div>

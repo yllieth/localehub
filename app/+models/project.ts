@@ -1,4 +1,4 @@
-import { GithubRepository, I18nFileInfo, User } from './';
+import { GithubRepository, I18nFileInfo, LocaleUpdate, User } from './';
 
 /**
  * Example:
@@ -49,5 +49,6 @@ export class Project {
   lastActiveBranch: string;
   i18nFiles: I18nFileInfo[];
   repository: GithubRepository;
+  pendingChanges: LocaleUpdate[];
   createdBy: User;
 }
