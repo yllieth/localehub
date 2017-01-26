@@ -3,7 +3,7 @@
   <div class="row full-width name" (click)="locale.toggle()">
     <div class="column">
       <i class="material-icons">add_box</i>
-      <span>{{ locale.key }}</span>
+      <span class="{{ (isPending) ? 'bold' : '' }}">{{ locale.key }}</span>
       <span *ngIf="locale.hasMissingTranslations()" class="color-secondary">
         <span class="margin-horizontal">&mdash; Missing:</span>
         <span *ngFor="let missing of locale.getMissingTranslations()"
@@ -30,7 +30,7 @@
         <!-- i18n value / input -->
         <div class="column small-9 large-10 translated-string">
           <div *ngIf="translation.editedString == null" class="cursor-pointer" (click)="edit(translation)">
-            {{ translation.string }}
+            <span class="{{ (translation.isPending) ? 'bold' : '' }}">{{ translation.string }}</span>
           </div>
           <div *ngIf="translation.editedString != null">
             <div class="row">

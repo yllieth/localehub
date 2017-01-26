@@ -12,12 +12,25 @@ export class TranslationsLocaleComponent implements OnInit {
   @Input() locale: Locale;
   @Input() project: Project;
   isSavingTranslation: boolean;
+  isPending: true;
 
   constructor(private projectsService: ProjectsService) { }
 
   ngOnInit() {
     this.locale.expand(false);
     this.isSavingTranslation = false;
+
+    for(let change of this.project.pendingChanges) {
+      if (change.key === this.locale.keyPath + this.locale.key && change.branch === this.project.lastActiveBranch) {
+        this.isPending = true;
+        this.locale.values.map((value: Translation) => {
+          if (change.languageCode === value.language.languageCode) {
+            value.string = change.value.newString;
+            value.isPending = true;
+          }
+        })
+      }
+    }
 
     EventService
       .get('titlebar::expand-locales')
@@ -54,9 +67,11 @@ export class TranslationsLocaleComponent implements OnInit {
         this.isSavingTranslation = false;
         this.project = updatedProject;
         this.locale.values.map((value: Translation) => {
+          this.isPending = true;
           if (value.language.languageCode === translation.language.languageCode) {
             value.string = translation.editedString;
             value.editedString = null;
+            value.isPending = true;
           }
         })
       });

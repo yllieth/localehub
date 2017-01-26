@@ -6,11 +6,13 @@ import { Language } from './';
 export class Translation {
   language: Language;
   string: string;
-  editedString: string;   // used by the view
+  editedString: string;
+  isPending: boolean;
 
   constructor(language: Language, string: string) {
     this.language = language;
     this.string = string;
     this.editedString = null;
+    this.isPending = false;
   }
 }
