@@ -4,17 +4,15 @@ let AWS = require('aws-sdk');
 let dynamo = new AWS.DynamoDB.DocumentClient({ region: 'eu-central-1' });
 
 exports.handler = function(event, context, callback) {
-	let body = JSON.parse(event.body);
+	let projectId = event.pathParameters.id;
 
-	let params = {
-		TableName: 'projects',
-		Item: body
-	};
-
-	dynamo.put(params, function(error, data) {
-		console.log('error', error);
-		console.log('data', body);
-		done(callback, error, body, 200);
+	dynamo.get({TableName: 'projects', Key: { id: projectId }}, function(error, data) {
+		if (error) {
+			done(callback, error, {message: 'Project not found', body: projectId}, 404);
+		} else {
+			let project = data.Item;
+			done(callback, error, project, 200);
+		}
 	});
 };
 
