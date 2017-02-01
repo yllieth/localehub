@@ -1,6 +1,6 @@
 {
   "resources": "Zasoby",
-  "resource": "Zasób",
+  "resource": "Zasób-edited",
   "description": "Opis",
   "errs": {
     "no_docs_found": "Nie znalezionio dokumentacji",
