@@ -2,34 +2,12 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
-import { Group, Language, LocaleUpdate, Project, User } from '../+models';
-import { ApiService, GithubService, LanguageService } from './';
+import { Language, LocaleUpdate, Project } from '../+models';
+import { ApiService, LanguageService } from './';
 
 @Injectable()
 export class ProjectsService {
-  constructor(
-    private api: ApiService,
-    private github: GithubService
-  ) {}
-
-  private static createGroupsFrom(users: User[], projects: Project[]): Group[] {
-    let groups = [];
-    for (let user of users) {
-      groups.push({
-        expanded: !user.is_organization,  // TODO improve this when connected user will be stored: expanded = true if user = connected user
-        user: user,
-        projects: projects.filter(project => project.repository.owner.login === user.login)
-      });
-    }
-
-    return groups;
-  }
-
-  getProjectList(): Promise<Group[]> {
-    return Promise.all([this.github.getOrganizations(), this.getProjects()])
-      .then(response => ProjectsService.createGroupsFrom(response[0], response[1]))
-      .catch(error => Promise.reject(error));
-  }
+  constructor(private api: ApiService) {}
 
   getProjects(): Promise<Project[]> {
     return this.api

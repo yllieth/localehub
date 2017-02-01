@@ -44,6 +44,6 @@ function buildOutput(user) {
 		events_url: user.events_url,
 		avatar_url: user.avatar_url,
 		repos_url: user.repos_url,
-		is_organization: user.type === 'User'
+		is_organization: user.type !== 'User'
 	};
 }

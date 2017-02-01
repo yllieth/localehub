@@ -45,7 +45,7 @@
     "gulp-sass": "3.1.0",
     "gulp-sourcemaps": "2.4.0",
     "lite-server": "^2.2.2",
-    "localehub-mock": "0.1.6",
+    "localehub-mock": "0.1.7",
     "motion-ui": "^1.2.2",
     "typescript": "2.1.5",
     "typings": "2.1.0"

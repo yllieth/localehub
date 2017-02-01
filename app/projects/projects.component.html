@@ -1,17 +1,14 @@
 <lh-titlebar></lh-titlebar>
 
-<main *ngIf="projectsList != undefined">
-  <section *ngFor="let group of projectsList">
-    <lh-projects-separator [group]="group" (click)="toggle(group)"></lh-projects-separator>
-    <div *ngIf="group.expanded" class="cards-container">
-      <lh-projects-new (click)="openNewProjectDialog(group.user, group.projects)" class="cursor-pointer"></lh-projects-new>
-      <lh-projects-card *ngFor="let project of group.projects" [project]="project" (removedProject)="onRemoveProject($event)"></lh-projects-card>
-      <span class="projects-filler"></span>
-    </div>
-  </section>
+<main *ngIf="projects != undefined">
+  <lh-projects-new (click)="openNewProjectDialog(projects)" class="cursor-pointer"></lh-projects-new>
+  <lh-projects-card *ngFor="let project of projects"
+                    [project]="project"
+                    (removedProject)="onRemoveProject($event)">
+  </lh-projects-card>
 </main>
 
-<main *ngIf="projectsList == undefined">
+<main *ngIf="projects == undefined">
   <div class="row align-middle main-full-height">
     <div class="column">
       <lh-loader [message]="'Loading projects...'"></lh-loader>

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialogRef, MdDialog, MdDialogConfig } from "@angular/material";
-import { ProjectsService, ErrorService } from '../+services';
-import { Group, Project, User } from '../+models';
 import { NewProjectDialog } from "./new/dialog/new-project.component";
-import {AuthenticationService} from "../+services/authentication.service";
+import { AuthenticationService, ErrorService, ProjectsService } from '../+services';
+import { Project, User } from '../+models';
 
 @Component({
   moduleId: module.id,
@@ -13,7 +12,7 @@ import {AuthenticationService} from "../+services/authentication.service";
   providers: [ ProjectsService ]
 })
 export class ProjectsComponent implements OnInit {
-  projectsList: Group[];  // undefined value is tested in the template to show the loader
+  projects: Project[];  // undefined value is tested in the template to show the loader
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -24,48 +23,31 @@ export class ProjectsComponent implements OnInit {
 
   ngOnInit(): void {
     this.authenticationService.initCurrentUser();
-    this.projectsService.getProjectList()
-      .then(projectsList => this.projectsList = projectsList)
+    this.projectsService.getProjects()
+      .then(projectsList => this.projects = projectsList)
       .catch(error => this.errorService.handleHttpError('404-001', error));
   }
 
-  toggle(group: Group): void {
-    group.expanded = !group.expanded;
-  }
-
-  openNewProjectDialog(user: User, projects: Project[]): void {
+  openNewProjectDialog(projects: Project[]): void {
     let newProjectDialog: MdDialogRef<NewProjectDialog>;
     let dialogConfig = new MdDialogConfig();
     dialogConfig.disableClose = false;
-    dialogConfig.width = '50%';
-    dialogConfig.height = '50%';
+    dialogConfig.width = '70%';
+    dialogConfig.height = '570px';
 
     newProjectDialog = this.dialog.open(NewProjectDialog, dialogConfig);
-    newProjectDialog.componentInstance.githubUsername = user.login;
-    newProjectDialog.componentInstance.githubUserUrl = user.url;
-    newProjectDialog.componentInstance.existingProjects = projects.map(project => project.name);
+    newProjectDialog.componentInstance.existingProjects = projects.map(project => project.repository.fullName);
 
     newProjectDialog.afterClosed().subscribe((result: Project) => {
       newProjectDialog = null;
 
       if (result !== undefined) {
-        this.projectsList.map(function (group) {
-          if (group.user.login === user.login) {
-            group.projects.push(result);
-          }
-        });
+        this.projects.push(result);
       }
     });
   }
 
-  onRemoveProject(project: Project): void {
-    let owner = project.repository.owner.login;
-    let projectName = project.name;
-
-    for(let group of this.projectsList) {
-      if (group.user.login === owner) {
-        group.projects = group.projects.filter(project => project.name !== projectName);
-      }
-    }
+  onRemoveProject(removedProject: Project): void {
+    this.projects = this.projects.filter(project => project.id !== removedProject.id);
   }
 }

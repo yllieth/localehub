@@ -11,11 +11,16 @@ legend {
 }
 
 i.material-icons {
-  &.info, &.add_circle_outline {
-    @include offset(6px)
+  &.info, &.add_circle_outline, &.switch_camera {
+    @include offset(6px);
   }
 }
 
 select, input {
   margin-bottom: 0;
+}
+
+img.avatar {
+  @include square(30px);
+  border-radius: 50%;
 }

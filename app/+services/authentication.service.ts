@@ -118,13 +118,15 @@ export class AuthenticationService {
     }
   }
 
-  initCurrentUser(): void {
+  initCurrentUser(): Promise<User> {
     if (this.currentUser === undefined) {
-      this.api
+      return this.api
         .get(`${ApiService.endpoint.prod}/user`)
         .toPromise()
         .then((response: Response) => this.currentUser = response.json() as User)
         .catch(error => Promise.reject(error));
+    } else {
+      return Promise.resolve(this.currentUser);
     }
   }
 

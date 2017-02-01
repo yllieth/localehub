@@ -18,7 +18,6 @@ import { LoaderComponent } from './shared/loader/loader.component';
 import { LanguageDetailsComponent } from './shared/language-details/language-details.component';
 
 import { ProjectsComponent } from './projects/projects.component';
-import { SeparatorComponent } from './projects/separator/separator.component';
 import { NewProjectComponent } from './projects/new/new-card.component';
 import { NewProjectDialog } from "./projects/new/dialog/new-project.component";
 import { ProjectsCardComponent } from './projects/projects-card/projects-card.component';
@@ -55,7 +54,6 @@ const apiFactory = {
     LoaderComponent,
     LanguageDetailsComponent,
     ProjectsComponent,
-    SeparatorComponent,
     NewProjectComponent,
     NewProjectDialog,
     ProjectsCardComponent,
