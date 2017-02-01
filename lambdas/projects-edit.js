@@ -43,6 +43,14 @@ function buildQuery(projectId, body) {
       UpdateExpression: 'set pendingChanges = list_append (pendingChanges, :editedValue)',
       ExpressionAttributeValues: { ':editedValue': [changes] }
     };
+  } else if (operation === 'set-pendingChanges') {
+	  params = {
+		  TableName: 'projects',
+		  Key: {id: projectId},
+		  ReturnValues: 'ALL_NEW',
+		  UpdateExpression: 'set pendingChanges = :pendingChanges',
+		  ExpressionAttributeValues: { ':pendingChanges': changes }
+	  };
   }
 
   return params;
