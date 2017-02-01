@@ -24,7 +24,7 @@ export class ProjectsComponent implements OnInit {
   ngOnInit(): void {
     this.authenticationService.initCurrentUser();
     this.projectsService.getProjects()
-      .then(projectsList => this.projects = projectsList)
+      .then(projectsList => (projectsList.length > 0) ? this.projects = projectsList : this.openNewProjectDialog([]))
       .catch(error => this.errorService.handleHttpError('404-001', error));
   }
 
@@ -42,7 +42,7 @@ export class ProjectsComponent implements OnInit {
       newProjectDialog = null;
 
       if (result !== undefined) {
-        this.projects.push(result);
+        (this.projects.length > 0) ? this.projects.push(result) : this.projects = [result];
       }
     });
   }
