@@ -37,7 +37,7 @@ export class AuthenticationService {
    * provide a scope will receive a token with user and repo scope.
    * @type {string}
    */
-  private scope: string = 'user';
+  private scope: string = 'repo';
 
   /**
    * Optional.

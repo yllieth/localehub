@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
-import { Group, Project, User } from '../+models';
-import { ApiService, GithubService } from './';
+import { Group, Language, LocaleUpdate, Project, User } from '../+models';
+import { ApiService, GithubService, LanguageService } from './';
 
 @Injectable()
 export class ProjectsService {
@@ -53,5 +53,23 @@ export class ProjectsService {
       .toPromise()
       .then((response: Response) => response.json() as Project)
       .catch(error => Promise.reject(error));
+  }
+
+  update(projectId: string, operation: string, update: LocaleUpdate): Promise<Project> {
+    return this.api
+      .patch(`${ApiService.endpoint.prod}/projects/${projectId}`, {operation, update})
+      .toPromise()
+      .then((response: Response) => response.json() as Project)
+      .catch(error => Promise.reject(error));
+  }
+
+  static getSupportedLanguages(project: Project): Language[] {
+    let languages = [];
+
+    for(let file of project.i18nFiles) {
+      languages.push(LanguageService.find(file.languageCode));
+    }
+
+    return languages;
   }
 }

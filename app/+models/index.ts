@@ -8,3 +8,4 @@ export * from './project';
 export * from './translation';
 export * from './user';
 export * from './githubRepository';
+export * from './localeUpdate';

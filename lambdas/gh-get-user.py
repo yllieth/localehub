@@ -11,6 +11,7 @@ def user_request(access_token):
         "User-Agent": "Localehub"                   # https://developer.github.com/v3/#user-agent-required
     }
 
+    print(method, endpoint + url, 'token ' + access_token)
     conn = httplib.HTTPSConnection(endpoint)
     conn.request(method, url, None, headers)
     return conn.getresponse()
