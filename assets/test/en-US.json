@@ -1,7 +1,7 @@
 {
   "resources": "Resources",
-  "resource": "Resource",
-  "description": "Description",
+  "resource": "Resource-edited",
+  "description": "Description-edited",
   "errs": {
     "no_docs_found": "No documentation found",
     "no_docs_found_descr": "We have not found any documentation for your API.",
