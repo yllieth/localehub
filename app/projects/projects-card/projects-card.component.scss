@@ -1,7 +1,7 @@
 @import 'styles/app.scss';
 
-$strings-counter-height: $global-spacing;
-$title-height: $banner-height + $strings-counter-height / 2;
+$avatar-size: 35px;
+$title-height: rem-calc(60);
 $branch-switcher-height: rem-calc(35);
 $button-height: $banner-height;
 $shadow-y: 5px;
@@ -67,21 +67,15 @@ button.confirm {
   }
 }
 
-.number-of-strings {
+.owner {
   position: absolute;
-  top: $title-height - $strings-counter-height / 2;
-  width: $project-card-width;
-  display: flex;
-  justify-content: center;
+  top: $avatar-size / 2 - 3px;
+  left: -($avatar-size / 2);
 
-  .badge {
-    height: $strings-counter-height;
-    line-height: $strings-counter-height;
-    background-color: $blue3;
-    color: $white;
-    border-radius: $strings-counter-height;
-    padding: 0 10px;
-    box-shadow: 0 $shadow-y - 2 $shadow-blur $shadow-color;
+  img.avatar {
+    @include square($avatar-size);
+    border-radius: 50%;
+    border: 3px solid $white;
   }
 }
 

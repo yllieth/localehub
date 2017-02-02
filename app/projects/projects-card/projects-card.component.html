@@ -26,8 +26,8 @@
     <lh-loader [message]="'Refreshing...'"></lh-loader>
   </small>
 </div>
-<div class="number-of-strings">
-  <span class="badge">{{ maximumNumberOfTranslation(project) }}</span>
+<div class="owner">
+  <img [attr.src]="project.repository.owner.avatar_url" class="avatar">
 </div>
 
 <!-- Main content -->
