@@ -39,11 +39,12 @@ function buildOutput(user) {
 	return {
 		id: user.id,
 		login: user.login,
+		full_name: user.name,
 		description: user.bio,
 		url: user.html_url,
 		events_url: user.events_url,
 		avatar_url: user.avatar_url,
 		repos_url: user.repos_url,
-		is_organization: user.type === 'User'
+		is_organization: user.type !== 'User'
 	};
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { Response } from '@angular/http';
-import { AuthenticationService } from '../../+services';
+import { AuthenticationService, GithubService } from '../../+services';
 
 @Component({
   moduleId: module.id,
@@ -13,7 +12,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private $route: ActivatedRoute,
     private $router: Router,
-    private authentication: AuthenticationService
+    private authentication: AuthenticationService,
+    private githubService : GithubService
   ) {}
 
   ngOnInit(): void {
@@ -22,10 +22,9 @@ export class LoginComponent implements OnInit {
         // hide state & code from the address bar
         this.$router.navigate(['/login']);
 
-        this.authentication
-          .requestToken(query['code'])
-          .map((res: Response) => res.json())
-          .subscribe(response => this.authentication.saveToken(response.token).redirection());
+        this.githubService
+          .createCurrentUser(query['code'], this.authentication.getState())
+          .then(token => this.authentication.saveToken(token).redirection());
       } else {
         // do nothing
         // go there when the user manually navigate to /login or is redirected by the AuthGuard

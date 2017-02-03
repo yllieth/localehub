@@ -2,23 +2,6 @@
 
 main {
   display: flex;
-  flex-direction: column;
-  margin: 0 $global-spacing;
-}
-
-section {
-  display: block;
-  width: 100%;
-}
-
-.cards-container {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-}
-
-.projects-filler {
-  flex-grow: 1;
 }
 
 .row.main-full-height {

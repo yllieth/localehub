@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from "@angular/material";
 import { ApiService, AuthenticationService, ErrorService, GithubService, LanguageService } from "../../../+services";
 import { GithubRepository, I18nFileInfo, Language } from "../../../+models";
+import {User} from "../../../+models/user";
 
 @Component({
   moduleId: module.id,
@@ -10,9 +11,10 @@ import { GithubRepository, I18nFileInfo, Language } from "../../../+models";
   styleUrls: [ 'new-project.component.css' ]
 })
 export class NewProjectDialog implements OnInit {
-  githubUsername: string;     // from ProjectsComponent.openNewProjectDialog : newProjectDialog.componentInstance.githubUser = user.login;
-  githubUserUrl: string;      // from ProjectsComponent.openNewProjectDialog : newProjectDialog.componentInstance.githubUserUrl = user.url;
   existingProjects: string[]; // from ProjectsComponent.openNewProjectDialog : newProjectDialog.componentInstance.existingProjects = projects.map(project => project.name);
+  selectedUser: User;
+  otherUsers: User[];
+  showOtherUsers: boolean;
   selectedRepo: GithubRepository;
   repositoryList: GithubRepository[];
   branchList: string[];
@@ -34,20 +36,34 @@ export class NewProjectDialog implements OnInit {
     public newProjectDialog: MdDialogRef<NewProjectDialog>
   ) { }
 
-  ngOnInit() {
+  private loadRepositories(user: User) {
     this.repositoryList = undefined;  // tested in the view to show the loader
+    this.githubService
+      .getRepositories(user.login)
+      .then((repos: GithubRepository[]) => this.repositoryList = repos.filter(githubRepo => this.existingProjects.indexOf(githubRepo.fullName) === -1))
+  }
+
+  ngOnInit() {
     this.branchList = undefined;      // tested in the view to show the loader
     this.languages = LanguageService.entireList();
     this.selectedLanguages = [];
     this.parsingFile = null;
     this.isCreatingProject = false;
+    this.showOtherUsers = false;
     this.showLanguageForm = false;
     this.isNewFileNotFound = false;
     this.isNewFileNotValid = false;
 
     this.githubService
-      .getRepositories(this.githubUsername)
-      .then(repoList => this.repositoryList = repoList.filter((githubRepo: GithubRepository) => this.existingProjects.indexOf(githubRepo.name) === -1))
+      .getOrganizations()
+      .then((users: User[]) => this.otherUsers = users.filter(user => user.id != this.selectedUser.id));
+
+    this.authenticationService
+      .initCurrentUser()
+      .then((user: User) => {
+        this.selectedUser = user;
+        this.loadRepositories(user);
+      })
       /*.catch(error => this.errorService.handleHttpError('404-001', error))*/;
   }
 
@@ -82,6 +98,15 @@ export class NewProjectDialog implements OnInit {
       });
   }
 
+  onClickChangeUser(user: User): void {
+    let oldUser = this.selectedUser;
+    this.loadRepositories(user);
+    this.showOtherUsers = false;
+    this.selectedUser = user;
+    this.otherUsers = this.otherUsers.filter(other => other.id != user.id);
+    this.otherUsers.push(oldUser);
+  }
+
   resetNewFileErrors(): void {
     this.isNewFileNotValid = false;
     this.isNewFileNotFound = false;
@@ -113,6 +138,7 @@ export class NewProjectDialog implements OnInit {
       lastActiveBranch: this.selectedBranch,
       i18nFiles: this.selectedLanguages,
       repository: this.selectedRepo,
+      pendingChanges: [],
       createdBy: this.authenticationService.getCurrentUser()
     };
 

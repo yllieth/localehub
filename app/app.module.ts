@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpModule, XHRBackend, RequestOptions } from '@angular/http';
+import { HttpModule, XHRBackend, RequestOptions, Http } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 
 import { TruncatePipe } from 'angular2-truncate';
@@ -18,7 +18,6 @@ import { LoaderComponent } from './shared/loader/loader.component';
 import { LanguageDetailsComponent } from './shared/language-details/language-details.component';
 
 import { ProjectsComponent } from './projects/projects.component';
-import { SeparatorComponent } from './projects/separator/separator.component';
 import { NewProjectComponent } from './projects/new/new-card.component';
 import { NewProjectDialog } from "./projects/new/dialog/new-project.component";
 import { ProjectsCardComponent } from './projects/projects-card/projects-card.component';
@@ -29,13 +28,9 @@ import { TranslationsTreeComponent } from './translations/tree/tree.component';
 import { TranslationsContainerComponent } from './translations/container/container.component';
 import { TranslationsLocaleComponent } from './translations/container/locale/locale.component';
 
-const apiFactory = {
-  provide: ApiService,
-  useFactory: (backend: XHRBackend, options: RequestOptions) => {
-    return new ApiService(backend, options);
-  },
-  deps: [XHRBackend, RequestOptions]
-};
+function ApiFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
+  return new ApiService(xhrBackend, requestOptions);
+}
 
 @NgModule({
   imports: [
@@ -55,7 +50,6 @@ const apiFactory = {
     LoaderComponent,
     LanguageDetailsComponent,
     ProjectsComponent,
-    SeparatorComponent,
     NewProjectComponent,
     NewProjectDialog,
     ProjectsCardComponent,
@@ -69,7 +63,8 @@ const apiFactory = {
     NewProjectDialog
   ],
   providers: [
-    apiFactory,
+    { provide: Http, useFactory: ApiFactory, deps: [XHRBackend, RequestOptions]},
+    ApiService,
     AuthenticationService,
     AuthenticationGuardService,
     ErrorService,

@@ -1,5 +1,4 @@
 export * from './application-error';
-export * from './group';
 export * from './i18nFileInfo';
 export * from './language';
 export * from './locale';

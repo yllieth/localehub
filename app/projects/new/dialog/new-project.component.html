@@ -1,30 +1,57 @@
 <div class="row">
   <div class="column">
-    <h1 md-dialog-title="">New project</h1>
+    <h1 md-dialog-title="" *ngIf="existingProjects.length > 0">New project</h1>
+    <h1 md-dialog-title="" *ngIf="existingProjects.length <= 0">Welcome on Localehub. Let's start creating your first project:</h1>
   </div>
 </div>
 
 <!-- Repository list -->
 <fieldset>
-  <legend>Select a repository: </legend>
-  <div class="row">
-    <div class="small-12 large-5 column">
-      <select [(ngModel)]="selectedRepo" (change)="onSelectRepository(selectedRepo)" *ngIf="repositoryList != undefined">
-        <option *ngFor="let repository of repositoryList" [ngValue]="repository">
-          {{ repository.name }}
-        </option>
-      </select>
-      <div *ngIf="repositoryList != undefined">
-        <small class="color-secondary">
-          <i class="material-icons info">info</i>
-          Repositories with an existing project aren't displayed in this list. You cannot create a project which already exists.
-        </small>
+  <legend>Select a Github repository: </legend>
+  <lh-loader [message]="'Loading repositories ...'" *ngIf="repositoryList == undefined"></lh-loader>
+  <div class="row" *ngIf="repositoryList != undefined">
+    <div class="small-12 large-6 column">
+      <div class="row align-middle">
+        <div class="column small-4">
+          <img [attr.src]="selectedUser.avatar_url" [attr.alt]="selectedUser.login" class="avatar">
+          <span class="margin-left-half">{{ selectedUser.login }}</span>
+          <span class="margin-left">/</span>
+        </div>
+
+        <div class="column small-8">
+          <select [(ngModel)]="selectedRepo" (change)="onSelectRepository(selectedRepo)" *ngIf="repositoryList != undefined">
+            <option *ngFor="let repository of repositoryList" [ngValue]="repository">
+              {{ repository.name }}
+            </option>
+          </select>
+        </div>
       </div>
 
-      <lh-loader [message]="'Loading repositories ...'" *ngIf="repositoryList == undefined"></lh-loader>
+      <div class="row">
+        <div class="column small-4">
+          <div *ngIf="!showOtherUsers" class="color-primary cursor-pointer" (click)="showOtherUsers = !showOtherUsers">
+            <i class="material-icons switch_camera">switch_camera</i>
+            <span class="margin-left-half">Other users</span>
+          </div>
+
+          <div *ngIf="showOtherUsers">
+            <img *ngFor="let otherUser of otherUsers"
+                 [attr.src]="otherUser.avatar_url"
+                 mdTooltip="{{ otherUser.login }}"
+                 (click)="onClickChangeUser(otherUser)"
+                 class="avatar cursor-pointer margin-top">
+          </div>
+        </div>
+        <div class="column small-8">
+          <small class="color-secondary">
+            <i class="material-icons info">info</i>
+            Repositories with an existing project aren't displayed in this list.
+          </small>
+        </div>
+      </div>
     </div>
 
-    <div class="small-12 large-7 column" *ngIf="selectedRepo">
+    <div class="small-12 large-6 column" *ngIf="selectedRepo">
       <!-- Repository description -->
       <div class="row align-middle margin-bottom-half">
         <div class="column medium-5"><strong>Description:</strong></div>
