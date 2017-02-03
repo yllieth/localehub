@@ -18,6 +18,17 @@ i.label {
   color: map_get($foundation-palette, secondary);
 }
 
+.change-container {
+  padding: 5px;
+  max-height: 330px;
+  cursor: pointer;
+  transition: background-color 300ms ease;
+
+  &:hover {
+    background-color: $lighter-gray;
+  }
+}
+
 .change-key {
   font-family: monospace;
   font-weight: bold;
