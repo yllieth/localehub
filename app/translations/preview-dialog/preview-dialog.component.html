@@ -1,1 +1,44 @@
-Amazing popup !
+<div class="row">
+  <div class="column">
+    <h1 md-dialog-title="" *ngIf="totalChanges > 0">List of saved changes ({{ totalChanges }})</h1>
+  </div>
+</div>
+
+<div class="row" *ngIf="totalChanges > 0">
+  <div class="column">
+    <md-tab-group>
+      <md-tab *ngFor="let language of languages">
+        <!-- Tab title -->
+        <template md-tab-label>
+          <span class="flag-icon flag-icon-{{ language.flagClass }} margin-right"></span>
+          <span>{{ language.languageName }}</span>
+          <span class="color-secondary">(<small>{{ language.languageCode }}</small>)</span>
+        </template>
+
+        <!-- Tab content -->
+        <div *ngFor="let change of changes[language.languageCode]" class="margin-top">
+          <div class="row">
+            <div class="column">
+              <i class="material-icons label">label</i>
+              <span class="change-key">{{ change.key }}</span>:
+            </div>
+          </div>
+          <div class="row align-middle margin-top-half">
+            <div class="column small-2"><strong>Before:</strong></div>
+            <div class="column small-10 before-change">{{ change.value.oldString }}</div>
+          </div>
+          <div class="row align-middle">
+            <div class="column small-2"><strong>After:</strong></div>
+            <div class="column small-10 after-change">{{ change.value.newString }}</div>
+          </div>
+        </div>
+      </md-tab>
+    </md-tab-group>
+  </div>
+</div>
+
+<div class="row" *ngIf="totalChanges <= 0">
+  <div class="column">
+    No pending change on this branch ({{ project.lastActiveBranch }})
+  </div>
+</div>

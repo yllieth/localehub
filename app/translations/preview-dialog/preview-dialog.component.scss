@@ -1,0 +1,27 @@
+@import 'styles/app.scss';
+
+i.label {
+  @include offset(6px);
+  color: map_get($foundation-palette, secondary);
+}
+
+.change-key {
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 150%
+}
+
+.after-change, .before-change {
+  font-family: monospace;
+  padding: 2px;
+}
+
+.before-change {
+  border-color: #f1c0c0;
+  background-color: #ffdddd;
+}
+
+.after-change {
+  border-color: #c1e9c1;
+  background-color: #dbffdb;
+}
