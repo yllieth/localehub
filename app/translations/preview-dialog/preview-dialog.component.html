@@ -1,6 +1,6 @@
 <div class="row align-middle margin-bottom">
   <div class="column small-8">
-    <h1 md-dialog-title="" *ngIf="totalChanges > 0">List of saved changes ({{ totalChanges }})</h1>
+    <h1 md-dialog-title>List of saved changes ({{ totalChanges }})</h1>
   </div>
 
   <div class="column small-3">
@@ -28,20 +28,23 @@
         </template>
 
         <!-- Tab content -->
-        <div *ngFor="let change of changes[language.languageCode]" class="margin-top">
-          <div class="row">
-            <div class="column">
-              <i class="material-icons label">label</i>
-              <span class="change-key">{{ change.key }}</span>:
+        <div class="margin-top" style="max-height: 330px">
+          <div *ngFor="let change of changes[language.languageCode]" class="change-container">
+            <div class="row">
+              <div class="column">
+                <md-chip-list>
+                  <md-chip *ngFor="let keyPart of change.key.split('.')" class="change-key">{{ keyPart }}</md-chip>
+                </md-chip-list>
+              </div>
             </div>
-          </div>
-          <div class="row align-middle margin-top-half">
-            <div class="column small-2"><strong>Before:</strong></div>
-            <div class="column small-10 before-change">{{ change.value.oldString | highlightDiff: change.value.newString }}</div>
-          </div>
-          <div class="row align-middle">
-            <div class="column small-2"><strong>After:</strong></div>
-            <div class="column small-10 after-change">{{ change.value.newString | highlightDiff: change.value.newString }}</div>
+            <div class="row align-middle margin-top-half">
+              <div class="column small-2"><strong>Before:</strong></div>
+              <div class="column small-10 before-change">{{ change.value.oldString | highlightDiff: change.value.newString }}</div>
+            </div>
+            <div class="row align-middle margin-bottom">
+              <div class="column small-2"><strong>After:</strong></div>
+              <div class="column small-10 after-change">{{ change.value.newString | highlightDiff: change.value.newString }}</div>
+            </div>
           </div>
         </div>
       </md-tab>
@@ -51,6 +54,6 @@
 
 <div class="row" *ngIf="totalChanges <= 0">
   <div class="column">
-    No pending change on this branch ({{ selectedBranch }})
+    You don't have pending change on this branch ({{ selectedBranch }}).
   </div>
 </div>
