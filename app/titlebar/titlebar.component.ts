@@ -1,7 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
+
 import { Project } from '../+models';
 import { EventService } from '../+services';
+import { TranslationsPreviewDialog } from '../translations/preview-dialog/preview-dialog.component';
 
 @Component({
   moduleId: module.id,
@@ -15,7 +18,11 @@ export class TitlebarComponent implements OnInit {
 
   @Input() project: Project;
 
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    public dialog: MdDialog
+  ) {
     this.isProjectsList = false;
     this.isTranlationsList = false;
   }
@@ -40,8 +47,23 @@ export class TitlebarComponent implements OnInit {
     EventService.get('titlebar::expand-locales').emit(true);
   }
 
+  onDiff(): void {
+    let translationsPreviewDialog: MdDialogRef<TranslationsPreviewDialog>;
+    let dialogConfig = new MdDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.width = '70%';
+    dialogConfig.height = '570px';
+
+    translationsPreviewDialog = this.dialog.open(TranslationsPreviewDialog, dialogConfig);
+    translationsPreviewDialog.componentInstance.project = this.project;
+
+    translationsPreviewDialog.afterClosed().subscribe((result: Project) => {
+      translationsPreviewDialog = null;
+      console.log(result);
+    });
+  }
+
   onOpenBranchSwitcher(): void {}
-  onDiff(): void {}
   onExport(): void {}
   onCommit(): void {}
 }
