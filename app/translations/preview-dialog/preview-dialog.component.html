@@ -1,6 +1,18 @@
-<div class="row">
-  <div class="column">
+<div class="row align-middle margin-bottom">
+  <div class="column small-8">
     <h1 md-dialog-title="" *ngIf="totalChanges > 0">List of saved changes ({{ totalChanges }})</h1>
+  </div>
+
+  <div class="column small-3">
+    <md-select placeholder="Branch" style="width: 100%" [(ngModel)]="selectedBranch">
+      <md-option *ngFor="let branch of project.availableBranches" [value]="branch">
+        {{ branch }}
+      </md-option>
+    </md-select>
+  </div>
+
+  <div class="column small-1 close-container">
+    <i class="material-icons close" (click)="onCloseDialog(translationsPreviewDialog)">close</i>
   </div>
 </div>
 
@@ -25,11 +37,11 @@
           </div>
           <div class="row align-middle margin-top-half">
             <div class="column small-2"><strong>Before:</strong></div>
-            <div class="column small-10 before-change">{{ change.value.oldString }}</div>
+            <div class="column small-10 before-change">{{ change.value.oldString | highlightDiff: change.value.newString }}</div>
           </div>
           <div class="row align-middle">
             <div class="column small-2"><strong>After:</strong></div>
-            <div class="column small-10 after-change">{{ change.value.newString }}</div>
+            <div class="column small-10 after-change">{{ change.value.newString | highlightDiff: change.value.newString }}</div>
           </div>
         </div>
       </md-tab>
@@ -39,6 +51,6 @@
 
 <div class="row" *ngIf="totalChanges <= 0">
   <div class="column">
-    No pending change on this branch ({{ project.lastActiveBranch }})
+    No pending change on this branch ({{ selectedBranch }})
   </div>
 </div>

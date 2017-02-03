@@ -5,6 +5,7 @@ import { HttpModule, XHRBackend, RequestOptions, Http } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 
 import { TruncatePipe } from 'angular2-truncate';
+import { HighlightDiffPipe } from './+pipes/highlight-diff.pipe';
 
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
@@ -44,6 +45,7 @@ function ApiFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Htt
   declarations: [
     AppComponent,
     TruncatePipe,
+    HighlightDiffPipe,
     LoginComponent,
     ErrorContainerComponent,
     TopbarComponent,
