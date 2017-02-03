@@ -27,6 +27,7 @@ import { TranslationsNotificationComponent } from './translations/notification/n
 import { TranslationsTreeComponent } from './translations/tree/tree.component';
 import { TranslationsContainerComponent } from './translations/container/container.component';
 import { TranslationsLocaleComponent } from './translations/container/locale/locale.component';
+import { TranslationsPreviewDialog } from './translations/preview-dialog/preview-dialog.component';
 
 function ApiFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
   return new ApiService(xhrBackend, requestOptions);
@@ -57,10 +58,12 @@ function ApiFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Htt
     TranslationsNotificationComponent,
     TranslationsTreeComponent,
     TranslationsContainerComponent,
-    TranslationsLocaleComponent
+    TranslationsLocaleComponent,
+    TranslationsPreviewDialog
   ],
   entryComponents: [
-    NewProjectDialog
+    NewProjectDialog,
+    TranslationsPreviewDialog
   ],
   providers: [
     { provide: Http, useFactory: ApiFactory, deps: [XHRBackend, RequestOptions]},
