@@ -4,6 +4,7 @@ $button-height: 35px;
 
 md-toolbar {
   @include banner($white, $black);
+  //box-shadow: 0px 3px 15px 0 $border-color;
 }
 
 .titlebar-content {
@@ -83,6 +84,7 @@ md-toolbar {
   justify-content: flex-end;
 
   button {
+    position: relative; // required to place the .has-diff dot with an absolute position
     padding: 0;
     margin: $global-spacing/2;
     height: $button-height;
@@ -106,6 +108,16 @@ md-toolbar {
         display: flex;
         justify-content: center;
         color: $dark-gray;
+      }
+
+      .has-diff {
+        @include square(12px);
+        border: 2px solid $white;
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        border-radius: 50%;
+        background-color: map_get($foundation-palette, primary);
       }
     }
   }
