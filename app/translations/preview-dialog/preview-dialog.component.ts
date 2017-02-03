@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 
-import { Language, LocaleUpdate, Project } from '../../+models';
+import { Language, Project } from '../../+models';
 import { LanguageService } from '../../+services';
 
 
@@ -15,6 +15,7 @@ export class TranslationsPreviewDialog implements OnInit {
   project: Project;       // from TitleBarComponent.openPreviewDialog : translationsPreviewDialog.componentInstance.project = project;
   languages: Language[];  // list of unique languages contained in pendingChanges
   totalChanges: number;
+  selectedBranch: string;
   changes;                // {'en-US': <LocaleUpdate[]>, ...} of pendingChanges
   files;                  // {'en-US': <I18nFileInfo>, ...} of pendingChanges
 
@@ -22,14 +23,15 @@ export class TranslationsPreviewDialog implements OnInit {
     public translationsPreviewDialog: MdDialogRef<TranslationsPreviewDialog>
   ) { }
 
-  ngOnInit() {
+  private initChanges(branch: string): void {
+    this.selectedBranch = branch;
     this.languages = [];
     this.changes = {};
     this.files = {};
     this.totalChanges = 0;
 
     for (let change of this.project.pendingChanges) {
-      if (change.branch === this.project.lastActiveBranch) {
+      if (change.branch === branch) {
         this.totalChanges++;
 
         // build languages array
@@ -48,5 +50,13 @@ export class TranslationsPreviewDialog implements OnInit {
         this.files[change.languageCode] = this.project.i18nFiles.filter(file => file.languageCode === change.languageCode)[0];
       }
     }
+  }
+
+  ngOnInit() {
+    this.initChanges(this.project.lastActiveBranch);
+  }
+
+  onCloseDialog(dialogRef: MdDialogRef<TranslationsPreviewDialog>): void {
+    dialogRef.close();
   }
 }
