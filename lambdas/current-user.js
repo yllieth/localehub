@@ -39,6 +39,7 @@ function buildOutput(user) {
 	return {
 		id: user.id,
 		login: user.login,
+		full_name: user.name,
 		description: user.bio,
 		url: user.html_url,
 		events_url: user.events_url,

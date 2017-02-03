@@ -1,6 +1,7 @@
 export class User {
   id: number;
   login: string;
+  full_name: string;
   description: string;
   url: string;
   events_url: string;

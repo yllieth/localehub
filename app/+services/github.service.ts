@@ -47,6 +47,22 @@ export class GithubService {
       .catch(error => Promise.reject(error));
   }
 
+  getCurrentUser(): Promise<User> {
+    return this.api
+      .get(`${ApiService.endpoint.prod}/current-user`)
+      .toPromise()
+      .then((response: Response) => response.json() as User)
+      .catch(error => Promise.reject(error));
+  }
+
+  createCurrentUser(code: string, state: string): Promise<string> {
+    return this.api
+      .post(`${ApiService.endpoint.prod}/current-user`, { code, state })
+      .toPromise()
+      .then((response: Response) => response.json().token as string)
+      .catch(error => Promise.reject(error));
+  }
+
   /**
    * Get organizations of the connected user.
    * Github base request : GET api.github.com/user/orgs
@@ -57,7 +73,7 @@ export class GithubService {
    */
   getOrganizations(): Promise<User[]> {
     return this.api
-      .get(`${ApiService.endpoint.prod}/organizations`)
+      .get(`${ApiService.endpoint.prod}/current-user/organizations`)
       .toPromise()
       .then((response: Response) => response.json() as User[])
       .catch(error => Promise.reject(error));

@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs';
 import 'rxjs/add/operator/toPromise';
 
 import { User } from '../+models';
-import { ApiService, ErrorService } from './';
+import { ErrorService, GithubService } from './';
 
 @Injectable()
 export class AuthenticationService {
@@ -59,15 +57,14 @@ export class AuthenticationService {
   private currentUser: User;
 
   constructor(
-    private $http: Http,
     private $router: Router,
-    private api: ApiService,
+    private githubService: GithubService,
     private errorService: ErrorService
   ) {}
 
   private static isValidToken(token: string): boolean {
     let pattern = new RegExp(/[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}/);
-    return token.length == 36 && pattern.test(token);
+    return token && token.length == 36 && pattern.test(token);
   }
 
   githubLoginUrl(): string {
@@ -83,13 +80,6 @@ export class AuthenticationService {
     return query.hasOwnProperty('code')
       && query.hasOwnProperty('state')
       && query['state'] === this.state;
-  }
-
-  requestToken(code: string): Observable<Response> {
-    return this.$http.post(
-      `${ApiService.endpoint.prod}/login`,
-      { state: this.state, code: code }
-    );
   }
 
   static hasToken(valid: boolean = false): boolean {
@@ -119,18 +109,16 @@ export class AuthenticationService {
   }
 
   initCurrentUser(): Promise<User> {
-    if (this.currentUser === undefined) {
-      return this.api
-        .get(`${ApiService.endpoint.prod}/user`)
-        .toPromise()
-        .then((response: Response) => this.currentUser = response.json() as User)
-        .catch(error => Promise.reject(error));
-    } else {
-      return Promise.resolve(this.currentUser);
-    }
+    return (this.currentUser === undefined)
+      ? this.githubService.getCurrentUser()
+      : Promise.resolve(this.currentUser);
   }
 
   getCurrentUser(): User {
     return this.currentUser;
+  }
+
+  getState(): string {
+    return this.state;
   }
 }

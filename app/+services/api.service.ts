@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Http, XHRBackend, RequestOptions } from '@angular/http';
+import { Http, XHRBackend, RequestOptions, Request, RequestOptionsArgs, Headers, Response } from '@angular/http';
+import { Observable } from 'rxjs';
+
 import { AuthenticationService } from './';
 
 @Injectable()
@@ -10,10 +12,24 @@ export class ApiService extends Http {
   };
 
   constructor(backend: XHRBackend, defaultOptions: RequestOptions) {
-    defaultOptions.headers.set('Authorization', AuthenticationService.getToken());
-    defaultOptions.headers.set('Content-Type', 'application/json');
-
     super(backend, defaultOptions);
+  }
+
+  request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
+    if (!options) { options = new RequestOptions({}); }
+    if (!options.headers) { options.headers = new Headers(); }
+
+    // Adds Authorization header when a valid token is available
+    if (AuthenticationService.hasToken(true)) {
+      options.headers.append("Authorization", AuthenticationService.getToken())
+    }
+
+    // Always adds Content-Type header
+    options.headers.append('Content-Type', 'application/json');
+
+    if (url instanceof Request) { url.headers = options.headers; }
+
+    return super.request(url, options)
   }
 
   // https://jsfiddle.net/briguy37/2MVFd/
