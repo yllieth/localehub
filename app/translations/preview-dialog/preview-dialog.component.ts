@@ -53,7 +53,11 @@ export class TranslationsPreviewDialog implements OnInit {
   }
 
   ngOnInit() {
-    this.initChanges(this.project.lastActiveBranch);
+    this.selectedBranch = this.project.lastActiveBranch;
+  }
+
+  onChangeBranch(newBranch: string): void {
+    this.initChanges(newBranch);
   }
 
   onCloseDialog(dialogRef: MdDialogRef<TranslationsPreviewDialog>): void {

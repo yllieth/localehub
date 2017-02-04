@@ -5,7 +5,7 @@
 
   <div class="column small-3">
     <md-select placeholder="Branch" style="width: 100%" [(ngModel)]="selectedBranch">
-      <md-option *ngFor="let branch of project.availableBranches" [value]="branch">
+      <md-option *ngFor="let branch of project.availableBranches" [value]="branch" (onSelect)="onChangeBranch(branch)">
         {{ branch }}
       </md-option>
     </md-select>
