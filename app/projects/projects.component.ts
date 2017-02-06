@@ -26,7 +26,7 @@ export class ProjectsComponent implements OnInit {
     this.projects = [];
     this.authenticationService.initCurrentUser();
     this.projectsService.getProjects()
-      .then(projectsList => (this.hasProjects()) ? this.projects = projectsList : this.openNewProjectDialog())
+      .then(projectsList => (projectsList.length > 0) ? this.projects = projectsList : this.openNewProjectDialog())
       .catch(error => this.errorService.handleHttpError('404-001', error));
   }
 
