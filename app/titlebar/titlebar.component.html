@@ -23,7 +23,7 @@
       <button class="secondary button" (click)="onFold()"><i class="octicon octicon-fold"></i></button>
       <button class="secondary button" (click)="onDiff()"><i class="octicon octicon-diff"></i></button>
       <button class="secondary button" (click)="onExport()"><i class="octicon octicon-link-external"></i></button>
-      <button class="primary button" (click)="onCommit()">I'm done!</button>
+      <button class="primary button" (click)="onCommit()">I'm done!<span class="has-diff" *ngIf="project.pendingChanges.length > 0">{{ project.pendingChanges.length }}</span></button>
     </div>
   </div>
 </md-toolbar>

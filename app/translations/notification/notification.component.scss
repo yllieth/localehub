@@ -11,5 +11,5 @@ i.octicon-radio-tower {
 }
 
 .secondary {
-  color: map-get($foundation-palette, secondary);
+  color: get-color(secondary);
 }
