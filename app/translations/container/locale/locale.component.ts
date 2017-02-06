@@ -12,7 +12,7 @@ export class TranslationsLocaleComponent implements OnInit {
   @Input() locale: Locale;
   @Input() project: Project;
   isSavingTranslation: boolean;
-  isPending: true;
+  isPending: boolean;
 
   constructor(private projectsService: ProjectsService) { }
 
@@ -21,7 +21,7 @@ export class TranslationsLocaleComponent implements OnInit {
     this.isSavingTranslation = false;
 
     for(let change of this.project.pendingChanges) {
-      if (change.key === this.locale.keyPath + this.locale.key && change.branch === this.project.lastActiveBranch) {
+      if (change.key === this.locale.getCompleteKey() && change.branch === this.project.lastActiveBranch) {
         this.isPending = true;
         this.locale.values.map((value: Translation) => {
           if (change.languageCode === value.language.languageCode) {
@@ -55,9 +55,7 @@ export class TranslationsLocaleComponent implements OnInit {
     let update = new LocaleUpdate();
     update.languageCode = translation.language.languageCode;
     update.branch = this.project.lastActiveBranch;
-    update.key = (this.locale.keyPath)
-      ? this.locale.keyPath + '.' + this.locale.key
-      : this.locale.key;
+    update.key = this.locale.getCompleteKey();
     update.value = {
       oldString: translation.string,
       newString: translation.editedString

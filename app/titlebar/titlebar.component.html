@@ -7,7 +7,7 @@
       <span class="repo-container">
         <div class="repo-name">{{ project.name }}</div>
         <div class="branch-switcher">
-          <div class="branch-name"><span class="octicon octicon-git-branch"></span>&nbsp;master</div>
+          <div class="branch-name"><span class="octicon octicon-git-branch"></span>&nbsp;{{ project.lastActiveBranch }}</div>
           <div class="switch-branch-link"><a (click)="onOpenBranchSwitcher()">change branch</a></div>
         </div>
       </span>

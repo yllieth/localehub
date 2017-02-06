@@ -51,6 +51,12 @@ export class Locale {
     return this.expand();
   }
 
+  getCompleteKey(): string {
+    return (this.keyPath)
+      ? this.keyPath + '.' + this.key
+      : this.key;
+  }
+
   /**
    * Merge two sets of locales (from different languages).
    *
