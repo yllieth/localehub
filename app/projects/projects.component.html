@@ -1,6 +1,6 @@
 <lh-titlebar></lh-titlebar>
 
-<main *ngIf="projects != undefined">
+<main *ngIf="hasProjects()">
   <lh-projects-new (click)="openNewProjectDialog(projects)" class="cursor-pointer"></lh-projects-new>
   <lh-projects-card *ngFor="let project of projects"
                     [project]="project"
@@ -8,7 +8,7 @@
   </lh-projects-card>
 </main>
 
-<main *ngIf="projects == undefined">
+<main *ngIf="!hasProjects()">
   <div class="row align-middle main-full-height">
     <div class="column">
       <lh-loader [message]="'Loading projects...'"></lh-loader>
