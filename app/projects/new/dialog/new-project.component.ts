@@ -131,15 +131,13 @@ export class NewProjectDialog implements OnInit {
   }
 
   createProject(dialogRef: MdDialogRef<NewProjectDialog>): void {
+    // id, pendingChanges, createdBy are set by the projects-create lambda
     let payload = {
-      id: ApiService.generateUUID(),
       name: this.selectedRepo.name,
       availableBranches: this.branchList,
       lastActiveBranch: this.selectedBranch,
       i18nFiles: this.selectedLanguages,
       repository: this.selectedRepo,
-      pendingChanges: [],
-      createdBy: this.authenticationService.getCurrentUser()
     };
 
     this.isCreatingProject = true;
