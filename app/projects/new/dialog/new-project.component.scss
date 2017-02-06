@@ -4,6 +4,7 @@ fieldset {
   border: 1px solid $border-color;
   border-radius: $global-radius;
   padding-bottom: $global-spacing;
+  min-height: 170px;
 }
 
 legend {
@@ -23,4 +24,10 @@ select, input {
 img.avatar {
   @include square(30px);
   border-radius: 50%;
+}
+
+.margin-top-small-only {
+  @include breakpoint(medium down) {
+    margin-top: 30px;
+  }
 }

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialogRef, MdDialog, MdDialogConfig } from "@angular/material";
-import { NewProjectDialog } from "./new/dialog/new-project.component";
+import { MdDialogRef, MdDialog, MdDialogConfig } from '@angular/material';
+import { NewProjectDialog } from './new/dialog/new-project.component';
+
 import { AuthenticationService, ErrorService, ProjectsService } from '../+services';
-import { Project, User } from '../+models';
+import { Project } from '../+models';
 
 @Component({
   moduleId: module.id,
@@ -22,13 +23,18 @@ export class ProjectsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.projects = [];
     this.authenticationService.initCurrentUser();
     this.projectsService.getProjects()
-      .then(projectsList => (projectsList.length > 0) ? this.projects = projectsList : this.openNewProjectDialog([]))
+      .then(projectsList => (this.hasProjects()) ? this.projects = projectsList : this.openNewProjectDialog())
       .catch(error => this.errorService.handleHttpError('404-001', error));
   }
 
-  openNewProjectDialog(projects: Project[]): void {
+  hasProjects(): boolean {
+    return this.projects.length > 0;
+  }
+
+  openNewProjectDialog(): void {
     let newProjectDialog: MdDialogRef<NewProjectDialog>;
     let dialogConfig = new MdDialogConfig();
     dialogConfig.disableClose = false;
@@ -36,18 +42,21 @@ export class ProjectsComponent implements OnInit {
     dialogConfig.height = '570px';
 
     newProjectDialog = this.dialog.open(NewProjectDialog, dialogConfig);
-    newProjectDialog.componentInstance.existingProjects = projects.map(project => project.repository.fullName);
+    newProjectDialog.componentInstance.existingProjects = this.projects.map(project => project.repository.fullName);
 
     newProjectDialog.afterClosed().subscribe((result: Project) => {
       newProjectDialog = null;
 
       if (result !== undefined) {
-        (this.projects.length > 0) ? this.projects.push(result) : this.projects = [result];
+        this.projects.push(result);
       }
     });
   }
 
   onRemoveProject(removedProject: Project): void {
     this.projects = this.projects.filter(project => project.id !== removedProject.id);
+    if (this.hasProjects() === false) {
+      this.openNewProjectDialog();
+    }
   }
 }
