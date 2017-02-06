@@ -1,5 +1,0 @@
-@each $cursor in (pointer) {
-  .cursor-#{$cursor} {
-    cursor: $cursor;
-  };
-}
