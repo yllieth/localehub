@@ -52,7 +52,7 @@ export class TitlebarComponent implements OnInit {
     EventService.get('titlebar::expand-locales').emit(true);
   }
 
-  onDiff(): void {
+  onCommit(): void {
     let translationsPreviewDialog: MdDialogRef<TranslationsPreviewDialog>;
     let dialogConfig = new MdDialogConfig();
     dialogConfig.disableClose = false;
@@ -70,5 +70,4 @@ export class TitlebarComponent implements OnInit {
 
   onOpenBranchSwitcher(): void {}
   onExport(): void {}
-  onCommit(): void {}
 }

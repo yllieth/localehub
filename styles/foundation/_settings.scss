@@ -49,8 +49,8 @@
 $global-font-size: 100%;
 $global-width: rem-calc(1200);
 $global-lineheight: 1.5;
-$blue1: #4C8CC1;
-$blue2: #00ADC1;
+$blue1: #03A9F4;  // material palette "light-blue" (500)
+$blue2: #00BCD4;  // material palette "cyan" (500)
 $blue3: #006F91;
 $purple: #9261AF;
 $lightest-gray: #F7F9FA;
@@ -64,7 +64,7 @@ $foundation-palette: (
   primary: $blue1,
   secondary: $medium-gray,
   success: #6ACE81,
-  warning: #EAA22F,
+  warning: #FFC107,   // material palette "amber" (500)
   alert: #DD694E,
 );
 $border-color: $light-gray;

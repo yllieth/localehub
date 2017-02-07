@@ -12,7 +12,7 @@ legend {
 }
 
 i.material-icons {
-  &.info, &.add_circle_outline, &.switch_camera {
+  &.info, &.add_circle_outline, &.swap_vertical_circle {
     @include offset(6px);
   }
 }

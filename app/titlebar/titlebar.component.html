@@ -19,11 +19,22 @@
     </div>
 
     <div class="actions">
-      <button class="secondary button" (click)="onUnfold()"><i class="octicon octicon-unfold"></i></button>
-      <button class="secondary button" (click)="onFold()"><i class="octicon octicon-fold"></i></button>
-      <button class="secondary button" (click)="onDiff()"><i class="octicon octicon-diff"></i><span class="has-diff" *ngIf="project.pendingChanges.length > 0"></span></button>
-      <button class="secondary button" (click)="onExport()"><i class="octicon octicon-link-external"></i></button>
-      <button class="primary button" (click)="onCommit()">I'm done!<span class="has-diff" *ngIf="project.pendingChanges.length > 0">{{ project.pendingChanges.length }}</span></button>
-    </div>
+      <button md-raised-button color="secondary" (click)="onUnfold()">
+        <i class="octicon octicon-unfold"></i>
+      </button>
+
+      <button md-raised-button color="secondary" (click)="onFold()">
+        <i class="octicon octicon-fold"></i>
+      </button>
+
+      <button md-raised-button color="secondary" (click)="onExport()">
+        <i class="octicon octicon-link-external"></i>
+      </button>
+
+      <button md-raised-button color="primary" class="padding-horizontal" (click)="onCommit()">
+        <span>I'm done!</span>
+        <span class="has-diff" *ngIf="project.pendingChanges.length > 0">{{ project.pendingChanges.length }}</span>
+      </button>
+  </div>
   </div>
 </md-toolbar>
