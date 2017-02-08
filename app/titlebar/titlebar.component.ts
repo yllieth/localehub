@@ -40,6 +40,10 @@ export class TitlebarComponent implements OnInit {
       .subscribe(changes => this.project.pendingChanges = changes);
   }
 
+  isSaveDisabled(): boolean {
+    return this.project.pendingChanges.length <= 0;
+  }
+
   onClickProjects(): void {
     this.router.navigate(['/projects']);
   }
