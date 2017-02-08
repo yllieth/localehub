@@ -54,8 +54,13 @@
 
 <div class="row action-container" *ngIf="totalChanges > 0">
   <div class="column">
-    <button md-raised-button color="primary" (click)="onCommitChanges()">Save changes</button>
-    <button md-raised-button color="secondary" (click)="onCloseDialog(translationsPreviewDialog)">Close</button>
+    <button md-raised-button color="primary" (click)="onCommitChanges()">
+      <span *ngIf="!isCommitting">Save changes</span>
+      <span *ngIf="isCommitting">Saving...</span>
+    </button>
+    <button md-raised-button color="secondary" (click)="onCloseDialog(translationsPreviewDialog)">
+      Close
+    </button>
   </div>
 </div>
 

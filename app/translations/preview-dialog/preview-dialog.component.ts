@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 
 import { Language, Project } from '../../+models';
-import { LanguageService } from '../../+services';
+import { LanguageService, ProjectsService } from '../../+services';
 
 
 @Component({
   moduleId: module.id,
   selector: 'lh-translations-preview',
   templateUrl: 'preview-dialog.component.html',
-  styleUrls: [ 'preview-dialog.component.css' ]
+  styleUrls: [ 'preview-dialog.component.css' ],
+  providers: [ ProjectsService ]
 })
 export class TranslationsPreviewDialog implements OnInit {
   project: Project;       // from TitleBarComponent.openPreviewDialog : translationsPreviewDialog.componentInstance.project = project;
@@ -18,8 +19,10 @@ export class TranslationsPreviewDialog implements OnInit {
   selectedBranch: string;
   changes;                // {'en-US': <LocaleUpdate[]>, ...} of pendingChanges
   files;                  // {'en-US': <I18nFileInfo>, ...} of pendingChanges
+  isCommitting: boolean;
 
   constructor(
+    private projectsService: ProjectsService,
     public translationsPreviewDialog: MdDialogRef<TranslationsPreviewDialog>
   ) { }
 
@@ -53,6 +56,7 @@ export class TranslationsPreviewDialog implements OnInit {
   }
 
   ngOnInit() {
+    this.isCommitting = false;
     this.selectedBranch = this.project.lastActiveBranch;
   }
 
@@ -65,6 +69,18 @@ export class TranslationsPreviewDialog implements OnInit {
   }
 
   onCommitChanges(): void {
+    let payload = {};
+    this.isCommitting = true;
 
+    this.projectsService
+      .commit(this.project.id, payload)
+      .then(pullRequest => {
+        this.isCommitting = false;
+        console.log(pullRequest);
+      })
+      .catch(error => {
+        this.isCommitting = false;
+        console.error(error);
+      })
   }
 }

@@ -41,13 +41,11 @@ export class ProjectsService {
       .catch(error => Promise.reject(error));
   }
 
-  static getSupportedLanguages(project: Project): Language[] {
-    let languages = [];
-
-    for(let file of project.i18nFiles) {
-      languages.push(LanguageService.find(file.languageCode));
-    }
-
-    return languages;
+  commit(projectId: string, payload: any): Promise<any> {
+    return this.api
+      .patch(`${ApiService.endpoint.prod}/projects/${projectId}/translations`, payload)
+      .toPromise()
+      .then(response => response.json())
+      .catch(error => Promise.reject(error));
   }
 }
