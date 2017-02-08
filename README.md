@@ -24,10 +24,11 @@
 - :white_check_mark: `DONE` Create a project from an existing github repository.
 - :white_check_mark: `DONE` List created projects and show the number of I18N strings, available branches, and, supported languages.
 - :white_check_mark: `DONE` Save changes in the project. A pending change must belong to a branch name.
-- :soon: `TODO` Preview pending changes before committing.
-- :soon: `TODO` Allow the user to edit I18N files in a secured way: it must guarantee that any other file will be modified.
+- :white_check_mark: `DONE` Preview pending changes before committing.
+- :white_check_mark: `DONE` Commit pending changes
+- :soon: `TODO` Improve robustness of committing changes.
 - :soon: `TODO` Allow the user to work on different github branches.
-- :soon: `TODO` Once all modification are done, create a pull-request with -at least- one assignee.
+- :white_check_mark: `DONE` Once all modification are done, create a pull-request with -at least- one assignee.
 - :soon: `TODO` Allow the user to receive notifications from github on each change on the current repository and see if it affects his current work.
 
 ### Additional cool features - v1.1
