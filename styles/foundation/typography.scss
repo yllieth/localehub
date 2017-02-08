@@ -5,7 +5,7 @@
   .#{$property}-vertical { #{$property}-top: $global-spacing/2; #{$property}-bottom: $global-spacing/2; }
   .#{$property}-vertical-half { #{$property}-top: $global-spacing/4; #{$property}-bottom: $global-spacing/4; }
   .#{$property}-vertical-double { #{$property}-top: $global-spacing; #{$property}-bottom: $global-spacing; }
-  .#{$property}-horizontal { #{$property}-left: $global-spacing/2; #{$property}-right: $global-spacing/2; }
+  .#{$property}-horizontal { #{$property}-left: $global-spacing/2 !important; #{$property}-right: $global-spacing/2 !important; }
   .#{$property}-horizontal-half { #{$property}-left: $global-spacing/4; #{$property}-right: $global-spacing/4; }
   .#{$property}-horizontal-double { #{$property}-left: $global-spacing; #{$property}-right: $global-spacing; }
 

@@ -1,8 +1,6 @@
-@import 'styles/components/md-toolbar';
+@import 'styles/app.scss';
 
 md-toolbar {
-  @include banner($blue1, $white);
-
   /deep/ md-toolbar-row {
     font-family: $header-font-family;
     font-weight: 300;
@@ -12,5 +10,9 @@ md-toolbar {
 
 button {
   margin-right: $global-spacing;
+
+  i.app-toolbar-menu {
+    color: $white;
+  }
 }
 

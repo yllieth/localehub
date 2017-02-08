@@ -1,10 +1,14 @@
-@import 'styles/app.scss';
+@import 'toolbar/toolbar.scss'; // base theme file
+
+@include md-toolbar-height($banner-height);
+@include md-toolbar-theme($app-theme);
 
 md-toolbar {
-  padding: 0px $global-spacing;
+  min-height: $banner-height !important;
+  background: $white;
 
-  /deep/ md-toolbar-row {
-    font-family: $body-font-family;
+  md-toolbar-row {
     height: $banner-height;
+    font-family: $md-font-family;
   }
 }

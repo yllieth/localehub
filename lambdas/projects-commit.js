@@ -67,7 +67,7 @@ exports.handler = (event, context, callback) => {
 			responses.pr = pullRequest;
 			return clearPendingChanges(accessToken, responses.project);
 		})
-		.then(project => done(callback, null, project, 200))
+		.then(project => done(callback, null, {project, pull_request: responses.pr}, 200))
 		.catch(error => done(callback, error, null, 500));
 };
 
