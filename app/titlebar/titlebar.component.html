@@ -31,7 +31,7 @@
         <i class="octicon octicon-link-external"></i>
       </button>
 
-      <button md-raised-button color="primary" class="padding-horizontal" (click)="onCommit()">
+      <button md-raised-button color="primary" class="padding-horizontal" (click)="onCommit()" [attr.disabled]="project.pendingChanges.length <= 0">
         <span>I'm done!</span>
         <span class="has-diff" *ngIf="project.pendingChanges.length > 0">{{ project.pendingChanges.length }}</span>
       </button>

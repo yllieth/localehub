@@ -63,4 +63,8 @@ export class TranslationsPreviewDialog implements OnInit {
   onCloseDialog(dialogRef: MdDialogRef<TranslationsPreviewDialog>): void {
     dialogRef.close();
   }
+
+  onCommitChanges(): void {
+
+  }
 }

@@ -1,5 +1,21 @@
 @import 'styles/app.scss';
 
+:host {
+  height: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .row {
+    flex-direction: row;
+    width: 100%;
+  }
+}
+
+h1 {
+  margin: 0;
+}
+
 .close-container {
   text-align: center;
   transition: background-color 200ms ease-in-out, color 200ms ease;
@@ -20,7 +36,7 @@ i.label {
 
 .change-container {
   padding: 5px;
-  max-height: 330px;
+  max-height: 300px;
   cursor: pointer;
   transition: background-color 300ms ease;
 
@@ -48,4 +64,13 @@ i.label {
 .after-change {
   border-color: #c1e9c1;
   background-color: #dbffdb;
+}
+
+.action-container {
+  width: inherit !important;
+
+  button {
+    font-size: 130%;
+    width: 200px;
+  }
 }

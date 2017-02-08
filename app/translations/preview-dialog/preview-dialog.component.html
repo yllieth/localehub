@@ -1,4 +1,4 @@
-<div class="row align-middle margin-bottom">
+<div class="row align-middle">
   <div class="column small-8">
     <h1 md-dialog-title>List of saved changes ({{ totalChanges }})</h1>
   </div>
@@ -16,7 +16,7 @@
   </div>
 </div>
 
-<div class="row" *ngIf="totalChanges > 0">
+<div class="row" *ngIf="totalChanges > 0" style="height: 410px">
   <div class="column">
     <md-tab-group>
       <md-tab *ngFor="let language of languages">
@@ -49,6 +49,13 @@
         </div>
       </md-tab>
     </md-tab-group>
+  </div>
+</div>
+
+<div class="row action-container" *ngIf="totalChanges > 0">
+  <div class="column">
+    <button md-raised-button color="primary" (click)="onCommitChanges()">Save changes</button>
+    <button md-raised-button color="secondary" (click)="onCloseDialog(translationsPreviewDialog)">Close</button>
   </div>
 </div>
 
