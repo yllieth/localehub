@@ -20,16 +20,26 @@
 ## Features specification
 
 ### MVP - v1.0
-- :white_check_mark: `DONE` Login to the application from a github account.
-- :white_check_mark: `DONE` Create a project from an existing github repository.
-- :white_check_mark: `DONE` List created projects and show the number of I18N strings, available branches, and, supported languages.
-- :white_check_mark: `DONE` Save changes in the project. A pending change must belong to a branch name.
-- :white_check_mark: `DONE` Preview pending changes before committing.
-- :white_check_mark: `DONE` Commit pending changes
-- :soon: `TODO` Improve robustness of committing changes.
-- :soon: `TODO` Allow the user to work on different github branches.
-- :white_check_mark: `DONE` Once all modification are done, create a pull-request with -at least- one assignee.
-- :soon: `TODO` Allow the user to receive notifications from github on each change on the current repository and see if it affects his current work.
+- ##### Login
+  - :white_check_mark: `DONE` Login to the application from a github account.
+- ##### Projects
+  - :white_check_mark: `DONE` Create a project from an existing github repository.
+  - :white_check_mark: `DONE` List created projects and show the number of I18N strings, available branches, and, supported languages.
+  - :soon: `TODO` Support switching github branches.
+  - :white_check_mark: `DONE` Refresh the list of branches
+  - :white_check_mark: `DONE` Delete a project
+- ##### Translations
+  - :white_check_mark: `DONE` List all translations of an i18n files with a tree representing the structure of the json object.
+  - :soon: `TODO` Add a new locale
+  - :soon: `TODO` Remove a specific translation / an entire locale (in all supported languages)
+  - :soon: `TODO` Move a locale somewhere else in the tree
+  - :white_check_mark: `DONE` Edit an i18n string and save it. A pending change must belong to a branch name.  
+  - :white_check_mark: `DONE` Preview pending changes before committing.
+  - :white_check_mark: `DONE` Commit pending changes and create a pull request
+  - :soon: `TODO` Improve robustness of committing changes.
+- ##### Notifications
+  - :soon: `TODO` Receive notifications from github on each change on the current repository and see if it affects his current work.
+  - :soon: `TODO` Apply each pending change when a github update affects i18n files
 
 ### Additional cool features - v1.1
 
@@ -46,6 +56,10 @@
 
 ### Github limitations
 - Impossible to work with translation files larger than 1MB (https://developer.github.com/v3/repos/contents/#get-contents)
+
+### Application limitations
+- There is no i18n key named `##ROOT##`
+- Working branches must not be suffixed by `-localehub-(0-9)*`
 
 ## Mockups
 
