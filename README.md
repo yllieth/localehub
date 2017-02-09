@@ -20,15 +20,15 @@
 ## Features specification
 
 ### MVP - v1.0
-- ##### Login
+- **Login**
   - :white_check_mark: `DONE` Login to the application from a github account.
-- ##### Projects
+- **Projects**
   - :white_check_mark: `DONE` Create a project from an existing github repository.
   - :white_check_mark: `DONE` List created projects and show the number of I18N strings, available branches, and, supported languages.
   - :soon: `TODO` Support switching github branches.
   - :white_check_mark: `DONE` Refresh the list of branches
   - :white_check_mark: `DONE` Delete a project
-- ##### Translations
+- **Translations**
   - :white_check_mark: `DONE` List all translations of an i18n files with a tree representing the structure of the json object.
   - :soon: `TODO` Add a new locale
   - :soon: `TODO` Remove a specific translation / an entire locale (in all supported languages)
@@ -37,8 +37,8 @@
   - :white_check_mark: `DONE` Preview pending changes before committing.
   - :white_check_mark: `DONE` Commit pending changes and create a pull request
   - :soon: `TODO` Improve robustness of committing changes.
-- ##### Notifications
-  - :soon: `TODO` Receive notifications from github on each change on the current repository and see if it affects his current work.
+- **Notifications**
+  - :soon: `TODO` Receive notifications from github on each change on the current repo and see if it affects his current work.
   - :soon: `TODO` Apply each pending change when a github update affects i18n files
 
 ### Additional cool features - v1.1
