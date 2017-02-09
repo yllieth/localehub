@@ -40,6 +40,7 @@
 - **Notifications**
   - :soon: `TODO` Receive notifications from github on each change on the current repo and see if it affects his current work.
   - :soon: `TODO` Apply each pending change when a github update affects i18n files
+  - :soon: `TODO` Customize watched events via the _Settings_ page
 
 ### Additional cool features - v1.1
 
