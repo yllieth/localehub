@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
-import { AuthenticationService, ErrorService, GithubService, LanguageService, UserService } from "../../../+services";
-import { GithubRepository, I18nFileInfo, Language, User } from "../../../+models";
+import { AuthenticationService, ErrorService, GithubService, LanguageService, TranslationsService, UserService } from '../../../+services';
+import { GithubRepository, I18nFileInfo, Language, User } from '../../../+models';
 
 @Component({
   moduleId: module.id,
   selector: 'new-project-dialog',
   templateUrl: 'new-project.component.html',
-  styleUrls: [ 'new-project.component.css' ]
+  styleUrls: [ 'new-project.component.css' ],
+  providers: [ TranslationsService ]
 })
 export class NewProjectDialog implements OnInit {
   existingProjects: string[]; // from ProjectsComponent.openNewProjectDialog : newProjectDialog.componentInstance.existingProjects = projects.map(project => project.name);
@@ -33,6 +34,7 @@ export class NewProjectDialog implements OnInit {
     private githubService: GithubService,
     private errorService: ErrorService,
     private authenticationService: AuthenticationService,
+    private translationsService: TranslationsService,
     public newProjectDialog: MdDialogRef<NewProjectDialog>
   ) { }
 
@@ -83,7 +85,7 @@ export class NewProjectDialog implements OnInit {
   onClickAddLanguage(languageCode, path): void {
     this.parsingFile = {path, languageCode};
     this.resetNewFileErrors();
-    this.githubService
+    this.translationsService
       .checkI18nfile(this.selectedRepo.fullName, path, languageCode, this.selectedBranch)
       .then(fileInfo => {
         this.selectedLanguages.push(fileInfo);

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RequestOptions, URLSearchParams} from "@angular/http";
+import { RequestOptions, URLSearchParams, Response } from '@angular/http';
 import { I18nFileInfo, Language, LocaleFolder, Locale, Project } from '../+models';
 import { ApiService, LanguageService } from './';
 
@@ -84,6 +84,27 @@ export class TranslationsService {
       .get(`${ApiService.endpoint.prod}/projects/${projectId}/translations`, options)
       .toPromise()
       .then(response => response.json())
+      .catch(error => Promise.reject(error));
+  }
+
+  /**
+   * Checks if file given in the path parameter exists in the giver repo.
+   * If so, it parses the json object and count the number of defined translations.
+   * Github base request : GET api.github.com/repos/:owner/:repo/contents/:path
+   *   | using lambda: gh-get-repos-content
+   *   | using lambda: i18nFile-parse
+   *
+   * @param {string} repo - Ex: yllieth/localehub
+   * @param {string} path - Ex: assets/test/en.json
+   * @param {string} languageCode - Ex: en.json
+   * @param {string} branch - Ex: master
+   * @returns {Promise<I18nFileInfo>}
+   */
+  checkI18nfile(repo: string, path: string, languageCode: string, branch: string): Promise<I18nFileInfo> {
+    return this.api
+      .post(`${ApiService.endpoint.prod}/i18n/file`, {repo, path, languageCode, branch})
+      .toPromise()
+      .then((response: Response) => response.json() as I18nFileInfo)
       .catch(error => Promise.reject(error));
   }
 }
