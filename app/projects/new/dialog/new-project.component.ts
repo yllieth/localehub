@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
-import { AuthenticationService, ErrorService, GithubService, LanguageService, ProjectsService, TranslationsService, UserService } from '../../../+services';
+import { AuthenticationService, ErrorService, LanguageService, ProjectsService, RepositoriesService, TranslationsService, UserService } from '../../../+services';
 import { GithubRepository, I18nFileInfo, Language, User } from '../../../+models';
 
 @Component({
@@ -8,7 +8,7 @@ import { GithubRepository, I18nFileInfo, Language, User } from '../../../+models
   selector: 'new-project-dialog',
   templateUrl: 'new-project.component.html',
   styleUrls: [ 'new-project.component.css' ],
-  providers: [ ProjectsService, TranslationsService ]
+  providers: [ ProjectsService, RepositoriesService, TranslationsService ]
 })
 export class NewProjectDialog implements OnInit {
   existingProjects: string[]; // from ProjectsComponent.openNewProjectDialog : newProjectDialog.componentInstance.existingProjects = projects.map(project => project.name);
@@ -31,7 +31,7 @@ export class NewProjectDialog implements OnInit {
 
   constructor(
     private userService: UserService,
-    private githubService: GithubService,
+    private repoService: RepositoriesService,
     private errorService: ErrorService,
     private authenticationService: AuthenticationService,
     private projectService: ProjectsService,
@@ -41,8 +41,8 @@ export class NewProjectDialog implements OnInit {
 
   private loadRepositories(user: User) {
     this.repositoryList = undefined;  // tested in the view to show the loader
-    this.githubService
-      .getRepositories(user.login)
+    this.repoService
+      .getAll(user.login)
       .then((repos: GithubRepository[]) => this.repositoryList = repos.filter(githubRepo => this.existingProjects.indexOf(githubRepo.fullName) === -1))
   }
 
@@ -73,7 +73,7 @@ export class NewProjectDialog implements OnInit {
   onSelectRepository(repository: GithubRepository) {
     this.branchList = undefined;      // tested in the view to show the loader
     this.selectedBranch = undefined;  // reset branch if the repo changes after selecting a branch for a previous one
-    this.githubService
+    this.repoService
       .getBranches(repository.fullName)
       .then(branches => {
         this.branchList = branches;

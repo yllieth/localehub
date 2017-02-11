@@ -6,7 +6,7 @@ import { GithubRepository } from '../+models';
 import { ApiService } from './';
 
 @Injectable()
-export class GithubService {
+export class RepositoriesService {
   constructor(private api: ApiService) {}
 
   /**
@@ -18,7 +18,7 @@ export class GithubService {
    * @param {string} username - REQUIRED
    * @returns {Promise<GithubRepository[]>}
    */
-  getRepositories(username: string): Promise<GithubRepository[]> {
+  getAll(username: string): Promise<GithubRepository[]> {
     return this.api
       .get(`${ApiService.endpoint.prod}/repositories/${username}`)
       .toPromise()
