@@ -28,6 +28,7 @@ import { TranslationsListComponent } from './translations/list.component';
 import { TranslationsNotificationComponent } from './translations/notification/notification.component';
 import { TranslationsTreeComponent } from './translations/tree/tree.component';
 import { TranslationsContainerComponent } from './translations/container/container.component';
+import { LocaleFABNewComponent } from './translations/container/locale-fab-new/locale-fab-new.component';
 import { TranslationsLocaleComponent } from './translations/container/locale/locale.component';
 import { TranslationsPreviewDialog } from './translations/preview-dialog/preview-dialog.component';
 
@@ -61,6 +62,7 @@ function ApiFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Htt
     TranslationsNotificationComponent,
     TranslationsTreeComponent,
     TranslationsContainerComponent,
+    LocaleFABNewComponent,
     TranslationsLocaleComponent,
     TranslationsPreviewDialog
   ],
