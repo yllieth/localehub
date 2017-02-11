@@ -9,7 +9,7 @@ import { HighlightDiffPipe } from './+pipes/highlight-diff.pipe';
 
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
-import { ApiService, AuthenticationService, AuthenticationGuardService, ErrorService, EventService, GithubService } from './+services';
+import { ApiService, AuthenticationService, AuthenticationGuardService, ErrorService, EventService, GithubService, UserService } from './+services';
 
 import { LoginComponent } from './shared/login/login.component';
 import { ErrorContainerComponent } from './shared/error/error-container.component';
@@ -74,7 +74,8 @@ function ApiFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Htt
     AuthenticationGuardService,
     ErrorService,
     EventService,
-    GithubService
+    GithubService,
+    UserService
   ],
   bootstrap: [ AppComponent ]
 })

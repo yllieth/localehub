@@ -3,6 +3,7 @@ export * from './authentication-guard.service';
 export * from './error.service';
 export * from './events.service';
 export * from './github.service';     // must be before project.service and authentication.service
+export * from './user.service';       // must be befor authentication.service
 export * from './authentication.service';
 export * from './projects.service';
 export * from './translations.service';

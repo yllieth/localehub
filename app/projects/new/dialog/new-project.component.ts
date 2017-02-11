@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialogRef } from "@angular/material";
-import { ApiService, AuthenticationService, ErrorService, GithubService, LanguageService } from "../../../+services";
-import { GithubRepository, I18nFileInfo, Language } from "../../../+models";
-import {User} from "../../../+models/user";
+import { MdDialogRef } from '@angular/material';
+import { AuthenticationService, ErrorService, GithubService, LanguageService, UserService } from "../../../+services";
+import { GithubRepository, I18nFileInfo, Language, User } from "../../../+models";
 
 @Component({
   moduleId: module.id,
@@ -30,6 +29,7 @@ export class NewProjectDialog implements OnInit {
   isNewFileNotValid: boolean;
 
   constructor(
+    private userService: UserService,
     private githubService: GithubService,
     private errorService: ErrorService,
     private authenticationService: AuthenticationService,
@@ -54,7 +54,7 @@ export class NewProjectDialog implements OnInit {
     this.isNewFileNotFound = false;
     this.isNewFileNotValid = false;
 
-    this.githubService
+    this.userService
       .getOrganizations()
       .then((users: User[]) => this.otherUsers = users.filter(user => user.id != this.selectedUser.id));
 

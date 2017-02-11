@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { AuthenticationService, GithubService } from '../../+services';
+import { AuthenticationService, UserService } from '../../+services';
 
 @Component({
   moduleId: module.id,
@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
     private $route: ActivatedRoute,
     private $router: Router,
     private authentication: AuthenticationService,
-    private githubService : GithubService
+    private userService : UserService
   ) {}
 
   ngOnInit(): void {
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
         // hide state & code from the address bar
         this.$router.navigate(['/login']);
 
-        this.githubService
+        this.userService
           .createCurrentUser(query['code'], this.authentication.getState())
           .then(token => this.authentication.saveToken(token).redirection());
       } else {

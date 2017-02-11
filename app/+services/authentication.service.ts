@@ -3,7 +3,7 @@ import { Params, Router } from '@angular/router';
 import 'rxjs/add/operator/toPromise';
 
 import { User } from '../+models';
-import { ErrorService, GithubService } from './';
+import { ErrorService, UserService } from './';
 
 @Injectable()
 export class AuthenticationService {
@@ -58,7 +58,7 @@ export class AuthenticationService {
 
   constructor(
     private $router: Router,
-    private githubService: GithubService,
+    private userService: UserService,
     private errorService: ErrorService
   ) {}
 
@@ -110,7 +110,7 @@ export class AuthenticationService {
 
   initCurrentUser(): Promise<User> {
     return (this.currentUser === undefined)
-      ? this.githubService.getCurrentUser()
+      ? this.userService.getCurrentUser()
       : Promise.resolve(this.currentUser);
   }
 
