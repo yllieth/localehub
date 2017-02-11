@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, XHRBackend, RequestOptions, Http } from '@angular/http';
 import { MaterialModule } from '@angular/material';
+import 'hammerjs';
 
 import { TruncatePipe } from 'angular2-truncate';
 import { HighlightDiffPipe } from './+pipes/highlight-diff.pipe';
