@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
-import { GithubRepository } from '../+models';
+import { Repository } from '../+models';
 import { ApiService } from './';
 
 @Injectable()
@@ -16,13 +16,13 @@ export class RepositoriesService {
    *   | using lambda: repositories
    *
    * @param {string} username - REQUIRED
-   * @returns {Promise<GithubRepository[]>}
+   * @returns {Promise<Repository[]>}
    */
-  getAll(username: string): Promise<GithubRepository[]> {
+  getAll(username: string): Promise<Repository[]> {
     return this.api
       .get(`${ApiService.endpoint.prod}/repositories/${username}`)
       .toPromise()
-      .then((response: Response) => response.json() as GithubRepository[])
+      .then((response: Response) => response.json() as Repository[])
       .catch(error => Promise.reject(error));
   }
 

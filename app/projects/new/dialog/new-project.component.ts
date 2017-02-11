@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 import { AuthenticationService, ErrorService, LanguageService, ProjectsService, RepositoriesService, TranslationsService, UserService } from '../../../+services';
-import { GithubRepository, I18nFileInfo, Language, User } from '../../../+models';
+import { Repository, I18nFileInfo, Language, User } from '../../../+models';
 
 @Component({
   moduleId: module.id,
@@ -15,8 +15,8 @@ export class NewProjectDialog implements OnInit {
   selectedUser: User;
   otherUsers: User[];
   showOtherUsers: boolean;
-  selectedRepo: GithubRepository;
-  repositoryList: GithubRepository[];
+  selectedRepo: Repository;
+  repositoryList: Repository[];
   branchList: string[];
   selectedBranch: string;
   languages: Language[];
@@ -43,7 +43,7 @@ export class NewProjectDialog implements OnInit {
     this.repositoryList = undefined;  // tested in the view to show the loader
     this.repoService
       .getAll(user.login)
-      .then((repos: GithubRepository[]) => this.repositoryList = repos.filter(githubRepo => this.existingProjects.indexOf(githubRepo.fullName) === -1))
+      .then((repos: Repository[]) => this.repositoryList = repos.filter(githubRepo => this.existingProjects.indexOf(githubRepo.fullName) === -1))
   }
 
   ngOnInit() {
@@ -70,7 +70,7 @@ export class NewProjectDialog implements OnInit {
       /*.catch(error => this.errorService.handleHttpError('404-001', error))*/;
   }
 
-  onSelectRepository(repository: GithubRepository) {
+  onSelectRepository(repository: Repository) {
     this.branchList = undefined;      // tested in the view to show the loader
     this.selectedBranch = undefined;  // reset branch if the repo changes after selecting a branch for a previous one
     this.repoService

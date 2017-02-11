@@ -22,7 +22,7 @@ import { User } from "./user";
  *   "fork": false
  * }
  */
-export class GithubRepository {
+export class Repository {
   id: number;
   name: string;
   fullName: string;
