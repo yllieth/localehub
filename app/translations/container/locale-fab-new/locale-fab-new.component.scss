@@ -1,0 +1,34 @@
+@import 'styles/app.scss';
+
+:host {
+  position: absolute;
+  right: -28px;
+  top: 12px;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  background-color: #F44336;
+  color: $white;
+  transition: transform 500ms ease-in-out;
+
+  /deep/ .md-button-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  &.rotate-45 {
+    transform: rotate(45deg);
+  }
+
+  &.rotate-180 {
+    transform: rotate(180deg);
+  }
+}
+
+md-icon {
+  display: flex;
+  align-items: center;
+}
