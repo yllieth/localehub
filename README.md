@@ -21,26 +21,26 @@
 
 ### MVP - v1.0
 - **Login**
-  - :white_check_mark: `DONE` Login to the application from a github account.
+  - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/2) Login to the application from a github account.
 - **Projects**
-  - :white_check_mark: `DONE` Create a project from an existing github repository.
-  - :white_check_mark: `DONE` List created projects and show the number of I18N strings, available branches, and, supported languages.
-  - :soon: `TODO` Support switching github branches.
-  - :white_check_mark: `DONE` Refresh the list of branches
-  - :white_check_mark: `DONE` Delete a project
+  - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/3) Create a project from an existing github repository.
+  - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/4) List created projects and show the number of I18N strings, available branches, and, supported languages.
+  - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/50) Support switching github branches.
+  - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/51) Refresh the list of branches
+  - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/52) Delete a project
 - **Translations**
-  - :white_check_mark: `DONE` List all translations of an i18n files with a tree representing the structure of the json object.
-  - :soon: `TODO` Add a new locale
-  - :soon: `TODO` Remove a specific translation / an entire locale (in all supported languages)
-  - :soon: `TODO` Move a locale somewhere else in the tree
-  - :white_check_mark: `DONE` Edit an i18n string and save it. A pending change must belong to a branch name.  
-  - :white_check_mark: `DONE` Preview pending changes before committing.
-  - :white_check_mark: `DONE` Commit pending changes and create a pull request
-  - :soon: `TODO` Improve robustness of committing changes.
+  - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/5) List all translations of an i18n files with a tree representing the structure of the json object.
+  - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/53) Add a new locale
+  - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/54) Remove a specific translation / an entire locale (in all supported languages)
+  - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/55) Move a locale somewhere else in the tree
+  - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/45) Edit an i18n string and save it. A pending change must belong to a branch name.  
+  - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/46) Preview pending changes before committing.
+  - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/7) Commit pending changes and create a pull request
+  - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/57) Improve robustness of committing changes.
 - **Notifications**
-  - :soon: `TODO` Receive notifications from github on each change on the current repo and see if it affects his current work.
-  - :soon: `TODO` Apply each pending change when a github update affects i18n files
-  - :soon: `TODO` Customize watched events via the _Settings_ page
+  - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/8) Receive notifications from github on each change on the current repo and see if it affects his current work.
+  - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/58) Apply each pending change when a github update affects i18n files
+  - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/59) Customize watched events via the _Settings_ page
 
 ### Additional cool features - v1.1
 
