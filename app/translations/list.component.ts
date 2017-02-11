@@ -26,7 +26,7 @@ export class TranslationsListComponent implements OnInit {
     this.authenticationService.initCurrentUser();
     this.$route.params.forEach((params: Params) => {
       this.projectsService
-        .getProject(params['projectId'])
+        .getOne(params['projectId'])
         .then(project => this.project = project)
         .then((_) => this.translationsService
           .getDictionaries(this.project)

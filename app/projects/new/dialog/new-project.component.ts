@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
-import { AuthenticationService, ErrorService, GithubService, LanguageService, TranslationsService, UserService } from '../../../+services';
+import { AuthenticationService, ErrorService, GithubService, LanguageService, ProjectsService, TranslationsService, UserService } from '../../../+services';
 import { GithubRepository, I18nFileInfo, Language, User } from '../../../+models';
 
 @Component({
@@ -8,7 +8,7 @@ import { GithubRepository, I18nFileInfo, Language, User } from '../../../+models
   selector: 'new-project-dialog',
   templateUrl: 'new-project.component.html',
   styleUrls: [ 'new-project.component.css' ],
-  providers: [ TranslationsService ]
+  providers: [ ProjectsService, TranslationsService ]
 })
 export class NewProjectDialog implements OnInit {
   existingProjects: string[]; // from ProjectsComponent.openNewProjectDialog : newProjectDialog.componentInstance.existingProjects = projects.map(project => project.name);
@@ -34,6 +34,7 @@ export class NewProjectDialog implements OnInit {
     private githubService: GithubService,
     private errorService: ErrorService,
     private authenticationService: AuthenticationService,
+    private projectService: ProjectsService,
     private translationsService: TranslationsService,
     public newProjectDialog: MdDialogRef<NewProjectDialog>
   ) { }
@@ -143,8 +144,8 @@ export class NewProjectDialog implements OnInit {
     };
 
     this.isCreatingProject = true;
-    this.githubService
-      .createProject(payload)
+    this.projectService
+      .create(payload)
       .then(project => {
         this.isCreatingProject = false;
         dialogRef.close(project);
