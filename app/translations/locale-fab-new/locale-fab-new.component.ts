@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 @Component({
   moduleId: module.id,
@@ -8,10 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LocaleFABNewComponent implements OnInit{
   classname: string;
+  isNewClicked: boolean;
+
+  @Output() showNewLocaleForm = new EventEmitter<boolean>();
 
   constructor() { }
 
   ngOnInit() {
+    this.isNewClicked = false;
     this.onStandardFAB();
   }
 
@@ -24,6 +28,8 @@ export class LocaleFABNewComponent implements OnInit{
   }
 
   onClickFAB(): void {
-    this.classname = 'rotate-45'
+    this.classname = 'rotate-45';
+    this.isNewClicked = !this.isNewClicked;
+    this.showNewLocaleForm.emit(this.isNewClicked);
   }
 }

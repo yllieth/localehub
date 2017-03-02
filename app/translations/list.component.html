@@ -11,7 +11,8 @@
   </div>
 
   <div class="columns large-10 medium-9 locales-list">
-    <lh-new-locale-fab></lh-new-locale-fab>
+    <lh-new-locale-fab (showNewLocaleForm)="onShowNewLocaleForm($event)"></lh-new-locale-fab>
+    <div *ngIf="showNewLocaleForm">new</div>
     <lh-locale *ngFor="let locale of selected.getLocales()" [locale]="locale" [project]="project"></lh-locale>
   </div>
 </div>
