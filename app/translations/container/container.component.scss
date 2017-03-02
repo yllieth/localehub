@@ -1,7 +1,0 @@
-@import 'styles/app.scss';
-
-:host {
-  display: block;
-  position: relative;  // allow custom placement of fab for adding a new locale
-  margin-right: 16px;  // align the right side of the list of locales with the I'm done button, and allow placing FAB
-}

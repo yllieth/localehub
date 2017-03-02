@@ -12,6 +12,7 @@
   border-radius: $global-radius;
   background-color: $white;
   transition: margin 150ms ease-in-out;
+  margin-right: 16px;  // align the right side of the list of locales with the I'm done button, and allow placing FAB
 
   &.expanded {
     margin: $global-spacing $global-spacing*-1/2 $global-spacing $global-spacing*-1;

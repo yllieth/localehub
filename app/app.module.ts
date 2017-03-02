@@ -27,9 +27,8 @@ import { ProjectsCardComponent } from './projects/projects-card/projects-card.co
 import { TranslationsListComponent } from './translations/list.component';
 import { TranslationsNotificationComponent } from './translations/notification/notification.component';
 import { TranslationsTreeComponent } from './translations/tree/tree.component';
-import { TranslationsContainerComponent } from './translations/container/container.component';
-import { LocaleFABNewComponent } from './translations/container/locale-fab-new/locale-fab-new.component';
-import { TranslationsLocaleComponent } from './translations/container/locale/locale.component';
+import { LocaleFABNewComponent } from './translations/locale-fab-new/locale-fab-new.component';
+import { TranslationsLocaleComponent } from './translations/locale/locale.component';
 import { TranslationsPreviewDialog } from './translations/preview-dialog/preview-dialog.component';
 
 function ApiFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
@@ -61,7 +60,6 @@ function ApiFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Htt
     TranslationsListComponent,
     TranslationsNotificationComponent,
     TranslationsTreeComponent,
-    TranslationsContainerComponent,
     LocaleFABNewComponent,
     TranslationsLocaleComponent,
     TranslationsPreviewDialog
