@@ -1,0 +1,6 @@
+@import 'styles/app.scss';
+
+.locale {
+  @include locale();
+  margin-top: 0 !important;   // the new locale form is always the first in the list, and the first child of the list does not have a top margin
+}
