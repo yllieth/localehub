@@ -46,9 +46,7 @@ i.label {
 }
 
 .change-key {
-  font-family: monospace;
-  font-weight: bold;
-  font-size: 150%
+  @include key-part();
 }
 
 .after-change, .before-change {

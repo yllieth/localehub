@@ -92,3 +92,10 @@
     }
   }
 }
+
+@mixin key-part() {
+  background-color: $blue2;
+  color: white;
+  padding: 7px $global-spacing/2;
+  border-radius: $global-radius;
+}
