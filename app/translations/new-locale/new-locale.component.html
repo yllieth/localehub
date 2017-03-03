@@ -7,11 +7,13 @@
     </div>
     <div class="column small-7">
       <div class="name">
-        <span *ngFor="let part of keyPath" style="display: flex">
+        <span *ngFor="let part of getKeyParts()" style="display: flex">
           <span class="key-part">{{ part }}</span>
           <span class="bold margin-horizontal-half" style="align-self: center">.</span>
         </span>
-        <input type="text" autofocus placeholder="Type the title of your new locale here">
+        <input type="text" autofocus placeholder="Type the title of your new locale here"
+               disabled="{{ isSaving }}"
+               [(ngModel)]="key">
       </div>
     </div>
     <div class="column small-3"></div>
@@ -22,14 +24,16 @@
     <li *ngFor="let language of languages; let i = index">
       <div class="row align-middle" style="margin: 0">
         <!-- Flag & Language code -->
-        <div class="column small-2 color-secondary" mdTooltip="{{ language.languageName }}" mdTooltipPosition="left">
+        <div class="column small-2 color-secondary">
           <span class="flag-icon flag-icon-{{ language.flagClass }} margin-right-half"></span>
           <span>{{ language.languageCode }}</span>
         </div>
 
         <!-- input -->
         <div class="column small-7">
-          <input type="text"/>
+          <input type="text" placeholder="{{ language.languageName }} version for {{ key }}"
+                 disabled="{{ isSaving }}"
+                 [(ngModel)]="values[language.languageCode]"/>
         </div>
 
         <div class="column small-3" *ngIf="i == 2">
@@ -39,4 +43,4 @@
       </div>
     </li>
   </ul>
-</div>
+</div

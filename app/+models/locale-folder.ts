@@ -13,6 +13,8 @@ export class LocaleFolder {
   locales: Locale[];
   expanded: boolean;
 
+  public static ROOT_NAME = '##ROOT##';
+
   constructor(path: string) {
     this.path = path;
     this.name = path.split('.').pop();

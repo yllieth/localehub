@@ -9,10 +9,18 @@ export class Translation {
   editedString: string;
   isPending: boolean;
 
-  constructor(language: Language, string: string) {
+  constructor(language: Language, string: string, isPending?: boolean) {
     this.language = language;
-    this.string = string;
-    this.editedString = null;
-    this.isPending = false;
+    this.isPending = isPending;
+
+    if (isPending === true) {
+      // add a new locale
+      this.string = null;
+      this.editedString = string;
+    } else {
+      // define an existing locale
+      this.string = string;
+      this.editedString = null;
+    }
   }
 }

@@ -1,4 +1,5 @@
 import { Language, Translation } from './';
+import {LocaleUpdate} from "./localeUpdate";
 
 export class Locale {
   key: string;            // ex: subtitle
@@ -16,22 +17,42 @@ export class Locale {
    * @param languages         The list of supported languages
    */
   constructor(key: string, value: string, currentLanguage: Language, languages: Language[]) {
-    let keyParts = key.split('.');
     if (this.values === undefined) { this.values = [] }
 
-    this.key = keyParts.pop();
-    this.keyPath = keyParts.join('.');
+    this.setKey(key);
     this.expanded = false;
 
     if (value !== null && currentLanguage !== null && languages.length > 0) {
-      this.addTranslation(currentLanguage, value, languages);
+      this.addTranslation(currentLanguage, value, languages, false);
     } else {
       this.missing = languages;   // creates an empty locale
     }
   }
 
+  // --- ACCESSORS ------------------------------------------------------------
+
+  /**
+   * Returns the values property of the current Locale instance
+   * @returns {Translation[]}
+   */
   getValues(): Translation[] {
     return this.values;
+  }
+
+  /**
+   * Tells if the locale has some missing translations (counts the number of items in the missing property)
+   * @returns {boolean}
+   */
+  hasMissingTranslations(): boolean {
+    return this.missing.length > 0;
+  }
+
+  /**
+   * Return the missing property of this object
+   * @returns {Language[]}
+   */
+  getMissingTranslations(): Language[] {
+    return this.missing;
   }
 
   /**
@@ -40,36 +61,40 @@ export class Locale {
    * @param language            - The language of the added translation
    * @param string              - The translation to add
    * @param supportedLanguages  - The list of supported languages (required to update the list of missing translations)
+   * @param isPending           - OPTIONAL: Allow creating a new translation (oldString = null, newString = string)
    */
-  addTranslation(language: Language, string: string, supportedLanguages: Language[]) {
-    let translation = new Translation(language, string);
+  addTranslation(language: Language, string: string, supportedLanguages: Language[], isPending?: boolean) {
+    let translation = new Translation(language, string, isPending);
 
     this.values.push(translation);
-    this.missing = supportedLanguages.filter((lang: Language) => lang != language);
+    this.missing = this.computeMissingTranslations(supportedLanguages);
   }
 
-  hasMissingTranslations(): boolean {
-    return this.missing.length > 0;
-  }
+  /**
+   * Defines both key and keyPath property of the current Locale instance.
+   *
+   * @param key - Dot delimited string representing the complete path of the key - Ex: 'product_name', 'errors.not_found'
+   * @returns {Locale}
+   */
+  setKey(key: string): Locale {
+    let keyParts = key.split('.');
+    this.key = keyParts.pop();
+    this.keyPath = keyParts.join('.');
 
-  getMissingTranslations(): Language[] {
-    return this.missing;
-  }
-
-  expand(state?: boolean): Locale {
-    this.expanded = (state === undefined) ? !this.expanded : state;
     return this;
   }
 
-  toggle(): Locale {
-    return this.expand();
-  }
-
+  /**
+   * Returns a dot separated complete version of the key taking into account nested objects
+   * @returns {string}
+   */
   getCompleteKey(): string {
     return (this.keyPath)
       ? this.keyPath + '.' + this.key
       : this.key;
   }
+
+  // --- CLASS METHODS --------------------------------------------------------
 
   /**
    * Merge two sets of locales (from different languages).
@@ -99,5 +124,36 @@ export class Locale {
         console.error('Internal error: the key ' + searchedKey + ' has been found ' + found.length + ' times. The input file is errored.')
       }
     }
+  }
+
+  // --- INSTANCE METHODS -----------------------------------------------------
+
+  /**
+   * Sets the missing property of the current Locale instance by comparing the given list of supportedLanguages and the
+   * already defined values in the values property.
+   * @param supportedLanguages - The list of supported languages
+   * @returns {Array}
+   */
+  computeMissingTranslations(supportedLanguages: Language[]): Language[] {
+    let miss = [];
+    let definedLanguages = this.values.map(translation => translation.language);
+
+    for (let supportedLanguage of supportedLanguages) {
+      let found = definedLanguages.filter(definedLanguage => definedLanguage.languageCode === supportedLanguage.languageCode);
+      if (found.length === 0) {
+        miss.push(supportedLanguage);
+      }
+    }
+
+    return miss;
+  }
+
+  expand(state?: boolean): Locale {
+    this.expanded = (state === undefined) ? !this.expanded : state;
+    return this;
+  }
+
+  toggle(): Locale {
+    return this.expand();
   }
 }

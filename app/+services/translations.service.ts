@@ -39,7 +39,7 @@ export class TranslationsService {
   }
 
   createList(dictionaries: {content: any, metadata: I18nFileInfo}[]): LocaleFolder {
-    let root = new LocaleFolder('##ROOT##');
+    let root = new LocaleFolder(LocaleFolder.ROOT_NAME);
     let languages: Language[] = dictionaries.map(d => LanguageService.find(d.metadata.languageCode));
     let formattedDictionaries = []; // { content: any, language: Language }
 
