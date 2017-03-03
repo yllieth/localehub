@@ -10,7 +10,7 @@ export class LocaleFABNewComponent implements OnInit{
   classname: string;
   isNewClicked: boolean;
 
-  @Output() showNewLocaleForm = new EventEmitter<boolean>();
+  @Output() toggleNewLocaleForm = new EventEmitter<boolean>();
 
   constructor() { }
 
@@ -20,16 +20,16 @@ export class LocaleFABNewComponent implements OnInit{
   }
 
   onStandardFAB(): void {
-    this.classname = '';
+    this.classname = (this.isNewClicked) ? 'rotate-45' : '';
   }
 
   onHoverFAB(): void {
-    this.classname = 'rotate-180';
+    this.classname = (this.isNewClicked) ? 'rotate-225' : 'rotate-180';
   }
 
   onClickFAB(): void {
-    this.classname = 'rotate-45';
+    this.classname = (this.isNewClicked) ? '' : 'rotate-225';
     this.isNewClicked = !this.isNewClicked;
-    this.showNewLocaleForm.emit(this.isNewClicked);
+    this.toggleNewLocaleForm.emit(this.isNewClicked);
   }
 }

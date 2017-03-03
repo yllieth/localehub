@@ -11,12 +11,13 @@
   </div>
 
   <div class="columns large-10 medium-9 locales-list">
-    <lh-new-locale-fab (showNewLocaleForm)="onShowNewLocaleForm($event)"></lh-new-locale-fab>
-    <lh-new-locale *ngIf="showNewLocaleForm"></lh-new-locale>
+    <lh-new-locale-fab (toggleNewLocaleForm)="onToggleNewLocaleForm($event)"></lh-new-locale-fab>
+    <lh-new-locale *ngIf="newLocaleFormVisible"
+                   [languages]="supportedLanguages(project)"
+                   [keyPath]="newLocalePath()"></lh-new-locale>
     <lh-locale *ngFor="let locale of selected.getLocales()"
                [locale]="locale"
-               [project]="project">
-    </lh-locale>
+               [project]="project"></lh-locale>
   </div>
 </div>
 

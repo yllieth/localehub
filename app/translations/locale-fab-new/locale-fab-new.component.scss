@@ -3,7 +3,7 @@
 :host {
   position: absolute;
   right: 0;
-  top: 12px;
+  top: 21px;
 }
 
 button {
@@ -25,6 +25,10 @@ button {
 
   &.rotate-180 {
     transform: rotate(180deg);
+  }
+
+  &.rotate-225 {
+    transform: rotate(225deg);
   }
 }
 

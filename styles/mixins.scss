@@ -36,9 +36,6 @@
 }
 
 @mixin locale() {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   box-shadow: 0 0 5px $border-color;
   border-radius: $global-radius;
   background-color: $white;
@@ -70,7 +67,6 @@
     width: 100%;
     border-top: 1px solid $border-color;
     margin: 0;
-    padding: $global-spacing/2 0;
 
     li {
       list-style: none;

@@ -1,37 +1,51 @@
 import { Language, Translation } from './';
 
-/**
- * A locale associates an i18n key with one (or more) translation(s).
- *
- * Example
- * - key: "subtitle"
- * - keyPath: "pages.about"
- * - values:
- *   - lang: fr,    string: %{brand} est fait par des <span>humains</span>
- *   - lang: en-US, string: %{brand% is made by <span>humans</span>
- * - missing: [ "ja" ]
- */
 export class Locale {
-  key: string;
-  keyPath: string;
-  values: Translation[];
-  missing: Language[];
-  expanded: boolean;
+  key: string;            // ex: subtitle
+  keyPath: string;        // ex: pages.about
+  values: Translation[];  // ex: {language: 'fr', string: '%{brand} est fait par des <span>humains</span>', editedString: null, isPending: false}
+  missing: Language[];    // ex: {languageName: '', languageCode: '', flagClass: ''}
+  expanded: boolean;      // ex: true
 
+  /**
+   * A locale associates an i18n key with one (or more) translation(s).
+   *
+   * @param key               The complete json path delimited by '.' - Ex: pages.about.subtitle
+   * @param value
+   * @param currentLanguage   The language object corresponding to init value
+   * @param languages         The list of supported languages
+   */
   constructor(key: string, value: string, currentLanguage: Language, languages: Language[]) {
-    let translation = new Translation(currentLanguage, value);
-    if (this.values === undefined) { this.values = [] }
     let keyParts = key.split('.');
+    if (this.values === undefined) { this.values = [] }
 
     this.key = keyParts.pop();
     this.keyPath = keyParts.join('.');
-    this.values.push(translation);
-    this.missing = languages.filter((lang: Language) => lang != currentLanguage);
     this.expanded = false;
+
+    if (value !== null && currentLanguage !== null && languages.length > 0) {
+      this.addTranslation(currentLanguage, value, languages);
+    } else {
+      this.missing = languages;   // creates an empty locale
+    }
   }
 
   getValues(): Translation[] {
     return this.values;
+  }
+
+  /**
+   * Adds a new entry in the values array and updates list of missing translations
+   *
+   * @param language            - The language of the added translation
+   * @param string              - The translation to add
+   * @param supportedLanguages  - The list of supported languages (required to update the list of missing translations)
+   */
+  addTranslation(language: Language, string: string, supportedLanguages: Language[]) {
+    let translation = new Translation(language, string);
+
+    this.values.push(translation);
+    this.missing = supportedLanguages.filter((lang: Language) => lang != language);
   }
 
   hasMissingTranslations(): boolean {

@@ -8,12 +8,14 @@ import { Language, Locale } from './';
  */
 export class LocaleFolder {
   name: string;
+  path: string;
   children: LocaleFolder[];
   locales: Locale[];
   expanded: boolean;
 
-  constructor(name: string) {
-    this.name = name;
+  constructor(path: string) {
+    this.path = path;
+    this.name = path.split('.').pop();
     this.children = [];
     this.locales = [];
     this.expanded = false;
@@ -42,6 +44,10 @@ export class LocaleFolder {
 
   getLocales(): Locale[] {
     return this.locales;
+  }
+
+  getPath(): string {
+    return this.path;
   }
 
   initialize(children: LocaleFolder[], locales: Locale[]): LocaleFolder {

@@ -13,7 +13,7 @@ export class TranslationsService {
         let value = locales[key];
         let parent = (jsonPath === null) ? key : jsonPath + '.' + key;
         if (typeof value === 'object') {
-          serializeDeepKeys(parent, value, folder.addTrustedChild(key));
+          serializeDeepKeys(parent, value, folder.addTrustedChild(parent));
         }
         if (typeof value === 'string') {
           folder.addTrustedLocale(parent, value, currentLanguage, allLanguages);
