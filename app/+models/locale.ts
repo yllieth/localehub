@@ -156,4 +156,23 @@ export class Locale {
   toggle(): Locale {
     return this.expand();
   }
+
+  toLocaleUpdate(branch: string): LocaleUpdate[] {
+    let updates = [];
+
+    for (let newLocale of this.values) {
+      let update = new LocaleUpdate();
+      update.languageCode = newLocale.language.languageCode;
+      update.key = this.getCompleteKey();
+      update.branch = branch;
+      update.value = {
+        oldString: newLocale.string,
+        newString: newLocale.editedString
+      };
+
+      updates.push(update);
+    }
+
+    return updates;
+  }
 }

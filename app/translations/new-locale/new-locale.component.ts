@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Language, Locale, LocaleFolder } from '../../+models';
-import { LanguageService } from '../../+services';
-import {LocaleUpdate} from "../../+models/localeUpdate";
+import { Language, Locale, LocaleFolder, Project } from '../../+models';
+import { EventService, LanguageService, ProjectsService } from '../../+services';
 
 @Component({
   moduleId: module.id,
@@ -12,13 +11,14 @@ import {LocaleUpdate} from "../../+models/localeUpdate";
 export class TranslationsNewLocaleComponent implements OnInit, OnDestroy {
   @Input() languages: Language[];     // list of supported languages
   @Input() keyPath: string[];         // depend on selected locale folder
+  @Input() project: Project;
 
   temporaryLocale: Locale;
   isSaving: boolean;
   key: string; // ngModel of the typed key part
   values: any; // ngModel od the typed value
 
-  constructor() { }
+  constructor(private projectsService: ProjectsService) { }
 
   ngOnInit() {
     this.temporaryLocale = new Locale('', null, null, this.languages);
@@ -49,5 +49,18 @@ export class TranslationsNewLocaleComponent implements OnInit, OnDestroy {
         this.temporaryLocale.addTranslation(LanguageService.find(languageCode), this.values[languageCode], this.languages, true);
       }
     }
+
+    this.projectsService
+      .update(this.project.id, 'append-pendingChanges', this.temporaryLocale.toLocaleUpdate(this.project.lastActiveBranch))
+      .then(updatedProject => {
+        // Notify titlebar
+        EventService.get('translations::updated-changes').emit(updatedProject.pendingChanges);
+
+        // Internal updates
+        this.isSaving = false;
+        this.project = updatedProject;
+
+        // New locale in the list
+      });
   }
 }

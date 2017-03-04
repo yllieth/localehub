@@ -13,6 +13,7 @@
   <div class="columns large-10 medium-9 locales-list">
     <lh-new-locale-fab (toggleNewLocaleForm)="onToggleNewLocaleForm($event)"></lh-new-locale-fab>
     <lh-new-locale *ngIf="newLocaleFormVisible"
+                   [project]="project"
                    [languages]="supportedLanguages(project)"
                    [keyPath]="newLocalePath()"></lh-new-locale>
     <lh-locale *ngFor="let locale of selected.getLocales()"

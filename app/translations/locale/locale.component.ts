@@ -62,7 +62,7 @@ export class TranslationsLocaleComponent implements OnInit {
     };
 
     this.projectsService
-      .update(this.project.id, 'append-pendingChanges', update)
+      .update(this.project.id, 'append-pendingChanges', [update])
       .then(updatedProject => {
         // Notify titlebar
         EventService.get('translations::updated-changes').emit(updatedProject.pendingChanges);

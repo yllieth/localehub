@@ -41,7 +41,7 @@ function buildQuery(projectId, body) {
 			Key: {id: projectId},
 			ReturnValues: 'ALL_NEW',
 			UpdateExpression: 'set pendingChanges = list_append (pendingChanges, :editedValue)',
-			ExpressionAttributeValues: { ':editedValue': [changes] }
+			ExpressionAttributeValues: { ':editedValue': changes }
 		};
 	} else if (operation === 'set-pendingChanges') {
 		params = {
