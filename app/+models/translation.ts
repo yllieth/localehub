@@ -15,7 +15,7 @@ export class Translation {
 
     if (isPending === true) {
       // add a new locale
-      this.string = null;
+      this.string = undefined;  // must be undefined to match the output of deepGetter function in the commit lambda (see projects-commit::apply())
       this.editedString = string;
     } else {
       // define an existing locale

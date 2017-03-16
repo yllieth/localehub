@@ -345,6 +345,9 @@ function deepSetter(obj, path, value) {
 	// path = path.split('.');
 	let i = 0;
 	for (i = 0; i < path.length - 1; i++) {
+		if (obj.hasOwnProperty(path[i]) === false) {
+			obj[path[i]] = {};
+		}
 		obj = obj[path[i]];
 	}
 
@@ -355,7 +358,11 @@ function deepGetter(obj, path) {
 	// path = path.split('.');
 	let i = 0;
 	for (i = 0; i < path.length - 1; i++) {
-		obj = obj[path[i]];
+		if (obj.hasOwnProperty(path[i])) {
+			obj = obj[path[i]];
+		} else {
+			return undefined;
+		}
 	}
 
 	return obj[path[i]];
