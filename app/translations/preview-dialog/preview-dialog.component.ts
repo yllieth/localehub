@@ -60,6 +60,10 @@ export class TranslationsPreviewDialog implements OnInit {
     this.selectedBranch = this.project.lastActiveBranch;
   }
 
+  isEmpty(string: string): boolean {
+    return string === undefined || string === null;
+  }
+
   onChangeBranch(newBranch: string): void {
     this.initChanges(newBranch);
   }

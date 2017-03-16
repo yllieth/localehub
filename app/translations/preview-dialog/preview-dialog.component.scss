@@ -45,11 +45,11 @@ i.label {
   }
 }
 
-.change-key {
+.key-part {
   @include key-part();
 }
 
-.after-change, .before-change {
+.after-change, .before-change, .empty-translation {
   font-family: monospace;
   padding: 2px;
 }
@@ -62,6 +62,11 @@ i.label {
 .after-change {
   border-color: #c1e9c1;
   background-color: #dbffdb;
+}
+
+.empty-translation {
+  color: get-color(secondary);
+  font-style: italic;
 }
 
 .action-container {
