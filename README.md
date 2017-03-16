@@ -30,7 +30,7 @@
   - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/52) Delete a project
 - **Translations**
   - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/5) List all translations of an i18n files with a tree representing the structure of the json object.
-  - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/53) Add a new locale
+  - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/53) Add a new locale
   - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/54) Remove a specific translation / an entire locale (in all supported languages)
   - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/55) Move a locale somewhere else in the tree
   - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/45) Edit an i18n string and save it. A pending change must belong to a branch name.  

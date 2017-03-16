@@ -1,5 +1,4 @@
-import { Language, Translation } from './';
-import {LocaleUpdate} from "./localeUpdate";
+import { Language, LocaleUpdate, Translation } from './';
 
 export class Locale {
   key: string;            // ex: subtitle
