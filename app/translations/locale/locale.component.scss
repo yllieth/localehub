@@ -1,0 +1,9 @@
+@import 'styles/app.scss';
+
+:host:first-child .expanded {
+  margin-top: 0;
+}
+
+.locale {
+  @include locale();
+}

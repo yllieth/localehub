@@ -3,3 +3,8 @@
 i.check_circle {
   @include offset(6px);
 }
+
+.locales-list {
+  display: block;
+  position: relative;  // allow custom placement of fab for adding a new locale
+}

@@ -1,0 +1,25 @@
+@import 'styles/app.scss';
+
+.locale {
+  @include locale();
+  margin-top: 0 !important;   // the new locale form is always the first in the list, and the first child of the list does not have a top margin
+
+  .name {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.key-part {
+  @include key-part();
+}
+
+input, input:focus {
+  margin-bottom: 0;
+  border: 2px solid $blue2;
+  border-radius: $global-radius;
+}
+
+button {
+  width: 100%;
+}

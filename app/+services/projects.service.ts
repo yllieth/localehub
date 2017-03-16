@@ -62,7 +62,7 @@ export class ProjectsService {
       .catch(error => Promise.reject(error));
   }
 
-  update(projectId: string, operation: string, update: LocaleUpdate): Promise<Project> {
+  update(projectId: string, operation: string, update: LocaleUpdate[]): Promise<Project> {
     return this.api
       .patch(`${ApiService.endpoint.prod}/projects/${projectId}`, {operation, update})
       .toPromise()

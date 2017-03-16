@@ -10,8 +10,15 @@
       (select)="onSelect($event)"></lh-translations-tree>
   </div>
 
-  <div class="columns large-10 medium-9">
-    <lh-translations-container [selected]="selected" [project]="project"></lh-translations-container>
+  <div class="columns large-10 medium-9 locales-list">
+    <lh-new-locale-fab (toggleNewLocaleForm)="onToggleNewLocaleForm($event)"></lh-new-locale-fab>
+    <lh-new-locale *ngIf="newLocaleFormVisible"
+                   [project]="project"
+                   [languages]="supportedLanguages(project)"
+                   [keyPath]="newLocalePath()"></lh-new-locale>
+    <lh-locale *ngFor="let locale of selected.getLocales()"
+               [locale]="locale"
+               [project]="project"></lh-locale>
   </div>
 </div>
 

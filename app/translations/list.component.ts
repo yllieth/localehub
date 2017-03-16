@@ -14,6 +14,7 @@ export class TranslationsListComponent implements OnInit {
   project: Project;       // undefined value is tested in the template to show the loader
   root: LocaleFolder;     // undefined value is tested in the template to show the loader
   selected: LocaleFolder; // undefined value is tested in the template to show the loader
+  newLocaleFormVisible: boolean;
 
   constructor(
     private $route: ActivatedRoute,
@@ -24,6 +25,7 @@ export class TranslationsListComponent implements OnInit {
 
   ngOnInit() {
     this.authenticationService.initCurrentUser();
+    this.newLocaleFormVisible = false;
     this.$route.params.forEach((params: Params) => {
       this.projectsService
         .getOne(params['projectId'])
@@ -36,8 +38,25 @@ export class TranslationsListComponent implements OnInit {
     });
   }
 
-  onSelect(entry): void {
+  onSelect(entry: LocaleFolder): void {
     this.selected = entry;
+  }
+
+  onToggleNewLocaleForm(newLocaleFormVisible: boolean): void {
+    this.newLocaleFormVisible = newLocaleFormVisible;
+  }
+
+  supportedLanguages(project: Project): Language[] {
+    let languages = [];
+    for (let file of project.i18nFiles) {
+      languages.push(LanguageService.find(file.languageCode));
+    }
+
+    return languages;
+  }
+
+  newLocalePath(): string[] {
+    return this.selected.path.split('.');
   }
 
   countryOf(languageCode: string): Language {

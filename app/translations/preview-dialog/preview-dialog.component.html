@@ -32,18 +32,24 @@
           <div *ngFor="let change of changes[language.languageCode]" class="change-container">
             <div class="row">
               <div class="column">
-                <md-chip-list>
-                  <md-chip *ngFor="let keyPart of change.key.split('.')" class="change-key">{{ keyPart }}</md-chip>
-                </md-chip-list>
+                <span *ngFor="let part of change.key.split('.'); let partCount = index" style="display: inline-flex">
+                  <span class="key-part">{{ part }}</span>
+                  <span *ngIf="partCount != change.key.split('.').length - 1" class="bold margin-horizontal-half" style="align-self: center">.</span>
+                  <span *ngIf="partCount == change.key.split('.').length - 1" class="bold margin-horizontal-half" style="align-self: center">:</span>
+                </span>
+                <span *ngIf="isEmpty(change.value.oldString)" class="empty-translation margin-left">&mdash; New translation</span>
+                <span *ngIf="isEmpty(change.value.newString)" class="empty-translation margin-left">&mdash; Removed translation</span>
               </div>
             </div>
             <div class="row align-middle margin-top-half">
               <div class="column small-2"><strong>Before:</strong></div>
-              <div class="column small-10 before-change">{{ change.value.oldString | highlightDiff: change.value.newString }}</div>
+              <div *ngIf="!isEmpty(change.value.oldString)" class="column small-10 before-change">{{ change.value.oldString | highlightDiff: change.value.newString }}</div>
+              <div *ngIf="isEmpty(change.value.oldString)"  class="column small-10 empty-translation">Nothing</div>
             </div>
             <div class="row align-middle margin-bottom">
               <div class="column small-2"><strong>After:</strong></div>
-              <div class="column small-10 after-change">{{ change.value.newString | highlightDiff: change.value.newString }}</div>
+              <div *ngIf="!isEmpty(change.value.newString)" class="column small-10 after-change">{{ change.value.newString | highlightDiff: change.value.newString }}</div>
+              <div *ngIf="isEmpty(change.value.newString)"  class="column small-10 empty-translation">Nothing</div>
             </div>
           </div>
         </div>

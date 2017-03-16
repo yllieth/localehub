@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Locale, LocaleUpdate, Project, Translation } from '../../../+models';
-import { EventService, ProjectsService } from '../../../+services';
+import { Locale, LocaleUpdate, Project, Translation } from '../../+models';
+import { EventService, ProjectsService } from '../../+services';
 
 @Component({
   moduleId: module.id,
@@ -62,7 +62,7 @@ export class TranslationsLocaleComponent implements OnInit {
     };
 
     this.projectsService
-      .update(this.project.id, 'append-pendingChanges', update)
+      .update(this.project.id, 'append-pendingChanges', [update])
       .then(updatedProject => {
         // Notify titlebar
         EventService.get('translations::updated-changes').emit(updatedProject.pendingChanges);

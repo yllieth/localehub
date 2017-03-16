@@ -1,0 +1,46 @@
+<div class="locale expanded">
+  <!-- Key -->
+  <div class="row align-middle name">
+    <div class="column small-2">
+      <i class="material-icons">add_box</i>
+      <span class="bold">Name:</span>
+    </div>
+    <div class="column small-7">
+      <div class="name">
+        <span *ngFor="let part of getKeyParts()" style="display: flex">
+          <span class="key-part">{{ part }}</span>
+          <span class="bold margin-horizontal-half" style="align-self: center">.</span>
+        </span>
+        <input type="text" autofocus placeholder="Type the title of your new locale here"
+               disabled="{{ isSaving }}"
+               [(ngModel)]="key">
+      </div>
+    </div>
+    <div class="column small-3"></div>
+  </div>
+
+  <!-- Values -->
+  <ul>
+    <li *ngFor="let language of languages; let i = index">
+      <div class="row align-middle" style="margin: 0">
+        <!-- Flag & Language code -->
+        <div class="column small-2 color-secondary">
+          <span class="flag-icon flag-icon-{{ language.flagClass }} margin-right-half"></span>
+          <span>{{ language.languageCode }}</span>
+        </div>
+
+        <!-- input -->
+        <div class="column small-7">
+          <input type="text" placeholder="{{ language.languageName }} version for {{ key }}"
+                 disabled="{{ isSaving }}"
+                 [(ngModel)]="values[language.languageCode]"/>
+        </div>
+
+        <div class="column small-3" *ngIf="i == 2">
+          <button md-raised-button *ngIf="isSaving"  color="secondary" disabled>Saving...</button>
+          <button md-raised-button *ngIf="!isSaving" color="accent" (click)="onSave()">Save</button>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

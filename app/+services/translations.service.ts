@@ -13,7 +13,7 @@ export class TranslationsService {
         let value = locales[key];
         let parent = (jsonPath === null) ? key : jsonPath + '.' + key;
         if (typeof value === 'object') {
-          serializeDeepKeys(parent, value, folder.addTrustedChild(key));
+          serializeDeepKeys(parent, value, folder.addTrustedChild(parent));
         }
         if (typeof value === 'string') {
           folder.addTrustedLocale(parent, value, currentLanguage, allLanguages);
@@ -39,7 +39,7 @@ export class TranslationsService {
   }
 
   createList(dictionaries: {content: any, metadata: I18nFileInfo}[]): LocaleFolder {
-    let root = new LocaleFolder('##ROOT##');
+    let root = new LocaleFolder(LocaleFolder.ROOT_NAME);
     let languages: Language[] = dictionaries.map(d => LanguageService.find(d.metadata.languageCode));
     let formattedDictionaries = []; // { content: any, language: Language }
 
