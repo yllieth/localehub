@@ -36,11 +36,10 @@ $z-index: 10;
   }
 }
 
-button.confirm {
+button.confirm, button.confirm:hover {
   background-color: map_get($foundation-palette, alert);
   border-radius: 0;
   color: $white;
-  font-weight: bold;
 }
 
 .branch-switcher {
