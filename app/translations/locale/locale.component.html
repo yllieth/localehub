@@ -33,7 +33,7 @@
             <span class="{{ (translation.isPending) ? 'bold' : '' }}">{{ translation.string }}</span>
           </div>
           <div *ngIf="translation.editedString != null">
-            <div class="row">
+            <div class="row align-middle">
               <div class="column small-9">
                 <input type="text" [(ngModel)]="translation.editedString" autofocus />
               </div>

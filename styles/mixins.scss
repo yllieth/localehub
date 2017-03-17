@@ -80,6 +80,7 @@
       .translated-string {
         input {
           margin-bottom: 0;
+          border-radius: $global-radius;
           border: 2px solid $blue2;
         }
       }

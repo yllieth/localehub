@@ -12,6 +12,11 @@
   </md-menu>
 </div>
 
+<!-- Project owner -->
+<div class="owner" mdTooltip="{{ ownerDetails() }}">
+  <img [attr.src]="project.repository.owner.avatar_url" class="avatar">
+</div>
+
 <!-- Branch selector -->
 <div class="branch-switcher">
   <i class="octicon octicon-git-branch"></i>&nbsp;Branch:
@@ -25,9 +30,6 @@
   <small *ngIf="isRefrechingBranches">
     <lh-loader [message]="'Refreshing...'"></lh-loader>
   </small>
-</div>
-<div class="owner">
-  <img [attr.src]="project.repository.owner.avatar_url" class="avatar">
 </div>
 
 <!-- Main content -->
