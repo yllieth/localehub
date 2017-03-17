@@ -37,6 +37,16 @@ export class ProjectsCardComponent implements OnInit {
     return Math.max(...counts);
   }
 
+  ownerDetails(): string {
+    let pseudo = this.project.repository.owner.login;
+    let fullName = this.project.repository.owner.full_name;
+        fullName = (fullName && fullName.length > 0 && fullName != pseudo)
+          ? ' (' + this.project.repository.owner.full_name + ')'
+          : '';
+
+    return pseudo + fullName
+  }
+
   refreshBranchList(): void {
     this.isRefrechingBranches = true;
     this.repoService
