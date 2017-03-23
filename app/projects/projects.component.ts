@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialogRef, MdDialog, MdDialogConfig } from '@angular/material';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NewProjectDialog } from './new/dialog/new-project.component';
 
 import { AuthenticationService, ErrorService, ProjectsService } from '../+services';
@@ -19,6 +20,7 @@ export class ProjectsComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private projectsService: ProjectsService,
     private errorService: ErrorService,
+    private $route: ActivatedRoute,
     public dialog: MdDialog
   ) { }
 
@@ -28,6 +30,11 @@ export class ProjectsComponent implements OnInit {
     this.projectsService.getList()
       .then(projectsList => (projectsList.length > 0) ? this.projects = projectsList : this.openNewProjectDialog())
       .catch(error => this.errorService.handleHttpError('404-001', error));
+    this.$route.queryParams.subscribe((params: Params) => {
+      if (params['dialog'] && params['dialog'] === 'new-project') {
+        this.openNewProjectDialog();
+      }
+    });
   }
 
   hasProjects(): boolean {
