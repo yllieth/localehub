@@ -1,5 +1,6 @@
-<md-sidenav #sidenav class="app-sidenav md-sidenav-side md-sidenav-closed">
+<md-sidenav #sidenav mode="side" class="app-sidenav">
   Menu
+  <button (click)="sidenav.toggle()">close</button>
 </md-sidenav>
 
 <md-toolbar color="primary">

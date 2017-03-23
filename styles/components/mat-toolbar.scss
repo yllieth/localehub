@@ -1,0 +1,14 @@
+@import 'toolbar/toolbar.scss'; // base theme file
+
+@include mat-toolbar-height($banner-height);
+@include mat-toolbar-theme($app-theme);
+
+.mat-toolbar {
+  min-height: $banner-height !important;
+  background: $white;
+
+  .mat-toolbar-row {
+    height: $banner-height;
+    font-family: $mat-font-family;
+  }
+}

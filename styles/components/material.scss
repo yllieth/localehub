@@ -4,20 +4,20 @@
 
 // Include the base styles for Angular Material core. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
-@include md-core();
+@include mat-core();
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue.
-$app-primary: md-palette($md-light-blue);
-$app-accent:  md-palette($md-cyan);
-$app-warn:    md-palette($md-amber);
+$app-primary: mat-palette($mat-light-blue);
+$app-accent:  mat-palette($mat-cyan);
+$app-warn:    mat-palette($mat-amber);
 
 // The warn palette is optional (defaults to red).
 // $candy-app-warn:    md-palette($md-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$app-theme: md-light-theme($app-primary, $app-accent, $app-warn);
+$app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -25,10 +25,10 @@ $app-theme: md-light-theme($app-primary, $app-accent, $app-warn);
 @include angular-material-theme($app-theme);
 
 // overrides default theme properties
-$md-font-family: $body-font-family;
-$md-button-min-width: 35px;
+$mat-font-family: $body-font-family;
+$mat-button-min-width: 35px;
 
-@import 'md-button';
-@import 'md-toolbar';
-@import 'md-sidenav';
-@import 'md-menu-item';
+@import 'mat-button';
+@import 'mat-toolbar';
+@import 'mat-sidenav';
+@import 'mat-menu-item';

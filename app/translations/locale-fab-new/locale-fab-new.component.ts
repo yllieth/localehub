@@ -7,7 +7,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
   styleUrls: [ 'locale-fab-new.component.css' ]
 })
 export class LocaleFABNewComponent implements OnInit{
-  classname: string;
+  state: string;  // { '', 'hovered', 'clicked' }
   isNewClicked: boolean;
 
   @Output() toggleNewLocaleForm = new EventEmitter<boolean>();
@@ -19,16 +19,26 @@ export class LocaleFABNewComponent implements OnInit{
     this.onStandardFAB();
   }
 
+  getRotation(state: string): string {
+    if (state == 'hovered') {
+      return (this.isNewClicked) ? 'rotate(225deg)' : 'rotate(180deg)';
+    } else if (state == 'clicked') {
+      return (this.isNewClicked) ? '' : 'rotate(225deg)';
+    } else {
+      return (this.isNewClicked) ? 'rotate(45deg)' : 'none';
+    }
+  }
+
   onStandardFAB(): void {
-    this.classname = (this.isNewClicked) ? 'rotate-45' : '';
+    this.state = '';
   }
 
   onHoverFAB(): void {
-    this.classname = (this.isNewClicked) ? 'rotate-225' : 'rotate-180';
+    this.state = 'hovered';
   }
 
   onClickFAB(): void {
-    this.classname = (this.isNewClicked) ? '' : 'rotate-225';
+    this.state = 'clicked';
     this.isNewClicked = !this.isNewClicked;
     this.toggleNewLocaleForm.emit(this.isNewClicked);
   }

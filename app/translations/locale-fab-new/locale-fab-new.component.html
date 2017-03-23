@@ -1,3 +1,6 @@
-<button [attr.class]="classname" md-fab (click)="onClickFAB()" (mouseenter)="onHoverFAB()" (mouseleave)="onStandardFAB()">
-  <md-icon>add</md-icon>
+<button md-fab
+        (click)="onClickFAB()"
+        (mouseenter)="onHoverFAB()"
+        (mouseleave)="onStandardFAB()">
+  <md-icon [style.transform]="getRotation(state)">add</md-icon>
 </button>
