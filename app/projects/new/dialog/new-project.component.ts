@@ -40,11 +40,21 @@ export class NewProjectDialog implements OnInit {
     public newProjectDialog: MdDialogRef<NewProjectDialog>
   ) { }
 
-  private loadRepositories(user: User) {
+  private filterExistingProject(repositories: Repository[]): Repository[] {
+    return repositories.filter(githubRepo => this.existingProjects.indexOf(githubRepo.fullName) === -1)
+  }
+
+  private loadRepositories(selectedUser: User): void {
     this.repositoryList = undefined;  // tested in the view to show the loader
     this.repoService
-      .getAll(user.login)
-      .then((repos: Repository[]) => this.repositoryList = repos.filter(githubRepo => this.existingProjects.indexOf(githubRepo.fullName) === -1))
+      .getAll(selectedUser.login)
+      .then(repositories => this.repositoryList = this.filterExistingProject(repositories))
+  }
+
+  private loadOtherUsers(selectedUser: User): void {
+    this.userService
+      .getOrganizations()
+      .then((users: User[]) => this.otherUsers = users.filter(user => user.id != selectedUser.id));
   }
 
   ngOnInit() {
@@ -58,15 +68,12 @@ export class NewProjectDialog implements OnInit {
     this.isNewFileNotFound = false;
     this.isNewFileNotValid = false;
 
-    this.userService
-      .getOrganizations()
-      .then((users: User[]) => this.otherUsers = users.filter(user => user.id != this.selectedUser.id));
-
     this.authenticationService
       .initCurrentUser()
       .then((user: User) => {
         this.selectedUser = user;
         this.loadRepositories(user);
+        this.loadOtherUsers(user);
       })
       /*.catch(error => this.errorService.handleHttpError('404-001', error))*/;
   }

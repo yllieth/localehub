@@ -28,13 +28,18 @@ export class ProjectsComponent implements OnInit {
     this.projects = [];
     this.authenticationService.initCurrentUser();
     this.projectsService.getList()
-      .then(projectsList => (projectsList.length > 0) ? this.projects = projectsList : this.openNewProjectDialog())
+      .then(projectsList => {
+        // open new project dialog if there is no saved project
+        (projectsList.length > 0) ? this.projects = projectsList : this.openNewProjectDialog();
+
+        // open new project dialog if "dialog=new-project" query param is present in the page url
+        this.$route.queryParams.subscribe((params: Params) => {
+          if (params['dialog'] && params['dialog'] === 'new-project' && projectsList.length > 0) {
+            this.openNewProjectDialog();
+          }
+        });
+      })
       .catch(error => this.errorService.handleHttpError('404-001', error));
-    this.$route.queryParams.subscribe((params: Params) => {
-      if (params['dialog'] && params['dialog'] === 'new-project') {
-        this.openNewProjectDialog();
-      }
-    });
   }
 
   hasProjects(): boolean {
