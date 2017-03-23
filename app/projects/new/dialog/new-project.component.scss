@@ -31,3 +31,16 @@ img.avatar {
     margin-top: 30px;
   }
 }
+
+.close-container {
+  text-align: center;
+  transition: background-color 200ms ease-in-out, color 200ms ease;
+
+  i:hover {
+    cursor: pointer;
+    background-color: map_get($foundation-palette, secondary);
+    border-radius: 50%;
+    padding: 5px;
+    color: $white;
+  }
+}

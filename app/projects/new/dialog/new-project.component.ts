@@ -122,6 +122,10 @@ export class NewProjectDialog implements OnInit {
     this.showLanguageForm = false;
   }
 
+  onCloseDialog(dialogRef: MdDialogRef<NewProjectDialog>): void {
+    dialogRef.close();
+  }
+
   languageOf(languageCode: string): Language {
     return LanguageService.find(languageCode);
   }

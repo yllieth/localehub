@@ -1,7 +1,11 @@
 <div class="row">
-  <div class="column">
+  <div class="column small-11">
     <h1 md-dialog-title="" *ngIf="existingProjects.length > 0">New project</h1>
     <h1 md-dialog-title="" *ngIf="existingProjects.length <= 0">Welcome on Localehub. Let's start creating your first project:</h1>
+  </div>
+
+  <div class="column small-1 close-container">
+    <i class="material-icons close" (click)="onCloseDialog(newProjectDialog)">close</i>
   </div>
 </div>
 
