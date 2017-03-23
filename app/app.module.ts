@@ -41,7 +41,7 @@ function ApiFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Htt
     BrowserModule,
     FormsModule,
     HttpModule,
-    MaterialModule.forRoot(),
+    MaterialModule,
     routing
   ],
   declarations: [

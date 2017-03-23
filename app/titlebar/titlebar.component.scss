@@ -2,7 +2,7 @@
 
 $button-height: 35px;
 
-button[md-raised-button] {
+button.mat-raised-button {
   min-width: $button-height;  // setted for buttons in titlebar on translations page
 }
 
