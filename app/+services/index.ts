@@ -9,3 +9,4 @@ export * from './projects.service';
 export * from './translations.service';
 export * from './language.service';
 export * from './branches.service';
+export * from './websocket.service';
