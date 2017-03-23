@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
+import { MdDialogRef, MdSelectChange } from '@angular/material';
 import { AuthenticationService, BranchesService, ErrorService, LanguageService, ProjectsService, RepositoriesService, TranslationsService, UserService } from '../../../+services';
 import { Repository, I18nFileInfo, Language, User } from '../../../+models';
 
@@ -78,11 +78,12 @@ export class NewProjectDialog implements OnInit {
       /*.catch(error => this.errorService.handleHttpError('404-001', error))*/;
   }
 
-  onSelectRepository(repository: Repository) {
+  onSelectRepository(event: MdSelectChange) {
+    this.selectedRepo = event.value;
     this.branchList = undefined;      // tested in the view to show the loader
     this.selectedBranch = undefined;  // reset branch if the repo changes after selecting a branch for a previous one
     this.branchesService
-      .getNames(repository.fullName)
+      .getNames(this.selectedRepo.fullName)
       .then(branches => {
         this.branchList = branches;
         if (branches.indexOf('master') > -1) {

@@ -23,11 +23,11 @@
         </div>
 
         <div class="column small-8">
-          <select [(ngModel)]="selectedRepo" (change)="onSelectRepository(selectedRepo)" *ngIf="repositoryList != undefined">
-            <option *ngFor="let repository of repositoryList" [ngValue]="repository">
+          <md-select placeholder="Repository" (change)="onSelectRepository($event)">
+            <md-option *ngFor="let repository of repositoryList" [value]="repository">
               {{ repository.name }}
-            </option>
-          </select>
+            </md-option>
+          </md-select>
         </div>
       </div>
 
@@ -95,7 +95,7 @@
   <div class="row">
     <!-- Defined languages -->
     <div class="column small-12 large-5">
-      <div *ngIf="selectedLanguages.length == 0 && parsingFile == null">
+      <div class="margin-bottom" *ngIf="selectedLanguages.length == 0 && parsingFile == null">
         <em>No Language defined</em>
       </div>
 

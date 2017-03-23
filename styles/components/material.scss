@@ -26,9 +26,11 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 
 // overrides default theme properties
 $mat-font-family: $body-font-family;
+$mat-font-size: 14px;
 $mat-button-min-width: 35px;
 
 @import 'mat-button';
 @import 'mat-toolbar';
 @import 'mat-sidenav';
 @import 'mat-menu-item';
+@import 'mat-select';
