@@ -25,24 +25,4 @@ export class RepositoriesService {
       .then((response: Response) => response.json() as Repository[])
       .catch(error => Promise.reject(error));
   }
-
-  /**
-   * Get all branches' names from the giver username/repository couple.
-   * Github base request : GET api.github.com/repos/{owner}/{repo}/branches
-   *   | using lambda: gh-get-repos-branches
-   *   | using lambda: branches-get
-   *
-   * @param {string} repo - Ex: yllieth/localehub
-   * @returns {Promise<string[]>}
-   */
-  getBranches(repo: string): Promise<string[]> {
-    let username = repo.split('/')[0];
-    let repository = repo.split('/')[1];
-
-    return this.api
-      .get(`${ApiService.endpoint.prod}/branches/${username}/${repository}`)
-      .toPromise()
-      .then((response: Response) => response.json() as string[])
-      .catch(error => Promise.reject(error));
-  }
 }

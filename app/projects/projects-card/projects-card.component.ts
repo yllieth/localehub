@@ -1,13 +1,14 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { I18nFileInfo, Project } from '../../+models';
-import { ErrorService, ProjectsService, RepositoriesService } from '../../+services';
+import { BranchesService, ErrorService, ProjectsService } from '../../+services';
 
 @Component({
   moduleId: module.id,
   selector: 'lh-projects-card',
   templateUrl: 'projects-card.component.html',
-  styleUrls: [ 'projects-card.component.css' ]
+  styleUrls: [ 'projects-card.component.css' ],
+  providers: [ BranchesService ]
 })
 export class ProjectsCardComponent implements OnInit {
   @Input() project: Project;
@@ -18,7 +19,7 @@ export class ProjectsCardComponent implements OnInit {
 
   constructor(
     private $router: Router,
-    private repoService: RepositoriesService,
+    private branchesService: BranchesService,
     private projectService: ProjectsService,
     private errorService: ErrorService
   ) { }
@@ -49,8 +50,8 @@ export class ProjectsCardComponent implements OnInit {
 
   refreshBranchList(): void {
     this.isRefrechingBranches = true;
-    this.repoService
-      .getBranches(this.project.repository.fullName)
+    this.branchesService
+      .getNames(this.project.repository.fullName)
       .then((branches: string[]) => {
         this.isRefrechingBranches = false;
 

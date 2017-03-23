@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
-import { AuthenticationService, ErrorService, LanguageService, ProjectsService, RepositoriesService, TranslationsService, UserService } from '../../../+services';
+import { AuthenticationService, BranchesService, ErrorService, LanguageService, ProjectsService, RepositoriesService, TranslationsService, UserService } from '../../../+services';
 import { Repository, I18nFileInfo, Language, User } from '../../../+models';
 
 @Component({
@@ -8,7 +8,7 @@ import { Repository, I18nFileInfo, Language, User } from '../../../+models';
   selector: 'new-project-dialog',
   templateUrl: 'new-project.component.html',
   styleUrls: [ 'new-project.component.css' ],
-  providers: [ ProjectsService, RepositoriesService, TranslationsService ]
+  providers: [ BranchesService, ProjectsService, RepositoriesService, TranslationsService ]
 })
 export class NewProjectDialog implements OnInit {
   existingProjects: string[]; // from ProjectsComponent.openNewProjectDialog : newProjectDialog.componentInstance.existingProjects = projects.map(project => project.name);
@@ -32,6 +32,7 @@ export class NewProjectDialog implements OnInit {
   constructor(
     private userService: UserService,
     private repoService: RepositoriesService,
+    private branchesService: BranchesService,
     private errorService: ErrorService,
     private authenticationService: AuthenticationService,
     private projectService: ProjectsService,
@@ -73,8 +74,8 @@ export class NewProjectDialog implements OnInit {
   onSelectRepository(repository: Repository) {
     this.branchList = undefined;      // tested in the view to show the loader
     this.selectedBranch = undefined;  // reset branch if the repo changes after selecting a branch for a previous one
-    this.repoService
-      .getBranches(repository.fullName)
+    this.branchesService
+      .getNames(repository.fullName)
       .then(branches => {
         this.branchList = branches;
         if (branches.indexOf('master') > -1) {
