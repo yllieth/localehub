@@ -12,7 +12,7 @@
 <!-- Repository list -->
 <fieldset>
   <legend>Select a Github repository: </legend>
-  <lh-loader [message]="'Loading repositories ...'" *ngIf="repositoryList == undefined"></lh-loader>
+  <lh-loader [message]="'Loading repositories ...'" *ngIf="repositoryList == undefined" style="height: 105px;"></lh-loader>
   <div class="row" *ngIf="repositoryList != undefined">
     <div class="small-12 large-6 column">
       <div class="row align-middle">
@@ -23,16 +23,17 @@
         </div>
 
         <div class="column small-8">
-          <md-select placeholder="Repository" (change)="onSelectRepository($event)">
-            <md-option *ngFor="let repository of repositoryList" [value]="repository">
+          <md-select placeholder="Repository ({{ repositoryList.length }})" (change)="onSelectRepository($event)">
+            <md-option *ngFor="let repository of repositoryList" [value]="repository" [disabled]="hasProject(repository)">
               {{ repository.name }}
             </md-option>
           </md-select>
         </div>
       </div>
 
+      <!-- Other users -->
       <div class="row">
-        <div class="column small-4">
+        <div class="column">
           <div *ngIf="!showOtherUsers" class="color-primary cursor-pointer" (click)="showOtherUsers = !showOtherUsers">
             <i class="material-icons swap_vertical_circle">swap_vertical_circle</i>
             <span class="margin-left-half">Other users</span>
@@ -45,12 +46,6 @@
                  (click)="onClickChangeUser(otherUser)"
                  class="avatar cursor-pointer margin-top">
           </div>
-        </div>
-        <div class="column small-8">
-          <small class="color-secondary">
-            <i class="material-icons info">info</i>
-            Repositories with an existing project aren't displayed in this list.
-          </small>
         </div>
       </div>
     </div>
@@ -77,10 +72,10 @@
       </div>
 
       <!-- Link to github  -->
-      <div class="row align-middle">
+      <!--<div class="row align-middle">
         <div class="column small-4"><strong>Open in github:</strong></div>
-        <div class="column small-8"><a [attr.href]="selectedRepo.url" target="_blank">Click here</a></div>
-      </div>
+        <div class="column small-8"><a href="{{ selectedRepo.url }}" target="_blank" class="color-primary">Click here</a></div>
+      </div>-->
     </div>
   </div>
 </fieldset>
@@ -118,9 +113,9 @@
 
       <div class="row" *ngIf="!showLanguageForm">
         <div class="column">
-          <a (click)="showLanguageForm = true">
+          <div class="color-primary cursor-pointer" (click)="showLanguageForm = true">
             <i class="material-icons add_circle_outline">add_circle_outline</i> Define a new language
-          </a>
+          </div>
         </div>
       </div>
     </div>
@@ -193,7 +188,7 @@
     <md-dialog-actions>
       <button md-raised-button color="primary" (click)="createProject(newProjectDialog)" disabled="{{ isSaveDisabled() }}">
         <span *ngIf="isCreatingProject">Saving...</span>
-        <span *ngIf="!isCreatingProject">Create</span>
+        <span *ngIf="!isCreatingProject">Create project</span>
       </button>
       <button md-raised-button md-dialog-close>Cancel</button>
     </md-dialog-actions>

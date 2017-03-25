@@ -1,0 +1,9 @@
+.mat-dialog-actions {
+  justify-content: center;
+
+  button {
+    font-size: 16px;
+    margin-left: $global-spacing / 2;
+    margin-right: $global-spacing / 2;
+  }
+}

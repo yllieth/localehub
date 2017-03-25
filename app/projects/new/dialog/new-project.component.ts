@@ -40,15 +40,12 @@ export class NewProjectDialog implements OnInit {
     public newProjectDialog: MdDialogRef<NewProjectDialog>
   ) { }
 
-  private filterExistingProject(repositories: Repository[]): Repository[] {
-    return repositories.filter(githubRepo => this.existingProjects.indexOf(githubRepo.fullName) === -1)
-  }
-
   private loadRepositories(selectedUser: User): void {
     this.repositoryList = undefined;  // tested in the view to show the loader
+    this.selectedRepo = undefined;
     this.repoService
       .getAll(selectedUser.login)
-      .then(repositories => this.repositoryList = this.filterExistingProject(repositories))
+      .then(repositories => this.repositoryList = repositories);
   }
 
   private loadOtherUsers(selectedUser: User): void {
@@ -76,6 +73,10 @@ export class NewProjectDialog implements OnInit {
         this.loadOtherUsers(user);
       })
       /*.catch(error => this.errorService.handleHttpError('404-001', error))*/;
+  }
+
+  hasProject(repository: Repository): boolean {
+    return this.existingProjects.indexOf(repository.fullName) >= 0;
   }
 
   onSelectRepository(event: MdSelectChange) {
