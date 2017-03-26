@@ -48,7 +48,7 @@ img.avatar {
 
 .margin-top-small-only {
   @include breakpoint(medium down) {
-    margin-top: 30px;
+    margin-top: 15px;
   }
 }
 

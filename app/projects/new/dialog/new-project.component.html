@@ -66,16 +66,10 @@
       </div>
 
       <!-- Repository description -->
-      <div class="row align-middle margin-bottom-half">
+      <div class="row align-middle">
         <div class="column small-4"><strong>Description:</strong></div>
         <div class="column small-8">{{ selectedRepo.description }}</div>
       </div>
-
-      <!-- Link to github  -->
-      <!--<div class="row align-middle">
-        <div class="column small-4"><strong>Open in github:</strong></div>
-        <div class="column small-8"><a href="{{ selectedRepo.url }}" target="_blank" class="color-primary">Click here</a></div>
-      </div>-->
     </div>
   </div>
 </fieldset>
@@ -129,6 +123,7 @@
             <input mdInput #newFilePath
                    placeholder="Path to translation file"
                    [type]="text"
+                   [required]="true"
                    (focus)="resetNewFileErrors()" />
             <md-hint align="end">(ex: config/locales/fr.yml)</md-hint>
           </md-input-container>
@@ -136,7 +131,7 @@
 
         <!-- Select language -->
         <div class="column small-5">
-          <md-select placeholder="Select language" (change)="onSelectLanguage($event)">
+          <md-select placeholder="Select language" (change)="onSelectLanguage($event)" [required]="true">
             <md-option *ngFor="let country of languages" [value]="country">
               <span class="flag-icon flag-icon-{{ languageOf(country.languageCode).flagClass }} margin-right-half"></span>
               {{ country.languageCode }} - {{ country.languageName }}
@@ -145,7 +140,7 @@
         </div>
 
         <!-- Validation button -->
-        <div class="column small-1" (click)="onClickAddLanguage(newFileLanguage.languageCode, newFilePath)">
+        <div class="column small-1" (click)="onClickAddLanguage(newFileLanguage, newFilePath)">
           <i class="cursor-pointer color-primary material-icons">add_circle</i>
         </div>
 
@@ -155,12 +150,21 @@
         </div>
       </div>
 
-      <div *ngIf="isNewFileNotFound" class="color-alert margin-bottom">
-        <strong>File not found in {{ selectedRepo.name }}/{{ githubUsername }} repository.</strong>
-      </div>
+      <!-- Error -->
+      <div class="row margin-top" *ngIf="showLanguageForm">
+        <div class="column">
+          <div *ngIf="isNewFileNotFound" class="color-alert">
+            <strong>File not found in {{ selectedRepo.fullName + '@' + selectedBranch }} repository.</strong>
+          </div>
 
-      <div *ngIf="isNewFileNotValid" class="color-alert margin-bottom">
-        <strong>Unable to read {{ newFilePath }} as a JSON object. We only accept valid JSON files.</strong>
+          <div *ngIf="isNewFileNotValid" class="color-alert">
+            <strong>Unable to read {{ newFilePath }} as a JSON object. We only accept valid JSON files.</strong>
+          </div>
+
+          <div *ngIf="isRepoNotSet" class="color-alert">
+            <strong>Please select a repo and a branch before adding a language.</strong>
+          </div>
+        </div>
       </div>
     </div>
   </div>
