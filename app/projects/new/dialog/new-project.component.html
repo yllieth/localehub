@@ -1,7 +1,7 @@
-<div class="row">
+<div class="row align-middle margin-bottom custom-title" md-dialog-title>
   <div class="column small-11">
-    <h1 md-dialog-title="" *ngIf="existingProjects.length > 0">New project</h1>
-    <h1 md-dialog-title="" *ngIf="existingProjects.length <= 0">Welcome on Localehub. Let's start creating your first project:</h1>
+    <h1 *ngIf="existingProjects.length > 0">New project</h1>
+    <h1 *ngIf="existingProjects.length <= 0">Welcome on Localehub. Let's start creating your first project:</h1>
   </div>
 
   <div class="column small-1 close-container">
@@ -82,7 +82,7 @@
 
 
 <!-- Languages -->
-<fieldset class="margin-top">
+<fieldset class="margin-vertical-double">
   <legend>
     Supported languages:
   </legend>
@@ -167,15 +167,10 @@
 </fieldset>
 
 
-
-<div class="row">
-  <div class="column">
-    <md-dialog-actions>
-      <button md-raised-button color="primary" (click)="createProject(newProjectDialog)" disabled="{{ isSaveDisabled() }}">
-        <span *ngIf="isCreatingProject">Saving...</span>
-        <span *ngIf="!isCreatingProject">Create project</span>
-      </button>
-      <button md-raised-button md-dialog-close>Cancel</button>
-    </md-dialog-actions>
-  </div>
-</div>
+<md-dialog-actions>
+  <button md-raised-button color="primary" (click)="createProject(newProjectDialog)" disabled="{{ isSaveDisabled() }}">
+    <span *ngIf="isCreatingProject">Saving...</span>
+    <span *ngIf="!isCreatingProject">Create project</span>
+  </button>
+  <button md-raised-button md-dialog-close>Cancel</button>
+</md-dialog-actions>

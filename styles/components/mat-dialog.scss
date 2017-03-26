@@ -7,3 +7,15 @@
     margin-right: $global-spacing / 2;
   }
 }
+
+.mat-dialog-title {
+  &.custom-title {
+    display: flex;
+
+    h1 {
+      font-family: $mat-font-family;
+      font-size: 120%;
+      font-weight: bold;
+    }
+  }
+}
