@@ -11,11 +11,13 @@
 .mat-dialog-title {
   &.custom-title {
     display: flex;
+    font-weight: normal;
 
     h1 {
       font-family: $mat-font-family;
       font-size: 120%;
       font-weight: bold;
+      margin-bottom: 0;
     }
   }
 }
