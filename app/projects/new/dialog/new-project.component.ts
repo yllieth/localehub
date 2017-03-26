@@ -114,7 +114,6 @@ export class NewProjectDialog implements OnInit {
     let path = input.value;
     
     this.isRepoNotSet = !this.isRepoAndBranchDefined();
-    console.log(languageCode, path, this.isRepoNotSet);
 
     if (this.isRepoNotSet === false) {
       this.parsingFile = {path, languageCode};
@@ -145,7 +144,6 @@ export class NewProjectDialog implements OnInit {
   }
 
   onOpenInGithub(selectedRepo: Repository): void {
-    console.log(selectedRepo.url);
     window.open(selectedRepo.url);
   }
 
