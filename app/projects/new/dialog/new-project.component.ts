@@ -79,7 +79,7 @@ export class NewProjectDialog implements OnInit {
     return this.existingProjects.indexOf(repository.fullName) >= 0;
   }
 
-  onSelectRepository(event: MdSelectChange) {
+  onSelectRepository(event: MdSelectChange): void {
     this.selectedRepo = event.value;
     this.branchList = undefined;      // tested in the view to show the loader
     this.selectedBranch = undefined;  // reset branch if the repo changes after selecting a branch for a previous one
@@ -91,6 +91,14 @@ export class NewProjectDialog implements OnInit {
           this.selectedBranch = 'master';
         }
       });
+  }
+
+  onSelectBranch(event: MdSelectChange): void {
+    this.selectedBranch = event.value;
+  }
+
+  onSelectLanguage(event: MdSelectChange): void {
+    this.newFileLanguage = event.value;
   }
 
   onClickAddLanguage(languageCode, path): void {

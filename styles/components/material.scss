@@ -28,6 +28,7 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 $mat-font-family: $body-font-family;
 $mat-font-size: 14px;
 $mat-button-min-width: 35px;
+$mat-input-width: 100%;
 
 @import 'mat-button';
 @import 'mat-toolbar';
@@ -35,3 +36,4 @@ $mat-button-min-width: 35px;
 @import 'mat-menu-item';
 @import 'mat-select';
 @import 'mat-dialog';
+@import 'mat-input';

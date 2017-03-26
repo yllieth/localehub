@@ -12,7 +12,7 @@ legend {
 }
 
 i.material-icons {
-  &.info, &.add_circle_outline, &.swap_vertical_circle {
+  &.add_circle_outline, &.swap_vertical_circle {
     @include offset(6px);
   }
 }
@@ -21,8 +21,24 @@ i.material-icons {
   width: 100%;
 }
 
-select, input {
-  margin-bottom: 0;
+.mat-input-container {
+  /deep/ .mat-input-wrapper {
+    padding-top: 6px !important;   // workaround: align dividers with selectbox on the right
+  }
+
+  /deep/ .mat-input-placeholder-wrapper {
+    overflow: visible;            // workaround: display placeholder text
+
+    .mat-input-placeholder {
+      padding-top: 12px;          // workaround: align dividers with selectbox on the right
+      padding-bottom: 14px;       // workaround: align dividers with selectbox on the right
+
+      &:not(.mat-focused){
+        font-size: 16px !important;
+        padding-top: 16px;        // workaround: align dividers with selectbox on the right
+      }
+    }
+  }
 }
 
 img.avatar {
@@ -46,5 +62,16 @@ img.avatar {
     border-radius: 50%;
     padding: 5px;
     color: $white;
+  }
+}
+
+.language-form {
+  @include breakpoint(large up) {
+    margin-top: -20px;
+  }
+
+  @include breakpoint(medium down) {
+    margin-top: -8px;
+    border-top: 1px solid $border-color;
   }
 }

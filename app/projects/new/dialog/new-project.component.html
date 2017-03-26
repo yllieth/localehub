@@ -51,24 +51,24 @@
     </div>
 
     <div class="small-12 large-6 column margin-top-small-only" *ngIf="selectedRepo">
-      <!-- Repository description -->
-      <div class="row align-middle margin-bottom-half">
-        <div class="column small-4"><strong>Description:</strong></div>
-        <div class="column small-8">{{ selectedRepo.description }}</div>
-      </div>
-
       <!-- Branches -->
       <div class="row align-middle margin-bottom-half">
         <div class="column small-4"><strong>Branches:</strong></div>
         <div class="column small-8">
-          <select [(ngModel)]="selectedBranch" *ngIf="branchList != undefined">
-            <option *ngFor="let branch of branchList" [ngValue]="branch">
+          <md-select placeholder="Choose a base version" (change)="onSelectBranch($event)" *ngIf="branchList != undefined">
+            <md-option *ngFor="let branch of branchList" [value]="branch">
               {{ branch }}
-            </option>
-          </select>
+            </md-option>
+          </md-select>
 
           <lh-loader [message]="'Loading branches ...'" *ngIf="branchList == undefined"></lh-loader>
         </div>
+      </div>
+
+      <!-- Repository description -->
+      <div class="row align-middle margin-bottom-half">
+        <div class="column small-4"><strong>Description:</strong></div>
+        <div class="column small-8">{{ selectedRepo.description }}</div>
       </div>
 
       <!-- Link to github  -->
@@ -110,7 +110,10 @@
                              [file]="i18nFile"
                              [languages]="selectedLanguages"></lh-language-details>
       </div>
+    </div>
 
+    <!-- Add language form -->
+    <div class="column small-12 large-7">
       <div class="row" *ngIf="!showLanguageForm">
         <div class="column">
           <div class="color-primary cursor-pointer" (click)="showLanguageForm = true">
@@ -118,37 +121,37 @@
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Add language form -->
-    <div class="column small-12 large-7" *ngIf="showLanguageForm">
-      <!-- Select language -->
-      <div class="row align-middle margin-bottom-half">
-        <div class="column small-3">
-          Language:
+      <div class="row align-middle language-form" *ngIf="showLanguageForm">
+        <!-- Translation file path -->
+        <div class="column small-5">
+          <md-input-container [dividerColor]="(isNewFileNotFound || isNewFileNotValid) ? 'warn' : 'primary'">
+            <input mdInput #newFilePath
+                   placeholder="Path to translation file"
+                   [type]="text"
+                   (focus)="resetNewFileErrors()" />
+            <md-hint align="end">(ex: config/locales/fr.yml)</md-hint>
+          </md-input-container>
         </div>
 
-        <div class="column small-9">
-          <select [(ngModel)]="newFileLanguage">
-            <option *ngFor="let country of languages" [ngValue]="country">
+        <!-- Select language -->
+        <div class="column small-5">
+          <md-select placeholder="Select language" (change)="onSelectLanguage($event)">
+            <md-option *ngFor="let country of languages" [value]="country">
+              <span class="flag-icon flag-icon-{{ languageOf(country.languageCode).flagClass }} margin-right-half"></span>
               {{ country.languageCode }} - {{ country.languageName }}
-            </option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Translation file path -->
-      <div class="row align-middle margin-bottom-half">
-        <div class="column small-3">
-          I18n file:
+            </md-option>
+          </md-select>
         </div>
 
-        <div class="column small-9">
-          <input type="text"
-                 placeholder="(ex: config/locales/fr.yml)"
-                 (focus)="resetNewFileErrors()"
-                 [(ngModel)]="newFilePath"
-                 [class]="(isNewFileNotFound || isNewFileNotValid) ? 'border-alert color-alert' : ''">
+        <!-- Validation button -->
+        <div class="column small-1" (click)="onClickAddLanguage(newFileLanguage.languageCode, newFilePath)">
+          <i class="cursor-pointer color-primary material-icons">add_circle</i>
+        </div>
+
+        <!-- Cancel button -->
+        <div class="column small-1" (click)="onClickResetLanguage()">
+          <i class="cursor-pointer color-secondary material-icons">cancel</i>
         </div>
       </div>
 
@@ -158,24 +161,6 @@
 
       <div *ngIf="isNewFileNotValid" class="color-alert margin-bottom">
         <strong>Unable to read {{ newFilePath }} as a JSON object. We only accept valid JSON files.</strong>
-      </div>
-
-      <!-- Button -->
-      <div class="row">
-        <div class="column">
-          <button md-raised-button
-                  style="width: 49%"
-                  color="primary"
-                  disabled="{{ isAddLanguageDisabled() }}"
-                  (click)="onClickAddLanguage(newFileLanguage.languageCode, newFilePath)">
-            Add language
-          </button>
-          <button md-raised-button
-                  style="width: 49%"
-                  (click)="onClickResetLanguage()">
-            Cancel
-          </button>
-        </div>
       </div>
     </div>
   </div>
