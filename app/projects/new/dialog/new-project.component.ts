@@ -123,8 +123,7 @@ export class NewProjectDialog implements OnInit {
         .then(fileInfo => {
           this.selectedLanguages.push(fileInfo);
           this.parsingFile = null;
-          this.newFileLanguage = undefined;
-          this.newFilePath = undefined;
+          this.onClickResetLanguage();
         })
         .catch(error => {
           this.isNewFileNotFound = error.status === 404;

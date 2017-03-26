@@ -94,7 +94,7 @@
         <em>No Language defined</em>
       </div>
 
-      <div *ngIf="parsingFile != null">
+      <div class="row align-middle margin-bottom" *ngIf="parsingFile != null" style="margin-left: -10px">
         <lh-loader></lh-loader>
         <em>
           Parsing file
@@ -105,7 +105,7 @@
         </em>
       </div>
 
-      <div *ngIf="selectedLanguages.length != 0">
+      <div class="margin-bottom" *ngIf="selectedLanguages.length != 0">
         <lh-language-details *ngFor="let i18nFile of selectedLanguages"
                              [file]="i18nFile"
                              [languages]="selectedLanguages"></lh-language-details>
