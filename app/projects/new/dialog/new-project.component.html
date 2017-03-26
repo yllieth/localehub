@@ -68,7 +68,13 @@
       <!-- Repository description -->
       <div class="row align-middle">
         <div class="column small-4"><strong>Description:</strong></div>
-        <div class="column small-8">{{ selectedRepo.description }}</div>
+        <div class="column small-8">
+          <span class="margin-right-half cursor-pointer" *ngIf="selectedRepo.fork" mdTooltip="Fork"><i class="octicon octicon-repo-forked"></i></span>
+          <span class="margin-right-half cursor-pointer" *ngIf="selectedRepo.private" mdTooltip="Private repository"><i class="material-icons lock">lock</i></span>
+          <span class="margin-right-half cursor-pointer" *ngIf="!selectedRepo.private" mdTooltip="Public repository"><i class="material-icons lock_open">lock_open</i></span>
+          <span class="margin-right-half cursor-pointer" mdTooltip="Open in github" (click)="onOpenInGithub(selectedRepo)"><i class="material-icons link">link</i></span>
+          <span>{{ selectedRepo.description }}</span>
+        </div>
       </div>
     </div>
   </div>

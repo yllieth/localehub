@@ -144,6 +144,11 @@ export class NewProjectDialog implements OnInit {
     this.otherUsers.push(oldUser);
   }
 
+  onOpenInGithub(selectedRepo: Repository): void {
+    console.log(selectedRepo.url);
+    window.open(selectedRepo.url);
+  }
+
   resetNewFileErrors(): void {
     this.isRepoNotSet = false;
     this.isNewFileNotValid = false;
