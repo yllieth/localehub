@@ -1,6 +1,6 @@
-<div class="row align-middle">
+<div class="row align-middle custom-title" md-dialog-title>
   <div class="column small-8">
-    <h1 md-dialog-title>List of saved changes ({{ totalChanges }})</h1>
+    <h1>List of saved changes ({{ totalChanges }})</h1>
   </div>
 
   <div class="column small-3">
@@ -58,15 +58,15 @@
   </div>
 </div>
 
-<div class="row action-container" *ngIf="totalChanges > 0">
+<div class="row" *ngIf="totalChanges > 0">
   <div class="column">
-    <button md-raised-button color="primary" (click)="onCommitChanges()">
-      <span *ngIf="!isCommitting">Save changes</span>
-      <span *ngIf="isCommitting">Saving...</span>
-    </button>
-    <button md-raised-button color="secondary" (click)="onCloseDialog(translationsPreviewDialog)">
-      Close
-    </button>
+    <md-dialog-actions>
+      <button md-raised-button color="primary" (click)="onCommitChanges()">
+        <span *ngIf="!isCommitting">Save changes</span>
+        <span *ngIf="isCommitting">Saving...</span>
+      </button>
+      <button md-raised-button md-dialog-close>Close</button>
+    </md-dialog-actions>
   </div>
 </div>
 

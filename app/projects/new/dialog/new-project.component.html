@@ -1,14 +1,18 @@
-<div class="row">
-  <div class="column">
-    <h1 md-dialog-title="" *ngIf="existingProjects.length > 0">New project</h1>
-    <h1 md-dialog-title="" *ngIf="existingProjects.length <= 0">Welcome on Localehub. Let's start creating your first project:</h1>
+<div class="row align-middle margin-bottom custom-title" md-dialog-title>
+  <div class="column small-11">
+    <h1 *ngIf="existingProjects.length > 0">New project</h1>
+    <h1 *ngIf="existingProjects.length <= 0">Welcome on Localehub. Let's start creating your first project:</h1>
+  </div>
+
+  <div class="column small-1 close-container">
+    <i class="material-icons close" (click)="onCloseDialog(newProjectDialog)">close</i>
   </div>
 </div>
 
 <!-- Repository list -->
 <fieldset>
   <legend>Select a Github repository: </legend>
-  <lh-loader [message]="'Loading repositories ...'" *ngIf="repositoryList == undefined"></lh-loader>
+  <lh-loader [message]="'Loading repositories ...'" *ngIf="repositoryList == undefined" style="height: 105px;"></lh-loader>
   <div class="row" *ngIf="repositoryList != undefined">
     <div class="small-12 large-6 column">
       <div class="row align-middle">
@@ -19,16 +23,17 @@
         </div>
 
         <div class="column small-8">
-          <select [(ngModel)]="selectedRepo" (change)="onSelectRepository(selectedRepo)" *ngIf="repositoryList != undefined">
-            <option *ngFor="let repository of repositoryList" [ngValue]="repository">
+          <md-select placeholder="Repository ({{ repositoryList.length }})" (change)="onSelectRepository($event)">
+            <md-option *ngFor="let repository of repositoryList" [value]="repository" [disabled]="hasProject(repository)">
               {{ repository.name }}
-            </option>
-          </select>
+            </md-option>
+          </md-select>
         </div>
       </div>
 
+      <!-- Other users -->
       <div class="row">
-        <div class="column small-4">
+        <div class="column">
           <div *ngIf="!showOtherUsers" class="color-primary cursor-pointer" (click)="showOtherUsers = !showOtherUsers">
             <i class="material-icons swap_vertical_circle">swap_vertical_circle</i>
             <span class="margin-left-half">Other users</span>
@@ -42,40 +47,34 @@
                  class="avatar cursor-pointer margin-top">
           </div>
         </div>
-        <div class="column small-8">
-          <small class="color-secondary">
-            <i class="material-icons info">info</i>
-            Repositories with an existing project aren't displayed in this list.
-          </small>
-        </div>
       </div>
     </div>
 
     <div class="small-12 large-6 column margin-top-small-only" *ngIf="selectedRepo">
-      <!-- Repository description -->
-      <div class="row align-middle margin-bottom-half">
-        <div class="column small-4"><strong>Description:</strong></div>
-        <div class="column small-8">{{ selectedRepo.description }}</div>
-      </div>
-
       <!-- Branches -->
       <div class="row align-middle margin-bottom-half">
         <div class="column small-4"><strong>Branches:</strong></div>
         <div class="column small-8">
-          <select [(ngModel)]="selectedBranch" *ngIf="branchList != undefined">
-            <option *ngFor="let branch of branchList" [ngValue]="branch">
+          <md-select placeholder="Choose a base version" (change)="onSelectBranch($event)" *ngIf="branchList != undefined">
+            <md-option *ngFor="let branch of branchList" [value]="branch">
               {{ branch }}
-            </option>
-          </select>
+            </md-option>
+          </md-select>
 
           <lh-loader [message]="'Loading branches ...'" *ngIf="branchList == undefined"></lh-loader>
         </div>
       </div>
 
-      <!-- Link to github  -->
+      <!-- Repository description -->
       <div class="row align-middle">
-        <div class="column small-4"><strong>Open in github:</strong></div>
-        <div class="column small-8"><a [attr.href]="selectedRepo.url" target="_blank">Click here</a></div>
+        <div class="column small-4"><strong>Description:</strong></div>
+        <div class="column small-8">
+          <span class="margin-right-half cursor-pointer" *ngIf="selectedRepo.fork" mdTooltip="Fork"><i class="octicon octicon-repo-forked"></i></span>
+          <span class="margin-right-half cursor-pointer" *ngIf="selectedRepo.private" mdTooltip="Private repository"><i class="material-icons lock">lock</i></span>
+          <span class="margin-right-half cursor-pointer" *ngIf="!selectedRepo.private" mdTooltip="Public repository"><i class="material-icons lock_open">lock_open</i></span>
+          <span class="margin-right-half cursor-pointer" mdTooltip="Open in github" (click)="onOpenInGithub(selectedRepo)"><i class="material-icons link">link</i></span>
+          <span>{{ selectedRepo.description }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -83,7 +82,7 @@
 
 
 <!-- Languages -->
-<fieldset class="margin-top">
+<fieldset class="margin-vertical-double">
   <legend>
     Supported languages:
   </legend>
@@ -91,11 +90,11 @@
   <div class="row">
     <!-- Defined languages -->
     <div class="column small-12 large-5">
-      <div *ngIf="selectedLanguages.length == 0 && parsingFile == null">
+      <div class="margin-bottom" *ngIf="selectedLanguages.length == 0 && parsingFile == null">
         <em>No Language defined</em>
       </div>
 
-      <div *ngIf="parsingFile != null">
+      <div class="row align-middle margin-bottom" *ngIf="parsingFile != null" style="margin-left: -10px">
         <lh-loader></lh-loader>
         <em>
           Parsing file
@@ -106,76 +105,71 @@
         </em>
       </div>
 
-      <div *ngIf="selectedLanguages.length != 0">
+      <div class="margin-bottom" *ngIf="selectedLanguages.length != 0">
         <lh-language-details *ngFor="let i18nFile of selectedLanguages"
                              [file]="i18nFile"
                              [languages]="selectedLanguages"></lh-language-details>
       </div>
-
-      <div class="row" *ngIf="!showLanguageForm">
-        <div class="column">
-          <a (click)="showLanguageForm = true">
-            <i class="material-icons add_circle_outline">add_circle_outline</i> Define a new language
-          </a>
-        </div>
-      </div>
     </div>
 
     <!-- Add language form -->
-    <div class="column small-12 large-7" *ngIf="showLanguageForm">
-      <!-- Select language -->
-      <div class="row align-middle margin-bottom-half">
-        <div class="column small-3">
-          Language:
-        </div>
-
-        <div class="column small-9">
-          <select [(ngModel)]="newFileLanguage">
-            <option *ngFor="let country of languages" [ngValue]="country">
-              {{ country.languageCode }} - {{ country.languageName }}
-            </option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Translation file path -->
-      <div class="row align-middle margin-bottom-half">
-        <div class="column small-3">
-          I18n file:
-        </div>
-
-        <div class="column small-9">
-          <input type="text"
-                 placeholder="(ex: config/locales/fr.yml)"
-                 (focus)="resetNewFileErrors()"
-                 [(ngModel)]="newFilePath"
-                 [class]="(isNewFileNotFound || isNewFileNotValid) ? 'border-alert color-alert' : ''">
-        </div>
-      </div>
-
-      <div *ngIf="isNewFileNotFound" class="color-alert margin-bottom">
-        <strong>File not found in {{ selectedRepo.name }}/{{ githubUsername }} repository.</strong>
-      </div>
-
-      <div *ngIf="isNewFileNotValid" class="color-alert margin-bottom">
-        <strong>Unable to read {{ newFilePath }} as a JSON object. We only accept valid JSON files.</strong>
-      </div>
-
-      <!-- Button -->
-      <div class="row">
+    <div class="column small-12 large-7">
+      <div class="row" *ngIf="!showLanguageForm">
         <div class="column">
-          <button md-raised-button
-                  style="width: 49%"
-                  color="primary"
-                  disabled="{{ isAddLanguageDisabled() }}"
-                  (click)="onClickAddLanguage(newFileLanguage.languageCode, newFilePath)">
-            Add language
-          </button>
-          <button md-raised-button
-                  style="width: 49%"
-                  (click)="onClickResetLanguage()">
-            Cancel
-          </button>
+          <div class="color-primary cursor-pointer" (click)="showLanguageForm = true">
+            <i class="material-icons add_circle_outline">add_circle_outline</i> Define a new language
+          </div>
+        </div>
+      </div>
+
+      <div class="row align-middle language-form" *ngIf="showLanguageForm">
+        <!-- Translation file path -->
+        <div class="column small-5">
+          <md-input-container [dividerColor]="(isNewFileNotFound || isNewFileNotValid) ? 'warn' : 'primary'">
+            <input mdInput #newFilePath
+                   placeholder="Path to translation file"
+                   [type]="text"
+                   [required]="true"
+                   (focus)="resetNewFileErrors()" />
+            <md-hint align="end">(ex: config/locales/fr.yml)</md-hint>
+          </md-input-container>
+        </div>
+
+        <!-- Select language -->
+        <div class="column small-5">
+          <md-select placeholder="Select language" (change)="onSelectLanguage($event)" [required]="true">
+            <md-option *ngFor="let country of languages" [value]="country">
+              <span class="flag-icon flag-icon-{{ languageOf(country.languageCode).flagClass }} margin-right-half"></span>
+              {{ country.languageCode }} - {{ country.languageName }}
+            </md-option>
+          </md-select>
+        </div>
+
+        <!-- Validation button -->
+        <div class="column small-1" (click)="onClickAddLanguage(newFileLanguage, newFilePath)">
+          <i class="cursor-pointer color-primary material-icons">add_circle</i>
+        </div>
+
+        <!-- Cancel button -->
+        <div class="column small-1" (click)="onClickResetLanguage()">
+          <i class="cursor-pointer color-secondary material-icons">cancel</i>
+        </div>
+      </div>
+
+      <!-- Error -->
+      <div class="row margin-top" *ngIf="showLanguageForm">
+        <div class="column">
+          <div *ngIf="isNewFileNotFound" class="color-alert">
+            <strong>File not found in {{ selectedRepo.fullName + '@' + selectedBranch }} repository.</strong>
+          </div>
+
+          <div *ngIf="isNewFileNotValid" class="color-alert">
+            <strong>Unable to read {{ newFilePath }} as a JSON object. We only accept valid JSON files.</strong>
+          </div>
+
+          <div *ngIf="isRepoNotSet" class="color-alert">
+            <strong>Please select a repo and a branch before adding a language.</strong>
+          </div>
         </div>
       </div>
     </div>
@@ -183,15 +177,10 @@
 </fieldset>
 
 
-
-<div class="row">
-  <div class="column">
-    <md-dialog-actions>
-      <button md-raised-button color="primary" (click)="createProject(newProjectDialog)" disabled="{{ isSaveDisabled() }}">
-        <span *ngIf="isCreatingProject">Saving...</span>
-        <span *ngIf="!isCreatingProject">Create</span>
-      </button>
-      <button md-raised-button md-dialog-close>Cancel</button>
-    </md-dialog-actions>
-  </div>
-</div>
+<md-dialog-actions>
+  <button md-raised-button color="primary" (click)="createProject(newProjectDialog)" disabled="{{ isSaveDisabled() }}">
+    <span *ngIf="isCreatingProject">Saving...</span>
+    <span *ngIf="!isCreatingProject">Create project</span>
+  </button>
+  <button md-raised-button md-dialog-close>Cancel</button>
+</md-dialog-actions>

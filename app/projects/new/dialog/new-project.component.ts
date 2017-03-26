@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
+import { MdDialogRef, MdSelectChange } from '@angular/material';
 import { AuthenticationService, BranchesService, ErrorService, LanguageService, ProjectsService, RepositoriesService, TranslationsService, UserService } from '../../../+services';
 import { Repository, I18nFileInfo, Language, User } from '../../../+models';
 
@@ -28,6 +28,7 @@ export class NewProjectDialog implements OnInit {
   showLanguageForm: boolean;
   isNewFileNotFound: boolean;
   isNewFileNotValid: boolean;
+  isRepoNotSet: boolean;
 
   constructor(
     private userService: UserService,
@@ -40,11 +41,22 @@ export class NewProjectDialog implements OnInit {
     public newProjectDialog: MdDialogRef<NewProjectDialog>
   ) { }
 
-  private loadRepositories(user: User) {
+  private loadRepositories(selectedUser: User): void {
     this.repositoryList = undefined;  // tested in the view to show the loader
+    this.selectedRepo = undefined;
     this.repoService
-      .getAll(user.login)
-      .then((repos: Repository[]) => this.repositoryList = repos.filter(githubRepo => this.existingProjects.indexOf(githubRepo.fullName) === -1))
+      .getAll(selectedUser.login)
+      .then(repositories => this.repositoryList = repositories);
+  }
+
+  private loadOtherUsers(selectedUser: User): void {
+    this.userService
+      .getOrganizations()
+      .then((users: User[]) => this.otherUsers = users.filter(user => user.id != selectedUser.id));
+  }
+
+  private isRepoAndBranchDefined(): boolean {
+    return this.selectedRepo !== undefined && this.selectedBranch !== undefined;
   }
 
   ngOnInit() {
@@ -57,25 +69,29 @@ export class NewProjectDialog implements OnInit {
     this.showLanguageForm = false;
     this.isNewFileNotFound = false;
     this.isNewFileNotValid = false;
-
-    this.userService
-      .getOrganizations()
-      .then((users: User[]) => this.otherUsers = users.filter(user => user.id != this.selectedUser.id));
+    this.isRepoNotSet = false;
 
     this.authenticationService
       .initCurrentUser()
       .then((user: User) => {
         this.selectedUser = user;
         this.loadRepositories(user);
+        this.loadOtherUsers(user);
       })
       /*.catch(error => this.errorService.handleHttpError('404-001', error))*/;
   }
 
-  onSelectRepository(repository: Repository) {
+  hasProject(repository: Repository): boolean {
+    return this.existingProjects.indexOf(repository.fullName) >= 0;
+  }
+
+  onSelectRepository(event: MdSelectChange): void {
+    this.isRepoNotSet = !this.isRepoAndBranchDefined();
+    this.selectedRepo = event.value;
     this.branchList = undefined;      // tested in the view to show the loader
     this.selectedBranch = undefined;  // reset branch if the repo changes after selecting a branch for a previous one
     this.branchesService
-      .getNames(repository.fullName)
+      .getNames(this.selectedRepo.fullName)
       .then(branches => {
         this.branchList = branches;
         if (branches.indexOf('master') > -1) {
@@ -84,22 +100,37 @@ export class NewProjectDialog implements OnInit {
       });
   }
 
-  onClickAddLanguage(languageCode, path): void {
-    this.parsingFile = {path, languageCode};
-    this.resetNewFileErrors();
-    this.translationsService
-      .checkI18nfile(this.selectedRepo.fullName, path, languageCode, this.selectedBranch)
-      .then(fileInfo => {
-        this.selectedLanguages.push(fileInfo);
-        this.parsingFile = null;
-        this.newFileLanguage = undefined;
-        this.newFilePath = undefined;
-      })
-      .catch(error => {
-        this.isNewFileNotFound = error.status === 404;
-        this.isNewFileNotValid = error.status === 422;
-        this.parsingFile = null;
-      });
+  onSelectBranch(event: MdSelectChange): void {
+    this.isRepoNotSet = !this.isRepoAndBranchDefined();
+    this.selectedBranch = event.value;
+  }
+
+  onSelectLanguage(event: MdSelectChange): void {
+    this.newFileLanguage = event.value;
+  }
+
+  onClickAddLanguage(language: Language, input: HTMLFormElement): void {
+    let languageCode = language.languageCode;
+    let path = input.value;
+    
+    this.isRepoNotSet = !this.isRepoAndBranchDefined();
+
+    if (this.isRepoNotSet === false) {
+      this.parsingFile = {path, languageCode};
+      this.resetNewFileErrors();
+      this.translationsService
+        .checkI18nfile(this.selectedRepo.fullName, path, languageCode, this.selectedBranch)
+        .then(fileInfo => {
+          this.selectedLanguages.push(fileInfo);
+          this.parsingFile = null;
+          this.onClickResetLanguage();
+        })
+        .catch(error => {
+          this.isNewFileNotFound = error.status === 404;
+          this.isNewFileNotValid = error.status === 422;
+          this.parsingFile = null;
+        });
+    }
   }
 
   onClickChangeUser(user: User): void {
@@ -111,7 +142,12 @@ export class NewProjectDialog implements OnInit {
     this.otherUsers.push(oldUser);
   }
 
+  onOpenInGithub(selectedRepo: Repository): void {
+    window.open(selectedRepo.url);
+  }
+
   resetNewFileErrors(): void {
+    this.isRepoNotSet = false;
     this.isNewFileNotValid = false;
     this.isNewFileNotFound = false;
   }
@@ -122,16 +158,16 @@ export class NewProjectDialog implements OnInit {
     this.showLanguageForm = false;
   }
 
+  onCloseDialog(dialogRef: MdDialogRef<NewProjectDialog>): void {
+    dialogRef.close();
+  }
+
   languageOf(languageCode: string): Language {
     return LanguageService.find(languageCode);
   }
 
   isSaveDisabled(): boolean {
     return this.selectedRepo === undefined || this.selectedBranch === undefined || this.selectedLanguages.length === 0;
-  }
-
-  isAddLanguageDisabled(): boolean {
-    return this.newFileLanguage === undefined || this.newFilePath === undefined;
   }
 
   createProject(dialogRef: MdDialogRef<NewProjectDialog>): void {
