@@ -26,6 +26,7 @@ let debug = true;
  *     "name": "localehub",
  *     "fullName": "yllieth/localehub",
  *     "description": "[WebApp] Add/update versionned I18N support to an existing application",
+ *     "url": "https://github.com/yllieth/localehub",
  *     "owner": {
  *       "id": 2495109,
  *       "login": "yllieth",
@@ -82,6 +83,7 @@ function buildOutput(repositories) {
 				name: repo.name,
 				fullName: repo.full_name,
 				description: repo.description,
+				url: repo.html_url,
 				owner: {
 					id: repo.owner.id,
 					login: repo.owner.login,
