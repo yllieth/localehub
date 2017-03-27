@@ -92,12 +92,7 @@ export class NewProjectDialog implements OnInit {
     this.selectedBranch = undefined;  // reset branch if the repo changes after selecting a branch for a previous one
     this.branchesService
       .getNames(this.selectedRepo.fullName)
-      .then(branches => {
-        this.branchList = branches;
-        if (branches.indexOf('master') > -1) {
-          this.selectedBranch = 'master';
-        }
-      });
+      .then(branches => this.branchList = branches);
   }
 
   onSelectBranch(event: MdSelectChange): void {
