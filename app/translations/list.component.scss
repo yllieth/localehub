@@ -1,5 +1,13 @@
 @import 'styles/app.scss';
 
+.row.main-full-height {
+  height: calc(100% - 50px);
+}
+
+.height-50 {
+  height: 50px;
+}
+
 i.check_circle {
   @include offset(6px);
 }

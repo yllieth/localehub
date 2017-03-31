@@ -7,8 +7,7 @@ import { BranchesService, ErrorService, ProjectsService } from '../../+services'
   moduleId: module.id,
   selector: 'lh-projects-card',
   templateUrl: 'projects-card.component.html',
-  styleUrls: [ 'projects-card.component.css' ],
-  providers: [ BranchesService ]
+  styleUrls: [ 'projects-card.component.css' ]
 })
 export class ProjectsCardComponent implements OnInit {
   @Input() project: Project;

@@ -3,12 +3,32 @@ import { Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { ApiService } from './';
+import { GithubBranch } from '../+models';
 
 @Injectable()
 export class BranchesService {
   public static APP_SUFFIX = '-localehub';
 
   constructor(private api: ApiService) {}
+
+  /**
+   * Create a branch
+   *
+   * @param fullName - Ex: yllieth/localehub
+   * @param origin - Ex: gh-test
+   * @param name - Ex: gh-test-localehub
+   * @returns {Promise<GithubBranch>}
+   */
+  create(fullName: string, origin: string, name: string): Promise<GithubBranch> {
+    let username = fullName.split('/')[0];
+    let repository = fullName.split('/')[1];
+
+    return this.api
+      .post(`${ApiService.endpoint.prod}/branches/${username}/${repository}`, { origin, name})
+      .toPromise()
+      .then((response: Response) => response.json() as GithubBranch)
+      .catch(error => Promise.reject(error));
+  }
 
   /**
    * Get all branches' names from the giver username/repository couple.

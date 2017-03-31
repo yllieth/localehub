@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Project, Language, LocaleFolder } from '../+models';
-import { AuthenticationService, LanguageService, ProjectsService, TranslationsService } from '../+services';
+import { AuthenticationService, BranchesService, LanguageService, ProjectsService, TranslationsService } from '../+services';
 
 @Component({
   moduleId: module.id,
@@ -15,10 +15,12 @@ export class TranslationsListComponent implements OnInit {
   root: LocaleFolder;     // undefined value is tested in the template to show the loader
   selected: LocaleFolder; // undefined value is tested in the template to show the loader
   newLocaleFormVisible: boolean;
+  branch: {created: boolean, from: string, to: string};
 
   constructor(
     private $route: ActivatedRoute,
     private authenticationService: AuthenticationService,
+    private branchService: BranchesService,
     private projectsService: ProjectsService,
     private translationsService: TranslationsService
   ) { }
@@ -26,15 +28,28 @@ export class TranslationsListComponent implements OnInit {
   ngOnInit() {
     this.authenticationService.initCurrentUser();
     this.newLocaleFormVisible = false;
-    this.$route.params.forEach((params: Params) => {
+    this.$route.params.subscribe((params: Params) => {
       this.projectsService
         .getOne(params['projectId'])
-        .then(project => this.project = project)
-        .then((_) => this.translationsService
-          .getDictionaries(this.project)
-          .then(dictionaries => this.root = this.selected = this.translationsService.createList(dictionaries))
-          .catch(error => /* TODO improve error handling */ console.log('Error while fetching translations', error)))
-        .catch(error => /* TODO improve error handling */ console.log('Error while fetching projects', error));
+        .then(project => this.projectsService.updateBranchList(project))
+        .then(project => {
+          this.project = project;
+          let from = ProjectsService.baseVersionName(project);
+          let to = ProjectsService.workingVersionName(project);
+          if (ProjectsService.needsToCreateWorkingVersion(project)) {
+            return this.branchService.create(this.project.repository.fullName, from, to)
+              .then((_) => { return {created: true, from, to};});
+          } else {
+            return Promise.resolve({created: false, from, to});
+          }
+        })
+        .then(branch => {
+          this.branch = branch;
+          return this.translationsService.getDictionaries(this.project.id, this.project.i18nFiles, branch.to);
+        })
+        .then(dictionaries => {
+          this.root = this.selected = this.translationsService.createList(dictionaries);
+        });
     });
   }
 

@@ -82,8 +82,8 @@ exports.handler = function(event, context, callback) {
 
 	buildQuery(projectId, JSON.parse(event.body))
 		.then(query => updateProject(query))
-		.then(project => done(callback, null, {project}, 200))
-		.catch(error => done(callback, error, null, 500));
+		.then(project => done(callback,project, 200))
+		.catch(error => done(callback, error, error.statusCode || 500));
 };
 
 function buildQuery(projectId, body) {
@@ -92,44 +92,60 @@ function buildQuery(projectId, body) {
 		console.log('inputs:', JSON.stringify({projectId, body}, null, 2));
 	}
 
-	return new Promise((resolve, reject) => {
-		let operation = body.operation;
-		let update = body.update;
+	let operation = body.operation;
+	let update = body.update;
 
-		if (operation === 'set-pendingChanges') {
-			let query = {
-				TableName: 'projects',
-				Key: {id: projectId},
-				ReturnValues: 'ALL_NEW',
-				UpdateExpression: 'set pendingChanges = :pendingChanges',
-				ExpressionAttributeValues: { ':pendingChanges': update }
-			};
+	if (operation === 'set-pendingChanges') {
+		let query = {
+			TableName: 'projects',
+			Key: {id: projectId},
+			ReturnValues: 'ALL_NEW',
+			UpdateExpression: 'set pendingChanges = :pendingChanges',
+			ExpressionAttributeValues: { ':pendingChanges': update }
+		};
 
-			if (debug === true) {
-				console.log('output:', JSON.stringify({query}, null, 2));
-			}
-
-			resolve(query);
-		} else if (operation === 'append-pendingChanges') {
-			return findProject(projectId)
-				.then(project => mergeChanges(update, project.pendingChanges))
-				.then(changes => {
-					let query = {
-						TableName: 'projects',
-						Key: {id: projectId},
-						ReturnValues: 'ALL_NEW',
-						UpdateExpression: 'set pendingChanges = :pendingChanges',
-						ExpressionAttributeValues: { ':pendingChanges': changes }
-					};
-
-					if (debug === true) {
-						console.log('output:', JSON.stringify({query}, null, 2));
-					}
-
-					resolve(query);
-				});
+		if (debug === true) {
+			console.log('output:', JSON.stringify({query}, null, 2));
 		}
-	});
+
+		return Promise.resolve(query);
+	} else if (operation === 'append-pendingChanges') {
+		return findProject(projectId)
+			.then(project => mergeChanges(update, project.pendingChanges))
+			.then(changes => {
+				let query = {
+					TableName: 'projects',
+					Key: {id: projectId},
+					ReturnValues: 'ALL_NEW',
+					UpdateExpression: 'set pendingChanges = :pendingChanges',
+					ExpressionAttributeValues: {':pendingChanges': changes}
+				};
+
+				if (debug === true) {
+					console.log('output:', JSON.stringify({query}, null, 2));
+				}
+
+				return Promise.resolve(query);
+			});
+	} else if (operation === 'set-availableBranches') {
+		let query = {
+			TableName: 'projects',
+			Key: {id: projectId},
+			ReturnValues: 'ALL_NEW',
+			UpdateExpression: 'set availableBranches = :branches',
+			ExpressionAttributeValues: { ':branches': update }
+		};
+
+		if (debug === true) {
+			console.log('output:', JSON.stringify({query}, null, 2));
+		}
+
+		return Promise.resolve(query);
+	} else {
+		return Promise.reject({
+			reason: 'Unkown operation ' + operation
+		});
+	}
 }
 
 function findProject(projectId) {
@@ -155,27 +171,25 @@ function mergeChanges(pendingChanges, savedChanges) {
 		console.log('inputs:', JSON.stringify({pendingChanges, savedChanges}, null, 2));
 	}
 
-	return new Promise(resolve => {
-		for (let change of pendingChanges) {
-			let sequence = false;
-			for (let savedChange of savedChanges) {
-				sequence = isSequence(savedChange, change);
-				if (sequence === true) {
-					savedChange.value.newString = change.value.newString;
-				}
-			}
-
-			if (sequence === false) {
-				savedChanges.push(change);
+	for (let change of pendingChanges) {
+		let sequence = false;
+		for (let savedChange of savedChanges) {
+			sequence = isSequence(savedChange, change);
+			if (sequence === true) {
+				savedChange.value.newString = change.value.newString;
 			}
 		}
 
-		if (debug === true) {
-			console.log('output:', JSON.stringify({changes: savedChanges}, null, 2));
+		if (sequence === false) {
+			savedChanges.push(change);
 		}
+	}
 
-		resolve(savedChanges);
-	});
+	if (debug === true) {
+		console.log('output:', JSON.stringify({changes: savedChanges}, null, 2));
+	}
+
+	return Promise.resolve(savedChanges);
 }
 
 function updateProject(query) {
@@ -197,10 +211,10 @@ function updateProject(query) {
 
 // ----------------------------------------------------------------------------
 
-function done(callback, error, data, statusCode) {
-	callback(error, {
+function done(callback, data, statusCode) {
+	callback(null, {
 		statusCode: statusCode,
-		body: error ? error : JSON.stringify(data),
+		body: JSON.stringify(data, null, 2),
 		headers: {
 			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/json'

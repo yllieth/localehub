@@ -5,7 +5,7 @@ export * from './events.service';
 export * from './repositories.service';
 export * from './user.service';             // must be before authentication.service
 export * from './authentication.service';
+export * from './branches.service';         // must be before projects.service
 export * from './projects.service';
 export * from './translations.service';
 export * from './language.service';
-export * from './branches.service';

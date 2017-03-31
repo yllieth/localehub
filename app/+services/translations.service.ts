@@ -63,10 +63,10 @@ export class TranslationsService {
     return root;
   }
 
-  getDictionaries(project: Project): Promise<any> {
+  getDictionaries(projectId: string, files: I18nFileInfo[], branch: string): Promise<{content: any, metadata: I18nFileInfo}[]> {
     let requestLanguages = [];
-    for (let i18nFile of project.i18nFiles) {
-      requestLanguages.push(this.getTranslation(project.id, i18nFile.languageCode, project.lastActiveBranch));
+    for (let i18nFile of files) {
+      requestLanguages.push(this.getTranslation(projectId, i18nFile.languageCode, branch));
     }
 
     return Promise.all(requestLanguages).catch(error => Promise.reject(error));

@@ -8,7 +8,7 @@ import { Repository, I18nFileInfo, Language, User } from '../../../+models';
   selector: 'new-project-dialog',
   templateUrl: 'new-project.component.html',
   styleUrls: [ 'new-project.component.css' ],
-  providers: [ BranchesService, ProjectsService, RepositoriesService, TranslationsService ]
+  providers: [ ProjectsService, RepositoriesService, TranslationsService ]
 })
 export class NewProjectDialog implements OnInit {
   existingProjects: string[]; // from ProjectsComponent.openNewProjectDialog : newProjectDialog.componentInstance.existingProjects = projects.map(project => project.name);
