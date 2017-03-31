@@ -55,7 +55,7 @@ export class TranslationsLocaleComponent implements OnInit {
 
     let update = new LocaleUpdate();
     update.languageCode = translation.language.languageCode;
-    update.branch = this.project.lastActiveBranch;
+    update.branch = ProjectsService.workingVersionName(this.project);
     update.key = this.locale.getCompleteKey();
     update.value = {
       oldString: translation.string,
