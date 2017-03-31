@@ -20,8 +20,9 @@ export class TranslationsLocaleComponent implements OnInit {
     this.locale.expand(false);
     this.isSavingTranslation = false;
 
+    // add/highlight pending changes
     for(let change of this.project.pendingChanges) {
-      if (change.key === this.locale.getCompleteKey() && change.branch === this.project.lastActiveBranch) {
+      if (change.key === this.locale.getCompleteKey() && change.branch === ProjectsService.workingVersionName(this.project)) {
         this.isPending = true;
         this.locale.values.map((value: Translation) => {
           if (change.languageCode === value.language.languageCode) {
