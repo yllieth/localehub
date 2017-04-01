@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Language, Locale, LocaleFolder, Project } from '../../+models';
 import { EventService, LanguageService, ProjectsService } from '../../+services';
 
@@ -12,6 +12,7 @@ export class TranslationsNewLocaleComponent implements OnInit, OnDestroy {
   @Input() languages: Language[];     // list of supported languages
   @Input() keyPath: string[];         // depend on selected locale folder
   @Input() project: Project;
+  @Output() savedLocale = new EventEmitter<Locale>();
 
   temporaryLocale: Locale;
   isSaving: boolean;
@@ -62,6 +63,9 @@ export class TranslationsNewLocaleComponent implements OnInit, OnDestroy {
         this.project = updatedProject;
 
         // New locale in the list
+
+        // Close component
+        this.savedLocale.emit(this.temporaryLocale);
       });
   }
 }
