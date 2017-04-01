@@ -48,7 +48,8 @@ export class TranslationsListComponent implements OnInit {
           return this.translationsService.getDictionaries(this.project.id, this.project.i18nFiles, branch.to);
         })
         .then(dictionaries => {
-          this.root = this.selected = this.translationsService.createList(dictionaries);
+          let newEntries = ProjectsService.getNewEntries(this.project);
+          this.root = this.selected = this.translationsService.createList(dictionaries, newEntries);
         });
     });
   }

@@ -41,6 +41,10 @@ export class ProjectsService {
     return project.availableBranches.indexOf(ProjectsService.workingVersionName(project)) < 0;
   }
 
+  static getNewEntries(project: Project) {
+    return project.pendingChanges.filter(change => change.branch === ProjectsService.workingVersionName(project) && change.value.oldString === undefined);
+  }
+
   updateBranchList(project: Project): Promise<any> {
     return this.branchService.getNames(project.repository.fullName, false)
       .then(branches => this.update(project.id, 'set-availableBranches', branches));

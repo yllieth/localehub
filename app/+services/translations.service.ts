@@ -1,11 +1,23 @@
 import { Injectable } from '@angular/core';
 import { RequestOptions, URLSearchParams, Response } from '@angular/http';
-import { I18nFileInfo, Language, LocaleFolder, Locale, Project } from '../+models';
+import { I18nFileInfo, Language, LocaleFolder, Locale, LocaleUpdate } from '../+models';
 import { ApiService, LanguageService } from './';
 
 @Injectable()
 export class TranslationsService {
   constructor(private api: ApiService,) {}
+
+  private deepSetter(obj: any, path: string[], value: string): void {
+    let i = 0;
+    for (i = 0; i < path.length - 1; i++) {
+      if (obj.hasOwnProperty(path[i]) === false) {
+        obj[path[i]] = {};
+      }
+      obj = obj[path[i]];
+    }
+
+    obj[path[i]] = value;
+  }
 
   private format(locales: any, currentLanguage: Language, allLanguages: Language[]): LocaleFolder {
     let serializeDeepKeys = (jsonPath: string, locales: any, folder: LocaleFolder) => {
@@ -38,18 +50,23 @@ export class TranslationsService {
     }
   }
 
-  createList(dictionaries: {content: any, metadata: I18nFileInfo}[]): LocaleFolder {
+  createList(dictionaries: {content: any, metadata: I18nFileInfo}[], newEntries: LocaleUpdate[]): LocaleFolder {
     let root = new LocaleFolder(LocaleFolder.ROOT_NAME);
     let languages: Language[] = dictionaries.map(d => LanguageService.find(d.metadata.languageCode));
     let formattedDictionaries = []; // { content: any, language: Language }
 
-    // format each dictionary
+    // transform each dictionary (raw json object) into LocaleFolder[] and add them in the formattedDictionaries array
     for (let dictionary of dictionaries) {
+      // add pending new locales if they exist
+      let createdLocales = newEntries.filter(change => change.languageCode === dictionary.metadata.languageCode);
+      for (let pendingNewLocale of createdLocales) {
+        this.deepSetter(dictionary.content, pendingNewLocale.key.split('.'), pendingNewLocale.value.newString);
+      }
+
       let language = LanguageService.find(dictionary.metadata.languageCode);
-      formattedDictionaries.push({
-        content: this.format(dictionary.content, language, languages),
-        language
-      });
+      let content = this.format(dictionary.content, language, languages);
+
+      formattedDictionaries.push({content, language});
     }
 
     // initialize root dictionary with the first formatted dictionary
