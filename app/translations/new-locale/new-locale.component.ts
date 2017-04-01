@@ -44,6 +44,7 @@ export class TranslationsNewLocaleComponent implements OnInit, OnDestroy {
     this.isSaving = true;
     this.temporaryLocale.setKey(this.getKeyParts().join('.') + '.' + this.key);
 
+    // add one translation for each setted languages
     for (let languageCode in this.values) {
       if (this.values[languageCode] !== null) {
         this.temporaryLocale.addTranslation(LanguageService.find(languageCode), this.values[languageCode], this.languages, true);
@@ -51,7 +52,7 @@ export class TranslationsNewLocaleComponent implements OnInit, OnDestroy {
     }
 
     this.projectsService
-      .update(this.project.id, 'append-pendingChanges', this.temporaryLocale.toLocaleUpdate(this.project.lastActiveBranch))
+      .update(this.project.id, 'append-pendingChanges', this.temporaryLocale.toLocaleUpdate(ProjectsService.workingVersionName(this.project)))
       .then(updatedProject => {
         // Notify titlebar
         EventService.get('translations::updated-changes').emit(updatedProject.pendingChanges);

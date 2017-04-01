@@ -11,9 +11,13 @@
           <span class="key-part">{{ part }}</span>
           <span class="bold margin-horizontal-half" style="align-self: center">.</span>
         </span>
-        <input type="text" autofocus placeholder="Type the title of your new locale here"
-               disabled="{{ isSaving }}"
-               [(ngModel)]="key">
+        <md-input-container dividerColor="accent">
+          <input mdInput
+                 placeholder="Type the title of your new locale here"
+                 [(ngModel)]="key"
+                 [type]="text"
+                 [disabled]="isSaving" />
+        </md-input-container>
       </div>
     </div>
     <div class="column small-3"></div>
@@ -31,9 +35,13 @@
 
         <!-- input -->
         <div class="column small-7">
-          <input type="text" placeholder="{{ language.languageName }} version for {{ key }}"
-                 disabled="{{ isSaving }}"
-                 [(ngModel)]="values[language.languageCode]"/>
+          <md-input-container dividerColor="accent">
+            <input mdInput
+                   placeholder="{{ language.languageName }} version for {{ key }}"
+                   [(ngModel)]="values[language.languageCode]"
+                   [type]="text"
+                   [disabled]="isSaving" />
+          </md-input-container>
         </div>
 
         <div class="column small-3" *ngIf="i == 2">
