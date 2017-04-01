@@ -12,6 +12,17 @@ export class BranchesService {
   constructor(private api: ApiService) {}
 
   /**
+   * Remove from input array all branch names ending with "-localehub"
+   *
+   * @param branches
+   * @returns {string[]}
+   */
+  static filterBaseBranches(branches: string[]) {
+    var regex = new RegExp(BranchesService.APP_SUFFIX + '$');
+    return branches.filter(entry => !regex.test(entry));
+  }
+
+  /**
    * Create a branch
    *
    * @param fullName - Ex: yllieth/localehub
@@ -53,7 +64,7 @@ export class BranchesService {
       .get(`${ApiService.endpoint.prod}/branches/${username}/${repository}`)
       .toPromise()
       .then((response: Response) => (excludeAppBranches)
-        ? response.json().filter(branchName => !regex.test(branchName)) as string[]
+        ? response.json().filter(BranchesService.filterBaseBranches) as string[]
         : response.json() as string[])
       .catch(error => Promise.reject(error));
   }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 
 import { Language, Project } from '../../+models';
-import { LanguageService, ProjectsService } from '../../+services';
+import { BranchesService, LanguageService, ProjectsService } from '../../+services';
 
 
 @Component({
@@ -57,7 +57,11 @@ export class TranslationsPreviewDialog implements OnInit {
 
   ngOnInit() {
     this.isCommitting = false;
-    this.selectedBranch = this.project.lastActiveBranch;
+    this.selectedBranch = ProjectsService.baseVersionName(this.project);
+  }
+
+  baseBranches(): string[] {
+    return BranchesService.filterBaseBranches(this.project.availableBranches);
   }
 
   isEmpty(string: string): boolean {
@@ -65,7 +69,7 @@ export class TranslationsPreviewDialog implements OnInit {
   }
 
   onChangeBranch(newBranch: string): void {
-    this.initChanges(newBranch);
+    this.initChanges(newBranch + BranchesService.APP_SUFFIX);
   }
 
   onCloseDialog(dialogRef: MdDialogRef<TranslationsPreviewDialog>): void {
