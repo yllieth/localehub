@@ -20,6 +20,7 @@ export class TranslationsPreviewDialog implements OnInit {
   changes;                // {'en-US': <LocaleUpdate[]>, ...} of pendingChanges
   files;                  // {'en-US': <I18nFileInfo>, ...} of pendingChanges
   isCommitting: boolean;
+  isCreatingPR: boolean;
 
   constructor(
     private projectsService: ProjectsService,
@@ -57,6 +58,7 @@ export class TranslationsPreviewDialog implements OnInit {
 
   ngOnInit() {
     this.isCommitting = false;
+    this.isCreatingPR = false;
     this.selectedBranch = ProjectsService.baseVersionName(this.project);
   }
 
@@ -90,5 +92,9 @@ export class TranslationsPreviewDialog implements OnInit {
         this.isCommitting = false;
         console.error(error);
       })
+  }
+
+  onCreatePR(): void {
+    this.isCreatingPR = true;
   }
 }
