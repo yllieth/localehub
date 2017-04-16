@@ -1,76 +1,114 @@
 'use strict';
 
 let AWS = require('aws-sdk');
-let crypto = require('crypto');
 let lambda = new AWS.Lambda({ region: 'eu-central-1' });
 let dynamo = new AWS.DynamoDB.DocumentClient({ region: 'eu-central-1' });
 let debug = true;
 
-// - [DYNAMO]: READ project, get pending changes for the given branch and group them by languages
-// - [GITHUB]: CREATE a new branch if there is at least 1 pending change
-// - [INTERN]: ITERATE over each languages having a pending change and:
-//      - [GITHUB]: READ current translation and check if it matches with oldString of pending change
-//      - [INTERN]: UPDATE translation file with pending change and encode it in base64
-//      - [GITHUB]: CREATE a new commit with all pending changes
-// - [GITHUB]: CREATE a new pull request
-// - [DYNAMO]: UPDATE project to reset pending changes
-
+/**
+ * PATCH Method
+ * Wraps 1 call to dynamoDB :
+ * - SELECT * FROM projects WHERE id = <projectId>
+ * Wrap 4 calls to lambda functions :
+ * - gh-get-user
+ * - gh-get-repos-contents
+ * - gh-put-repos-contents
+ * - projects-edit
+ * -----------------------------------------------------------------------------
+ *
+ * Inputs:
+ * === HEADERS
+ * - Authorization: {String: [a-f0-9]{8} - [a-f0-9]{4} - [a-f0-9]{4} - [a-f0-9]{4} - [a-f0-9]{12}}
+ *
+ * === PATH PARAMETERS : /projects/:projectId/translations
+ * === QUERY STRING PARAMETERS : Not applicable
+ * === BODY : Object
+ * - branch: {String}         The name of the working branch. This name is used to select pending changes to commit and to actually commit these changes
+ *
+ * Output: Object
+ * {
+ *    "project": {},
+ *    "commits": []
+ * }
+ */
 exports.handler = (event, context, callback) => {
 	let projectId = event.pathParameters.id;
 	let accessToken = event.requestContext.authorizer.githob;
-	// let body = JSON.parse(event.body);
-	let responses = {
-		user: null,			// connected github user
-		project: null,      // project from dynamoDB
-		owner: null,
-		repo: null,
-		changes: null,      // list of pending changes for the given branch grouped by languageCode: { en-US: [{...}, {...}], pl: [{...}, {...}]}
-		branch: null,       // branch created to contain all pending changes applied to translation files
-		commits: [],		// list of commits created to apply changes (must be initialized with an empty array to allow push())
-		pr: null
-	};
+	let body = JSON.parse(event.body);
+	let loggedUser, repo, owner, pendingChanges, workingBranch;
+	let i18nFilePaths = {};		// { en: 'locales/en.json', ...}
+	let commits = [];
 
-	currentUser(accessToken)
+	checkRequirements(body)
+		.then((_) => currentUser(accessToken))
 		.then(user => {
-			responses.user = user;
+			loggedUser = user;
 			return findProject(projectId);
 		})
 		.then(project => {
 			let repository = project.repository.fullName.split('/');
-			responses.project = project;
-			responses.owner = repository[0];
-			responses.repo = repository[1];
+			owner = repository[0];
+			repo = repository[1];
+			workingBranch = body.branch;
+			pendingChanges = project.pendingChanges;
+			project.i18nFiles.map(file => i18nFilePaths[file.languageCode] = file.path);
 
-			return getChanges(responses.project.pendingChanges, responses.project.lastActiveBranch);
+			return selectChanges(pendingChanges, workingBranch, i18nFilePaths);
 		})
 		.then(changes => {
-			responses.changes = changes;
-			let currentBranchName = responses.project.lastActiveBranch;
-			let newBranchName = currentBranchName + '-localehub';
+			let promise = Promise.resolve();
 
-			return createBranch(accessToken, responses.owner, responses.repo, currentBranchName, newBranchName);
-		})
-		.then(newBranch => {
-			responses.branch = newBranch;
-			return processChanges(accessToken, responses);
-		})
-		.then((_) => {
-			let owner = responses.owner;
-			let repo = responses.repo;
-			let oldBranchName = responses.project.lastActiveBranch;
-			let newBranchName = responses.branch.ref;
-			let changes = responses.changes;
+			for (let languageCode in changes) {
+				promise = promise.then(() => {
+					return getFile(accessToken, owner, repo, i18nFilePaths[languageCode], workingBranch)
+						.then(fileInfo => apply(changes[languageCode], fileInfo))
+						.then(update => {
+							let path = update.path;
+							let sha = update.sha;
+							let branch = 'refs/heads/' + workingBranch;
+							let content = new Buffer(JSON.stringify(update.fileContent, null, 2)).toString('base64');
+							let message = 'Updates locales (' + path.split('/').pop() + ') via Localehub';
+							let committer = JSON.stringify({ name: loggedUser.name, email: loggedUser.email });
 
-			return createPullRequest(accessToken, owner, repo, oldBranchName, newBranchName, changes);
+							return commit(accessToken, owner, repo, path, sha, content, branch, message, committer);
+						})
+						.then(committed => commits.push(committed));
+				});
+			}
+
+			return promise;
 		})
-		.then(pullRequest => {
-			responses.pr = pullRequest;
-			return clearPendingChanges(accessToken, responses.project);
-		})
-		.then(project => done(callback, null, {project, pull_request: responses.pr}, 200))
-		.catch(error => done(callback, error, null, 500));
+		.then((_) => clearPendingChanges(accessToken, projectId, workingBranch, pendingChanges))
+		.then(project => done(callback, {project, commits}, 200))
+		.catch(error => done(callback, error, error.statusCode || 500));
 };
 
+// Checks presence of required properties of request body
+function checkRequirements(body) {
+	if (debug === true) {
+		console.log('=== checkRequirements ===');
+		console.log('inputs:', JSON.stringify({body}, null, 2));
+	}
+
+	let statusCode = 200;
+	let message = '';
+	let hasBranch = body => body.hasOwnProperty('branch') && body.branch.length > 0;
+
+	if (hasBranch(body) === false) {
+		statusCode = 422;
+		message = 'Missing parameter "branch" in payload';
+	}
+
+	if (debug === true) {
+		console.log('output:', JSON.stringify({statusCode, message}, null, 2));
+	}
+
+	return (statusCode >= 200 && statusCode < 300)
+		? Promise.resolve({statusCode, message})
+		: Promise.reject({statusCode, message});
+}
+
+// Gets connected github user
 function currentUser(accessToken) {
 	if (debug === true) {
 		console.log('=== currentUser ===');
@@ -85,6 +123,7 @@ function currentUser(accessToken) {
 	});
 }
 
+// Gets project whose id is provided in path parameters
 function findProject(projectId) {
 	if (debug === true) {
 		console.log('=== findProject ===');
@@ -102,87 +141,30 @@ function findProject(projectId) {
 	});
 }
 
-function getChanges(pendingChanges, branch) {
+// Select pending changes to be committed and groups pending change by language code
+function selectChanges(pendingChanges, branch) {
 	if (debug === true) {
 		console.log('=== getChanges ===');
 		console.log('inputs:', JSON.stringify({pendingChanges, branch}, null, 2));
 	}
 
-	return new Promise(resolve => {
-		let changes = pendingChanges.filter(change => change.branch === branch);
-		let results = {};
+	let changes = pendingChanges.filter(change => change.branch === branch);
+	let results = {};
 
-		for (let change of changes) {
-			if (results.hasOwnProperty(change.languageCode) === true) {
-				results[change.languageCode].push(change);
-			} else {
-				results[change.languageCode] = [change];
-			}
-		}
+	for (let change of changes) {
+		(results.hasOwnProperty(change.languageCode) === true)
+			? results[change.languageCode].push(change)
+			: results[change.languageCode] = [change];
+	}
 
-		if (debug === true) {
-			console.log('output:', JSON.stringify({results}, null, 2));
-		}
-		resolve(results);
-	});
-}
-
-function createBranch(accessToken, username, repository, origin, name) {
 	if (debug === true) {
-		console.log('=== createBranch ===');
-		console.log('inputs:', JSON.stringify({accessToken, username, repository, origin, name}, null, 2));
+		console.log('output:', JSON.stringify(results, null, 2));
 	}
 
-	return invokeLambdaWith({
-		FunctionName: 'arn:aws:lambda:eu-central-1:673077269136:function:branch-create',
-		InvocationType: 'RequestResponse',
-		LogType: 'Tail',
-		Payload: JSON.stringify({
-			"requestContext": { authorizer: { githob: accessToken }},
-			"pathParameters": { username, repository },
-			"body": JSON.stringify({ origin, name })
-		})
-	});
+	return Promise.resolve(results);
 }
 
-function processChanges(accessToken, responses) {
-	let promise = Promise.resolve();
-
-	for (let languageCode in responses.changes) {
-		promise = promise.then(() => doProcess(accessToken, languageCode, responses));
-	}
-
-	return promise;
-}
-
-function doProcess(accessToken, languageCode, responses) {
-	let oldBranchName = responses.project.lastActiveBranch;											// Ex: gh-test
-	let newBranchName = responses.branch.ref;														// Ex: refs/heads/gh-test-localehub
-	let repository = responses.project.repository.fullName.split('/');								// Ex: yllieth/localehub
-	let owner = repository[0];																		// Ex: yllieth
-	let repo = repository[1];																		// Ex: localehub
-	let path = responses.project.i18nFiles.filter(file => (file.languageCode === languageCode))[0].path;
-	let previousSha;
-
-	return getFile(accessToken, owner, repo, path, oldBranchName)
-		.then(fileInfo => {
-			previousSha = fileInfo.sha;
-			let decodedFile = JSON.parse(new Buffer(fileInfo.content, fileInfo.encoding).toString());
-
-			return apply(responses.changes[languageCode], decodedFile);
-		})
-		.then(updatedFile => {
-			// ! NOTE: It's important to give additional parameters to JSON.stringify while encoding updatedFile
-			// ! But it's hard to know the (second parameter) number of spaces/tabs
-			let content = new Buffer(JSON.stringify(updatedFile, null, 2)).toString('base64');
-			let message = 'Updates locales (' + path.split('/').pop() + ') via Localehub';
-			let committer = JSON.stringify({ name: responses.user.name, email: responses.user.email });
-
-			return commit(accessToken, owner, repo, path, previousSha, content, newBranchName, message, committer);
-		})
-		.then(commitDetails => responses.commits.push(commitDetails));
-}
-
+// Gets the translation file on github according to given path/branch
 function getFile(accessToken, owner, repo, path, branch) {
 	if (debug === true) {
 		console.log('=== getFile ===');
@@ -194,41 +176,47 @@ function getFile(accessToken, owner, repo, path, branch) {
 		InvocationType: 'RequestResponse',
 		LogType: 'Tail',
 		Payload: JSON.stringify({
-			"requestContext": { authorizer: { githob: accessToken }},
-			"pathParameters": { owner, repo, path },
-			"queryStringParameters": { "media": "json", ref: branch }
+			requestContext: { authorizer: { githob: accessToken }},
+			pathParameters: { owner, repo, path },
+			queryStringParameters: { media: "json", ref: branch }
 		})
 	});
 }
 
-function apply(changes, fileContent) {
+// Applies pending changes to the JSON object
+function apply(changes, fileInfo) {
 	if (debug === true) {
 		console.log('=== apply ===');
-		console.log('inputs:', JSON.stringify({changes, fileContent}, null, 2));
+		console.log('inputs:', JSON.stringify({changes, fileInfo}, null, 2));
 	}
 
-	return new Promise((resolve, reject) => {
-		let errors = [];
-		let updates = [];
+	let errors = [];
+	let updates = [];
+	let fileContent = JSON.parse(new Buffer(fileInfo.content, fileInfo.encoding).toString());
 
-		for (let change of changes) {
-			let key = change.key.split('.');
-			if (change.value.oldString === deepGetter(fileContent, key)) {
-				deepSetter(fileContent, key, change.value.newString);
-				updates.push({ key: change.key, value: change.value.oldString + ' => ' + change.value.newString});
-			} else {
-				errors.push({change, remoteValue: deepGetter(fileContent, key)});
-			}
+	for (let change of changes) {
+		let key = change.key.split('.');
+		if (change.value.oldString === deepGetter(fileContent, key)) {
+			deepSetter(fileContent, key, change.value.newString);
+			updates.push({
+				key: change.key,
+				value: change.value.oldString + ' => ' + change.value.newString
+			});
+		} else {
+			errors.push({change, remoteValue: deepGetter(fileContent, key)});
 		}
+	}
 
-		if (debug === true) {
-			console.log('output:', JSON.stringify({errors, updates}, null, 2));
-		}
+	if (debug === true) {
+		console.log('output:', JSON.stringify({errors, updates}, null, 2));
+	}
 
-		(errors.length === 0) ? resolve(fileContent) : reject(errors);
-	});
+	return (errors.length === 0)
+		? Promise.resolve({fileContent, name: fileInfo.name, path: fileInfo.path, sha: fileInfo.sha, size: fileInfo.size})
+		: Promise.reject(errors);
 }
 
+// Commits changes (one commit per translation file)
 function commit(accessToken, owner, repo, path, sha, content, branch, message, committer) {
 	if (debug === true) {
 		console.log('=== commit ===');
@@ -240,56 +228,30 @@ function commit(accessToken, owner, repo, path, sha, content, branch, message, c
 		InvocationType: 'RequestResponse',
 		LogType: 'Tail',
 		Payload: JSON.stringify({
-			"requestContext": { authorizer: { githob: accessToken }},
-			"pathParameters": { owner, repo, path },
-			"body": JSON.stringify({ message, content, sha, branch, committer })
+			requestContext: { authorizer: { githob: accessToken }},
+			pathParameters: { owner, repo, path },
+			body: JSON.stringify({ message, content, sha, branch, committer })
 		})
 	});
 }
 
-function createPullRequest(accessToken, owner, repo, oldBranchName, newBranchName, changes) {
-	if (debug === true) {
-		console.log('=== createPullRequest ===');
-		console.log('inputs:', JSON.stringify({accessToken, owner, repo, oldBranchName, newBranchName, changes}, null, 2));
-	}
-
-	let updatedLanguages = Object.keys(changes);
-
-	return invokeLambdaWith({
-		FunctionName: 'arn:aws:lambda:eu-central-1:673077269136:function:gh-post-repos-pulls',
-		InvocationType: 'RequestResponse',
-		LogType: 'Tail',
-		Payload: JSON.stringify({
-			"requestContext": {authorizer: {githob: accessToken}},
-			"pathParameters": {owner, repo},
-			"body": JSON.stringify({
-				title: 'Updating locales (' + updatedLanguages.join(', ') + ')',
-				head: newBranchName,
-				base: oldBranchName,
-				body: createPRMessageFrom(changes),
-				maintainer_can_modify: false
-			})
-		})
-	});
-}
-
-function clearPendingChanges(accessToken, project) {
+// Removes committed changes from pending changes list on the project
+function clearPendingChanges(accessToken, projectId, committedBranch, pendingChanges) {
 	if (debug === true) {
 		console.log('=== clearPendingChanges ===');
-		console.log('inputs:', JSON.stringify({accessToken, project}, null, 2));
+		console.log('inputs:', JSON.stringify({accessToken, projectId, committedBranch, pendingChanges}, null, 2));
 	}
 
-	let committedBranch = project.lastActiveBranch;
-	let remainingChanges = project.pendingChanges.filter(change => change.branch !== committedBranch);
+	let remainingChanges = pendingChanges.filter(change => change.branch !== committedBranch);
 
 	return invokeLambdaWith({
 		FunctionName: 'arn:aws:lambda:eu-central-1:673077269136:function:projects-edit',
 		InvocationType: 'RequestResponse',
 		LogType: 'Tail',
 		Payload: JSON.stringify({
-			"requestContext": { authorizer: { githob: accessToken }},
-			"pathParameters": { id: project.id },
-			"body": JSON.stringify({
+			requestContext: { authorizer: { githob: accessToken }},
+			pathParameters: { id: projectId },
+			body: JSON.stringify({
 				operation: 'set-pendingChanges',
 				update: remainingChanges
 			})
@@ -299,10 +261,10 @@ function clearPendingChanges(accessToken, project) {
 
 // ----------------------------------------------------------------------------
 
-function done(callback, error, data, statusCode) {
-	callback(error, {
+function done(callback, data, statusCode) {
+	callback(null, {
 		statusCode: statusCode,
-		body: error ? error : JSON.stringify(data),
+		body: JSON.stringify(data, null, 2),
 		headers: {
 			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/json'
@@ -311,32 +273,45 @@ function done(callback, error, data, statusCode) {
 }
 
 function invokeLambdaWith(params) {
+	let securityClean = params => {
+		if (params.hasOwnProperty('FunctionName') === true) { params.FunctionName = params.FunctionName.split(':').pop(); }
+		if (params.hasOwnProperty('Payload') === true) { params.Payload = JSON.parse(params.Payload); }
+		if (params.Payload.hasOwnProperty('requestContext') === true && params.Payload.requestContext.hasOwnProperty('authorizer') === true) { params.Payload.requestContext.authorizer = null; }
+
+		return params;
+	};
+
 	return new Promise((resolve, reject) => {
 		lambda.invoke(params, function(error, data) {
 			if (debug) {
+				try {
+					if (data.hasOwnProperty('Payload')) {
+						data.Payload = JSON.parse(data.Payload);
+						if (data.Payload.hasOwnProperty('body')) {
+							data.Payload.body = JSON.parse(data.Payload.body);
+						}
+					}
+				} catch (e) {
+					reject(e);
+					return;
+				}
+
 				console.log('params (' + params.FunctionName.split(':').pop() + ')', JSON.stringify({params}, null, 2));
 				console.log('output (' + params.FunctionName.split(':').pop() + ')', JSON.stringify({error, data}, null, 2));
 			}
 
-			let response       = JSON.parse(data.Payload);
-			let responseStatus = 500;
-			let responseBody   = {};
+			let responseStatus = data.Payload.statusCode || 500;
+			let responseBody   = data.Payload.body || null;
 
-			try {
-				responseBody = JSON.parse(response.body);
-				responseStatus = response.statusCode;
-			} catch (e) {
-				reject(e);
-				return;
-			}
-
-			if (responseStatus === 200 || responseStatus === 201) {
+			if (responseStatus >= 200 && responseStatus < 300) {
 				resolve(responseBody);
-			} else if (responseStatus === 404) {
-				reject("Not found");
+			} else {
+				if (Object.keys(responseBody).length > 0) {
+					responseBody.statusCode = responseStatus;
+					responseBody.inputParams = securityClean(params);
+				}
+				reject(responseBody);
 			}
-
-			return;
 		});
 	});
 }
@@ -366,30 +341,4 @@ function deepGetter(obj, path) {
 	}
 
 	return obj[path[i]];
-}
-
-// function deepCopy(obj) {
-// 	let newObj = obj;
-//
-// 	if (obj && typeof obj === "object") {
-// 		newObj = Object.prototype.toString.call(obj) === "[object Array]" ? [] : {};
-// 		for (let i in obj) {
-// 			newObj[i] = deepCopy(obj[i]);
-// 		}
-// 	}
-// 	return newObj;
-// }
-
-function createPRMessageFrom(changes) {
-	let message = '';
-
-	for (let languageCode in changes) {
-		message += '#### ' + languageCode;
-
-		for (let change of changes[languageCode]) {
-			message += '\n- ' + change.key + ':\n\t- **Before**: _' + change.value.oldString + '_\n\t- **After**: _' + change.value.newString + '_\n\n';
-		}
-	}
-
-	return message;
 }

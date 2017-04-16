@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 
 import { Language, Project } from '../../+models';
-import { BranchesService, LanguageService, ProjectsService } from '../../+services';
+import { BranchesService, ErrorService, LanguageService, ProjectsService } from '../../+services';
 
 
 @Component({
@@ -24,6 +24,7 @@ export class TranslationsPreviewDialog implements OnInit {
 
   constructor(
     private projectsService: ProjectsService,
+    private errorService: ErrorService,
     public translationsPreviewDialog: MdDialogRef<TranslationsPreviewDialog>
   ) { }
 
@@ -79,7 +80,7 @@ export class TranslationsPreviewDialog implements OnInit {
   }
 
   onCommitChanges(): void {
-    let payload = {};
+    let payload = { branch: ProjectsService.workingVersionName(this.project) };
     this.isCommitting = true;
 
     this.projectsService
@@ -90,8 +91,9 @@ export class TranslationsPreviewDialog implements OnInit {
       })
       .catch(error => {
         this.isCommitting = false;
-        console.error(error);
-      })
+        this.errorService.handleHttpError('500-001', error);
+        this.onCloseDialog(this.translationsPreviewDialog);
+      });
   }
 
   onCreatePR(): void {
