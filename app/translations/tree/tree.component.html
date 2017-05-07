@@ -1,23 +1,20 @@
 <div>
   <div class="entry"
-       (click)="onClickMenu(leaf)"
        [ngClass]="{
          'with-child': leaf.hasChild(),
          'no-child': !leaf.hasChild(),
          'selected': leaf == selected}">
-    <div>
-      <i class="octicon"
-         [ngClass]="{
-           'octicon-triangle-right': !leaf.expanded,
-           'octicon-triangle-down' :  leaf.expanded}"
-         *ngIf="leaf.hasChild()"></i>&nbsp;<span>{{ leaf.name }}</span>
-    </div>
+    <i class="octicon octicon-triangle-right rotatable"
+       (click)="onToggleMenu(leaf)"
+       [ngClass]="{rotated: leaf.expanded}"
+       *ngIf="leaf.hasChild()"></i>
+    <span (click)="onSelectMenu(leaf)">{{ leaf.name }}</span>
   </div>
 
   <div *ngIf="leaf.expanded && leaf.hasChild()">
     <lh-translations-tree [leaf]="iteratee"
                           [selected]="selected"
                           *ngFor="let iteratee of leaf.getChildren()"
-                          (select)="onSelect($event)"></lh-translations-tree>
+                          (select)="onSelectMenu($event)"></lh-translations-tree>
   </div>
 </div>
