@@ -1,23 +1,11 @@
 import { Injectable } from '@angular/core';
 import { RequestOptions, URLSearchParams, Response } from '@angular/http';
 import { I18nFileInfo, Language, LocaleFolder, Locale, LocaleUpdate } from '../+models';
-import { ApiService, LanguageService } from './';
+import { ApiService, LanguageService, Utils } from './';
 
 @Injectable()
 export class TranslationsService {
   constructor(private api: ApiService,) {}
-
-  private deepSetter(obj: any, path: string[], value: string): void {
-    let i = 0;
-    for (i = 0; i < path.length - 1; i++) {
-      if (obj.hasOwnProperty(path[i]) === false) {
-        obj[path[i]] = {};
-      }
-      obj = obj[path[i]];
-    }
-
-    obj[path[i]] = value;
-  }
 
   private format(locales: any, currentLanguage: Language, allLanguages: Language[]): LocaleFolder {
     let serializeDeepKeys = (jsonPath: string, locales: any, folder: LocaleFolder) => {
@@ -60,7 +48,7 @@ export class TranslationsService {
       // add pending new locales if they exist
       let createdLocales = newEntries.filter(change => change.languageCode === dictionary.metadata.languageCode);
       for (let pendingNewLocale of createdLocales) {
-        this.deepSetter(dictionary.content, pendingNewLocale.key.split('.'), pendingNewLocale.value.newString);
+        Utils.deepSetter(dictionary.content, pendingNewLocale.key.split('.'), pendingNewLocale.value.newString);
       }
 
       let language = LanguageService.find(dictionary.metadata.languageCode);

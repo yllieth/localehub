@@ -9,3 +9,4 @@ export * from './branches.service';         // must be before projects.service
 export * from './projects.service';
 export * from './translations.service';
 export * from './language.service';
+export * from './utils.service';
