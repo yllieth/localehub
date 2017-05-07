@@ -16,13 +16,11 @@ export class TranslationsTreeComponent implements OnInit {
 
   ngOnInit() { }
 
-  onClickMenu(leaf: LocaleFolder): void {
+  onToggleMenu(leaf: LocaleFolder): void {
     leaf.toggle();
-    this.select.emit(leaf);
   }
 
-  onSelect(leaf: LocaleFolder): void {
-    // required to handle the recursivity of the tree component!
+  onSelectMenu(leaf: LocaleFolder): void {
     this.select.emit(leaf);
   }
 }

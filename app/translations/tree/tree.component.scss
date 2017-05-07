@@ -11,20 +11,30 @@
   }
 }
 
-i.octicon-triangle-right, i.octicon-triangle-down {
-  font-size: $small-font-size;
-  width: $global-spacing;
-  text-align: center;
-}
-
 .entry {
   display: flex;
   justify-content: space-between;
   cursor: pointer;
   transition: background-color 300ms ease-in-out;
 
-  &:after {
-    @include css-triangle($translation-height/2, $body-background, left);
+  i {
+    display: inline-block;
+    width: 20%;
+    font-size: $small-font-size;
+    text-align: center;
+
+    &.rotatable {
+      transition: transform 150ms ease-out;
+    }
+
+    &.rotated {
+      transform: rotate(90deg);
+    }
+  }
+
+  span {
+    display: inline-block;
+    width: 80%;
   }
 
   &.no-child {
