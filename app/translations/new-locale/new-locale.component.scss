@@ -14,11 +14,19 @@
   @include key-part();
 }
 
-input, input:focus {
-  margin-bottom: 0;
-  border: 2px solid $blue2;
-  border-radius: $global-radius;
+.mat-input-container {
+  top: 3px;
+
+  /deep/ .mat-input-placeholder-wrapper {
+    overflow: visible; // workaround: display placeholder text
+  }
 }
+
+//input, input:focus {
+//  margin-bottom: 0;
+//  border: 2px solid $blue2;
+//  border-radius: $global-radius;
+//}
 
 button {
   width: 100%;

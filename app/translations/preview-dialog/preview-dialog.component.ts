@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 
 import { Language, Project } from '../../+models';
-import { LanguageService, ProjectsService } from '../../+services';
+import { BranchesService, ErrorService, LanguageService, ProjectsService } from '../../+services';
 
 
 @Component({
@@ -20,9 +20,11 @@ export class TranslationsPreviewDialog implements OnInit {
   changes;                // {'en-US': <LocaleUpdate[]>, ...} of pendingChanges
   files;                  // {'en-US': <I18nFileInfo>, ...} of pendingChanges
   isCommitting: boolean;
+  isCreatingPR: boolean;
 
   constructor(
     private projectsService: ProjectsService,
+    private errorService: ErrorService,
     public translationsPreviewDialog: MdDialogRef<TranslationsPreviewDialog>
   ) { }
 
@@ -57,7 +59,12 @@ export class TranslationsPreviewDialog implements OnInit {
 
   ngOnInit() {
     this.isCommitting = false;
-    this.selectedBranch = this.project.lastActiveBranch;
+    this.isCreatingPR = false;
+    this.selectedBranch = ProjectsService.baseVersionName(this.project);
+  }
+
+  baseBranches(): string[] {
+    return BranchesService.filterBaseBranches(this.project.availableBranches);
   }
 
   isEmpty(string: string): boolean {
@@ -65,7 +72,7 @@ export class TranslationsPreviewDialog implements OnInit {
   }
 
   onChangeBranch(newBranch: string): void {
-    this.initChanges(newBranch);
+    this.initChanges(newBranch + BranchesService.APP_SUFFIX);
   }
 
   onCloseDialog(dialogRef: MdDialogRef<TranslationsPreviewDialog>): void {
@@ -73,7 +80,7 @@ export class TranslationsPreviewDialog implements OnInit {
   }
 
   onCommitChanges(): void {
-    let payload = {};
+    let payload = { branch: ProjectsService.workingVersionName(this.project) };
     this.isCommitting = true;
 
     this.projectsService
@@ -84,7 +91,12 @@ export class TranslationsPreviewDialog implements OnInit {
       })
       .catch(error => {
         this.isCommitting = false;
-        console.error(error);
-      })
+        this.errorService.handleHttpError('500-001', error);
+        this.onCloseDialog(this.translationsPreviewDialog);
+      });
+  }
+
+  onCreatePR(): void {
+    this.isCreatingPR = true;
   }
 }

@@ -51,9 +51,9 @@
     </div>
 
     <div class="small-12 large-6 column margin-top-small-only" *ngIf="selectedRepo">
-      <!-- Branches -->
+      <!-- Available branches -->
       <div class="row align-middle margin-bottom-half">
-        <div class="column small-4"><strong>Branches:</strong></div>
+        <div class="column small-4"><strong>Branch:</strong></div>
         <div class="column small-8">
           <md-select placeholder="Choose a base version" (change)="onSelectBranch($event)" *ngIf="branchList != undefined">
             <md-option *ngFor="let branch of branchList" [value]="branch">
@@ -62,6 +62,18 @@
           </md-select>
 
           <lh-loader [message]="'Loading branches ...'" *ngIf="branchList == undefined"></lh-loader>
+        </div>
+      </div>
+
+      <!-- Working branch -->
+      <div class="row margin-bottom-half" *ngIf="selectedBranch != undefined">
+        <div class="column small-4"></div>
+        <div class="column small-8">
+          <small class="emphasis text-justify">
+            <i class="material-icons info color-secondary">info</i>
+            A new version will be created from {{ selectedBranch }} and named <span class="bold">{{ selectedBranch }}-localehub</span>.
+            All changes you are going to make in this app will be saved in this working version.
+          </small>
         </div>
       </div>
 

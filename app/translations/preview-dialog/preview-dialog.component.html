@@ -5,7 +5,7 @@
 
   <div class="column small-3">
     <md-select placeholder="Branch" style="width: 100%" [(ngModel)]="selectedBranch">
-      <md-option *ngFor="let branch of project.availableBranches" [value]="branch" (onSelect)="onChangeBranch(branch)">
+      <md-option *ngFor="let branch of baseBranches()" [value]="branch" (onSelect)="onChangeBranch(branch)">
         {{ branch }}
       </md-option>
     </md-select>
@@ -61,9 +61,15 @@
 <div class="row" *ngIf="totalChanges > 0">
   <div class="column">
     <md-dialog-actions>
-      <button md-raised-button color="primary" (click)="onCommitChanges()">
-        <span *ngIf="!isCommitting">Save changes</span>
-        <span *ngIf="isCommitting">Saving...</span>
+      <button md-raised-button color="primary" (click)="onCommitChanges()" disabled="{{ isCommitting || isCreatingPR }}">
+        <i class="octicon octicon-git-commit margin-right-half"></i>
+        <span *ngIf="!isCommitting">Commit on Github</span>
+        <span *ngIf="isCommitting">Committing...</span>
+      </button>
+      <button md-raised-button color="primary" (click)="onCreatePR()" disabled="{{ isCommitting || isCreatingPR }}">
+        <i class="octicon octicon-git-pull-request margin-right-half"></i>
+        <span *ngIf="!isCreatingPR">Create Pull request</span>
+        <span *ngIf="isCreatingPR">Creating Pull request...</span>
       </button>
       <button md-raised-button md-dialog-close>Close</button>
     </md-dialog-actions>

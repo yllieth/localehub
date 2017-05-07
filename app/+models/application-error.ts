@@ -31,6 +31,10 @@ const ERRORS = {
     redirections: [
       { name: "Back to login page.", route: '/login' }
     ]
+  },
+  "500-001": {
+    message: "Failed to commit changes",
+    debug: "[409 - Conflict] github message"
   }
 };
 

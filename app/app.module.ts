@@ -10,7 +10,7 @@ import { HighlightDiffPipe } from './+pipes/highlight-diff.pipe';
 
 import { routing } from './app.routing';
 import { AppComponent } from './app.component';
-import { ApiService, AuthenticationService, AuthenticationGuardService, ErrorService, EventService, RepositoriesService, UserService } from './+services';
+import { ApiService, AuthenticationService, AuthenticationGuardService, BranchesService, ErrorService, EventService, RepositoriesService, UserService, Utils } from './+services';
 
 import { LoginComponent } from './shared/login/login.component';
 import { ErrorContainerComponent } from './shared/error/error-container.component';
@@ -75,10 +75,12 @@ function ApiFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Htt
     ApiService,
     AuthenticationService,
     AuthenticationGuardService,
+    BranchesService,
     ErrorService,
     EventService,
     RepositoriesService,
-    UserService
+    UserService,
+    Utils
   ],
   bootstrap: [ AppComponent ]
 })

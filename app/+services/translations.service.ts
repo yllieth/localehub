@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { RequestOptions, URLSearchParams, Response } from '@angular/http';
-import { I18nFileInfo, Language, LocaleFolder, Locale, Project } from '../+models';
-import { ApiService, LanguageService } from './';
+import { I18nFileInfo, Language, LocaleFolder, Locale, LocaleUpdate } from '../+models';
+import { ApiService, LanguageService, Utils } from './';
 
 @Injectable()
 export class TranslationsService {
@@ -38,18 +38,23 @@ export class TranslationsService {
     }
   }
 
-  createList(dictionaries: {content: any, metadata: I18nFileInfo}[]): LocaleFolder {
+  createList(dictionaries: {content: any, metadata: I18nFileInfo}[], newEntries: LocaleUpdate[]): LocaleFolder {
     let root = new LocaleFolder(LocaleFolder.ROOT_NAME);
     let languages: Language[] = dictionaries.map(d => LanguageService.find(d.metadata.languageCode));
     let formattedDictionaries = []; // { content: any, language: Language }
 
-    // format each dictionary
+    // transform each dictionary (raw json object) into LocaleFolder[] and add them in the formattedDictionaries array
     for (let dictionary of dictionaries) {
+      // add pending new locales if they exist
+      let createdLocales = newEntries.filter(change => change.languageCode === dictionary.metadata.languageCode);
+      for (let pendingNewLocale of createdLocales) {
+        Utils.deepSetter(dictionary.content, pendingNewLocale.key.split('.'), pendingNewLocale.value.newString);
+      }
+
       let language = LanguageService.find(dictionary.metadata.languageCode);
-      formattedDictionaries.push({
-        content: this.format(dictionary.content, language, languages),
-        language
-      });
+      let content = this.format(dictionary.content, language, languages);
+
+      formattedDictionaries.push({content, language});
     }
 
     // initialize root dictionary with the first formatted dictionary
@@ -63,10 +68,10 @@ export class TranslationsService {
     return root;
   }
 
-  getDictionaries(project: Project): Promise<any> {
+  getDictionaries(projectId: string, files: I18nFileInfo[], branch: string): Promise<{content: any, metadata: I18nFileInfo}[]> {
     let requestLanguages = [];
-    for (let i18nFile of project.i18nFiles) {
-      requestLanguages.push(this.getTranslation(project.id, i18nFile.languageCode, project.lastActiveBranch));
+    for (let i18nFile of files) {
+      requestLanguages.push(this.getTranslation(projectId, i18nFile.languageCode, branch));
     }
 
     return Promise.all(requestLanguages).catch(error => Promise.reject(error));

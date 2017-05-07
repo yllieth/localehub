@@ -2,12 +2,53 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
-import { Language, LocaleUpdate, Project } from '../+models';
-import { ApiService, LanguageService } from './';
+import { LocaleUpdate, Project } from '../+models';
+import { ApiService, BranchesService } from './';
 
 @Injectable()
 export class ProjectsService {
-  constructor(private api: ApiService) {}
+  constructor(
+    private api: ApiService,
+    private branchService: BranchesService
+  ) {}
+
+  /**
+   * Returns the name of the github branch from where the working version is created.
+   * All changes won't be committed on this one but on the working version.
+   *
+   * @returns {string}
+   */
+  static baseVersionName(project: Project): string {
+    return project.lastActiveBranch;
+  }
+
+  /**
+   * Return the name of the github branch on all changes will be committed.
+   *
+   * @returns {string}
+   */
+  static workingVersionName(project: Project): string {
+    return project.lastActiveBranch + BranchesService.APP_SUFFIX;
+  }
+
+  /**
+   * Checks if the branch list contains the working branch (suffixed).
+   * If so, there is no need to create such a branch.
+   *
+   * @returns {boolean}
+   */
+  static needsToCreateWorkingVersion(project: Project): boolean {
+    return project.availableBranches.indexOf(ProjectsService.workingVersionName(project)) < 0;
+  }
+
+  static getNewEntries(project: Project) {
+    return project.pendingChanges.filter(change => change.branch === ProjectsService.workingVersionName(project) && change.value.oldString === undefined);
+  }
+
+  updateBranchList(project: Project): Promise<any> {
+    return this.branchService.getNames(project.repository.fullName, false)
+      .then(branches => this.update(project.id, 'set-availableBranches', branches));
+  }
 
   commit(projectId: string, payload: any): Promise<any> {
     return this.api
@@ -26,7 +67,6 @@ export class ProjectsService {
    *
    * Payload contains the following properties:
    * {
-   *   {string}   id                - generated unique identifier
    *   {string}   name              - github repository's name
    *   {string}   owner             - github url of the repository's owner
    *   {string}   user              - github url of the connected user
@@ -62,7 +102,7 @@ export class ProjectsService {
       .catch(error => Promise.reject(error));
   }
 
-  update(projectId: string, operation: string, update: LocaleUpdate[]): Promise<Project> {
+  update(projectId: string, operation: string, update: LocaleUpdate[] | string[]): Promise<Project> {
     return this.api
       .patch(`${ApiService.endpoint.prod}/projects/${projectId}`, {operation, update})
       .toPromise()

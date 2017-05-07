@@ -1,6 +1,6 @@
-<lh-titlebar [project]="project"></lh-titlebar>
+<lh-titlebar *ngIf="root != undefined && selected != undefined" [project]="project"></lh-titlebar>
 
-<lh-translations-notification></lh-translations-notification>
+<lh-translations-notification *ngIf="root != undefined && selected != undefined"></lh-translations-notification>
 
 <div class="row full-width" *ngIf="root != undefined && selected != undefined">
   <div class="columns large-2 medium-3">
@@ -15,30 +15,56 @@
     <lh-new-locale *ngIf="newLocaleFormVisible"
                    [project]="project"
                    [languages]="supportedLanguages(project)"
-                   [keyPath]="newLocalePath()"></lh-new-locale>
+                   [keyPath]="newLocalePath()"
+                   (savedLocale)="onToggleNewLocaleForm(false)"
+    ></lh-new-locale>
     <lh-locale *ngFor="let locale of selected.getLocales()"
                [locale]="locale"
                [project]="project"></lh-locale>
   </div>
 </div>
 
-<div class="row align-middle margin-top-double" *ngIf="root == undefined && selected == undefined">
-  <!-- Project loader -->
-  <div class="column small-12 text-center margin-bottom" *ngIf="project == undefined" style="height: 40px">
-    <lh-loader [message]="'Loading project...'"></lh-loader>
-  </div>
-  <div class="column small-12 text-center margin-bottom" *ngIf="project != undefined" style="height: 40px">
-    <i class="material-icons check_circle color-success">check_circle</i>
-    Project found: {{ project.name }} - {{ project.i18nFiles.length }} file(s):
-    <span *ngFor="let lang of project.i18nFiles">
-      <span class="flag-icon flag-icon-{{ countryOf(lang.languageCode).flagClass }} margin-right"
-            mdTooltip="{{ lang.languageCode }} - {{ countryOf(lang.languageCode).languageName }}"
-            mdTooltipPosition="below"></span>
-    </span>
-  </div>
+<!-- Loaders -->
+<div class="row text-center align-middle main-full-height" *ngIf="root == undefined && selected == undefined">
+  <div class="column">
+    <!-- Loading project -->
+    <div class="row align-middle height-50" *ngIf="project == undefined">
+      <div class="column">
+        <lh-loader [message]="'Loading project...'"></lh-loader>
+      </div>
+    </div>
 
-  <!-- Translation loader -->
-  <div class="column small-12 text-center margin-bottom" *ngIf="root == undefined && selected == undefined" style="height: 40px">
-    <lh-loader [message]="'Loading translations...'"></lh-loader>
+    <div class="row align-middle height-50" *ngIf="project != undefined">
+      <div class="column">
+        <i class="material-icons check_circle color-success">check_circle</i>
+        Project found: <kbd>{{ project.name }}</kbd> - {{ project.i18nFiles.length }} file(s):
+        <span *ngFor="let lang of project.i18nFiles">
+          <span class="flag-icon flag-icon-{{ countryOf(lang.languageCode).flagClass }} margin-right"
+                mdTooltip="{{ lang.languageCode }} - {{ countryOf(lang.languageCode).languageName }}"
+                mdTooltipPosition="below"></span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Loading branch -->
+    <div class="row align-middle height-50" *ngIf="branch == undefined">
+      <div class="column">
+        <lh-loader [message]="'Checking version...'"></lh-loader>
+      </div>
+    </div>
+
+    <div class="row align-middle height-50" *ngIf="branch != undefined">
+      <div class="column">
+        <i class="material-icons check_circle color-success">check_circle</i>
+        Working version <kbd>{{ branch.to }}</kbd>
+        <span *ngIf="!branch.created">found !</span>
+        <span *ngIf="branch.created">created !</span>
+      </div>
+    </div>
+
+    <!-- Loading translations -->
+    <div class="row align-middle height-50">
+      <div class="column"><lh-loader [message]="'Loading translations...'"></lh-loader></div>
+    </div>
   </div>
 </div>

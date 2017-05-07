@@ -20,8 +20,9 @@ export class TranslationsLocaleComponent implements OnInit {
     this.locale.expand(false);
     this.isSavingTranslation = false;
 
+    // add/highlight pending changes
     for(let change of this.project.pendingChanges) {
-      if (change.key === this.locale.getCompleteKey() && change.branch === this.project.lastActiveBranch) {
+      if (change.key === this.locale.getCompleteKey() && change.branch === ProjectsService.workingVersionName(this.project)) {
         this.isPending = true;
         this.locale.values.map((value: Translation) => {
           if (change.languageCode === value.language.languageCode) {
@@ -54,7 +55,7 @@ export class TranslationsLocaleComponent implements OnInit {
 
     let update = new LocaleUpdate();
     update.languageCode = translation.language.languageCode;
-    update.branch = this.project.lastActiveBranch;
+    update.branch = ProjectsService.workingVersionName(this.project);
     update.key = this.locale.getCompleteKey();
     update.value = {
       oldString: translation.string,

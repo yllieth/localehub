@@ -8,7 +8,7 @@ import { Repository, I18nFileInfo, Language, User } from '../../../+models';
   selector: 'new-project-dialog',
   templateUrl: 'new-project.component.html',
   styleUrls: [ 'new-project.component.css' ],
-  providers: [ BranchesService, ProjectsService, RepositoriesService, TranslationsService ]
+  providers: [ ProjectsService, RepositoriesService, TranslationsService ]
 })
 export class NewProjectDialog implements OnInit {
   existingProjects: string[]; // from ProjectsComponent.openNewProjectDialog : newProjectDialog.componentInstance.existingProjects = projects.map(project => project.name);
@@ -92,12 +92,7 @@ export class NewProjectDialog implements OnInit {
     this.selectedBranch = undefined;  // reset branch if the repo changes after selecting a branch for a previous one
     this.branchesService
       .getNames(this.selectedRepo.fullName)
-      .then(branches => {
-        this.branchList = branches;
-        if (branches.indexOf('master') > -1) {
-          this.selectedBranch = 'master';
-        }
-      });
+      .then(branches => this.branchList = branches);
   }
 
   onSelectBranch(event: MdSelectChange): void {

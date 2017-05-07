@@ -1,3 +1,7 @@
+// Github objects
+export * from './github/branch';
+
+// Application objects
 export * from './application-error';
 export * from './i18nFileInfo';
 export * from './language';

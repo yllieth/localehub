@@ -41,8 +41,8 @@ exports.handler = function(event, context, callback) {
 
 	getOriginalBranch(token, owner, repo, body.origin)
 		.then(branch => { return createBranch(token, owner, repo, body.name, branch.object.sha)})
-		.then(newBranch => {done(callback, null, newBranch, 200)})
-		.catch(error => {done(callback, error, null, 500)});
+		.then(newBranch => {done(callback, newBranch, 200)})
+		.catch(error => done(callback, error, error.statusCode || 500));
 };
 
 function getOriginalBranch(access_token, owner, repo, branch) {
@@ -85,10 +85,10 @@ function createBranch(access_token, owner, repo, branch, sha) {
 
 // ----------------------------------------------------------------------------
 
-function done(callback, error, data, statusCode) {
-	callback(error, {
+function done(callback, data, statusCode) {
+	callback(null, {
 		statusCode: statusCode,
-		body: error ? error : JSON.stringify(data),
+		body: JSON.stringify(data, null, 2),
 		headers: {
 			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/json'
@@ -97,9 +97,18 @@ function done(callback, error, data, statusCode) {
 }
 
 function invokeLambdaWith(params) {
+	let securityClean = params => {
+		if (params.hasOwnProperty('FunctionName') === true) { params.FunctionName = params.FunctionName.split(':').pop(); }
+		if (params.hasOwnProperty('Payload') === true) { params.Payload = JSON.parse(params.Payload); }
+		if (params.Payload.hasOwnProperty('requestContext') === true && params.Payload.requestContext.hasOwnProperty('authorizer') === true) { params.Payload.requestContext.authorizer = null; }
+
+		return params;
+	};
+
 	return new Promise((resolve, reject) => {
 		lambda.invoke(params, function(error, data) {
 			if (debug) {
+				console.log('params (' + params.FunctionName.split(':').pop() + ')', JSON.stringify({params}, null, 2));
 				console.log('output (' + params.FunctionName.split(':').pop() + ')', JSON.stringify({error, data}, null, 2));
 			}
 
@@ -117,11 +126,13 @@ function invokeLambdaWith(params) {
 
 			if (responseStatus === 200 || responseStatus === 201) {
 				resolve(responseBody);
-			} else if (responseStatus === 404) {
-				reject("Not found");
+			} else {
+				if (Object.keys(responseBody).length > 0) {
+					responseBody.statusCode = responseStatus;
+					responseBody.inputParams = securityClean(params);
+				}
+				reject(responseBody);
 			}
-
-			return;
 		});
 	});
 }
