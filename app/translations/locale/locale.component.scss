@@ -6,4 +6,35 @@
 
 .locale {
   @include locale();
+
+  $action-size: 25px;
+  .action-container {
+    @include offset(3px);
+    height: $action-size;
+
+    .action {
+      @include square($action-size);
+      display: inline-block;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: box-shadow 300ms ease-in-out;
+
+      &:hover { box-shadow: 0 0 10px 0 $dark-gray; }
+      &.edit { background-color: map_get($foundation-palette, warning); }
+      &.undo { background-color: #F44336; }
+
+      i {
+        padding: 5px;
+        color: $white;
+        font-size: 16px;
+      }
+    }
+
+    &.loading-text {
+      @include offset(0);
+      margin-left: $global-spacing/2;
+      font-style: italic;
+      color: $dark-gray;
+    }
+  }
 }

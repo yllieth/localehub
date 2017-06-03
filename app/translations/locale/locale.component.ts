@@ -14,6 +14,14 @@ export class TranslationsLocaleComponent implements OnInit {
   isSavingTranslation: boolean;
   isPending: boolean;
 
+  isSameTranslation(change: LocaleUpdate, translation: Translation, project?: Project) : boolean {
+    project = project || this.project;
+
+    return change.branch === ProjectsService.workingVersionName(project)
+      && change.languageCode === translation.language.languageCode
+      && change.value.newString === translation.string;
+  }
+
   constructor(private projectsService: ProjectsService) { }
 
   ngOnInit() {
@@ -42,6 +50,29 @@ export class TranslationsLocaleComponent implements OnInit {
     if (this.isSavingTranslation === false) {
       translation.editedString = translation.string;
     }
+  }
+
+  undo(translation: Translation): void {
+    translation.$metadata.isProcessing = true;
+    let newPendingChanges: LocaleUpdate[] = this.project.pendingChanges
+      .filter(pendingChange => !this.isSameTranslation(pendingChange, translation));
+
+    this.projectsService
+      .update(this.project.id, 'set-pendingChanges', newPendingChanges)
+      .then(updatedProject => {
+        // Notify titlebar
+        EventService.get('translations::updated-changes').emit(updatedProject.pendingChanges);
+
+        translation.$metadata.isProcessing = false;
+        this.project = updatedProject;
+        this.locale.values.map((value: Translation) => {
+          if (value.language.languageCode === translation.language.languageCode) {
+            value.editedString = null;
+            value.isPending = false;
+          }
+        });
+        this.isPending = this.locale.values.filter((translation: Translation) => translation.isPending === true).length > 0;
+      });
   }
 
   cancelEdition(translation: Translation): void {

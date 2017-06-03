@@ -77,14 +77,6 @@
         color: map_get($foundation-palette, secondary);
       }
 
-      .translated-string {
-        input {
-          margin-bottom: 0;
-          border-radius: $global-radius;
-          border: 2px solid $blue2;
-        }
-      }
-
       .missing-translation {
         text-transform: uppercase;
         font-style: italic;
