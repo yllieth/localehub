@@ -28,29 +28,41 @@
         </div>
 
         <!-- i18n value / input -->
-        <div class="column small-9 large-10 translated-string">
-          <div *ngIf="translation.editedString == null" class="cursor-pointer" (click)="edit(translation)">
-            <span class="{{ (translation.isPending) ? 'bold' : '' }}">{{ translation.string }}</span>
-          </div>
-          <div *ngIf="translation.editedString != null">
-            <div class="row align-middle">
-              <div class="column small-9">
-                <input type="text" [(ngModel)]="translation.editedString" autofocus />
-              </div>
+        <div class="column small-9 large-10 translated-string"
+             *ngIf="translation.editedString == null"
+             (mouseenter)="translation.$metadata.showActions = true"
+             (mouseleave)="translation.$metadata.showActions = false">
+          <span class="{{ (translation.isPending) ? 'bold' : '' }}">{{ translation.string }}</span>
+          <span class="action-container" *ngIf="translation.$metadata.showActions && !translation.$metadata.isProcessing">
+            <span class="margin-horizontal action edit" (click)="edit(translation)"><i class="material-icons">mode_edit</i></span>
+            <span class="margin-horizontal action undo" (click)="undo(translation)" *ngIf="translation.isPending"><i class="material-icons">undo</i></span>
+          </span>
+          <span class="action-container loading-text" *ngIf="translation.$metadata.showActions && translation.$metadata.isProcessing">Processing...</span>
+        </div>
+        <div class="column small-9 large-10 translated-string"
+             *ngIf="translation.editedString != null">
+          <div class="row align-middle">
+            <div class="column small-6 large-8">
+              <md-input-container>
+                <input mdInput
+                       [type]="text"
+                       [(ngModel)]="translation.editedString"
+                       placeholder="Translation for {{ locale.getCompleteKey() }}" />
+              </md-input-container>
+            </div>
 
-              <div class="column small-3">
-                <button md-raised-button color="primary"
-                        (click)="saveEdition(translation)"
-                        disabled="{{ translation.editedString == translation.string }}">
-                  <span *ngIf="isSavingTranslation">Saving...</span>
-                  <span *ngIf="!isSavingTranslation">Save</span>
-                </button>
-                <button md-raised-button color="secondary"
-                        disabled="{{ isSavingTranslation }}"
-                        (click)="cancelEdition(translation)">
-                  Cancel
-                </button>
-              </div>
+            <div class="column small-6 large-4">
+              <button md-raised-button color="primary"
+                      (click)="saveEdition(translation)"
+                      disabled="{{ isSavingTranslation }}">
+                <span *ngIf="isSavingTranslation">Saving...</span>
+                <span *ngIf="!isSavingTranslation">Save</span>
+              </button>
+              <button md-raised-button color="secondary"
+                      disabled="{{ isSavingTranslation }}"
+                      (click)="cancelEdition(translation)">
+                Cancel
+              </button>
             </div>
           </div>
         </div>

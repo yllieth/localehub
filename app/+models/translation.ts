@@ -8,6 +8,7 @@ export class Translation {
   string: string;
   editedString: string;
   isPending: boolean;
+  $metadata?: any = {};
 
   constructor(language: Language, string: string, isPending?: boolean) {
     this.language = language;
