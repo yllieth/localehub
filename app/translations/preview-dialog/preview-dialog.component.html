@@ -21,11 +21,11 @@
     <md-tab-group>
       <md-tab *ngFor="let language of languages">
         <!-- Tab title -->
-        <template md-tab-label>
+        <ng-template md-tab-label>
           <span class="flag-icon flag-icon-{{ language.flagClass }} margin-right"></span>
           <span>{{ language.languageName }}</span>
           <span class="color-secondary">(<small>{{ language.languageCode }}</small>)</span>
-        </template>
+        </ng-template>
 
         <!-- Tab content -->
         <div class="margin-top" style="max-height: 330px">

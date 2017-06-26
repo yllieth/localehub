@@ -1,7 +1,14 @@
 @import 'styles/app.scss';
 
-.row.main-full-height {
-  height: calc(100% - 50px);
+:host {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 50px);
+}
+
+main {
+  display: flex;
+  flex: 1;
 }
 
 .height-50 {

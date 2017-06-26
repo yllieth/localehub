@@ -1,8 +1,9 @@
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, XHRBackend, RequestOptions, Http } from '@angular/http';
-import { MaterialModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MyMaterialModule } from './app.material.module';
 import 'hammerjs';
 
 import { TruncatePipe } from 'angular2-truncate';
@@ -41,7 +42,8 @@ function ApiFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Htt
     BrowserModule,
     FormsModule,
     HttpModule,
-    MaterialModule,
+    MyMaterialModule,
+    BrowserAnimationsModule,
     routing
   ],
   declarations: [

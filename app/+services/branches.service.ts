@@ -64,7 +64,7 @@ export class BranchesService {
       .get(`${ApiService.endpoint.prod}/branches/${username}/${repository}`)
       .toPromise()
       .then((response: Response) => (excludeAppBranches)
-        ? response.json().filter(BranchesService.filterBaseBranches) as string[]
+        ? BranchesService.filterBaseBranches(response.json()) as string[]
         : response.json() as string[])
       .catch(error => Promise.reject(error));
   }
