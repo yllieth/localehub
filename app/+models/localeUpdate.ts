@@ -5,5 +5,7 @@ export class LocaleUpdate {
   value: {
     newString: string;
     oldString: string;
-  }
+  };
+
+  $metadata?: any = {};
 }

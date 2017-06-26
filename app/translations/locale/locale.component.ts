@@ -14,22 +14,9 @@ export class TranslationsLocaleComponent implements OnInit {
   isSavingTranslation: boolean;
   isPending: boolean;
 
-  isSameTranslation(change: LocaleUpdate, translation: Translation, project?: Project) : boolean {
-    project = project || this.project;
-
-    return change.branch === ProjectsService.workingVersionName(project)
-      && change.languageCode === translation.language.languageCode
-      && change.value.newString === translation.string;
-  }
-
-  constructor(private projectsService: ProjectsService) { }
-
-  ngOnInit() {
-    this.locale.expand(false);
-    this.isSavingTranslation = false;
-
+  private handlePendingChanges(pendingChanges: LocaleUpdate[]): void {
     // add/highlight pending changes
-    for(let change of this.project.pendingChanges) {
+    for(let change of pendingChanges) {
       if (change.key === this.locale.getCompleteKey() && change.branch === ProjectsService.workingVersionName(this.project)) {
         this.isPending = true;
         this.locale.values.map((value: Translation) => {
@@ -37,13 +24,27 @@ export class TranslationsLocaleComponent implements OnInit {
             value.string = change.value.newString;
             value.isPending = true;
           }
-        })
+        });
       }
     }
+  }
+
+  constructor(private projectsService: ProjectsService) { }
+
+  ngOnInit() {
+    this.locale.expand(false);
+    this.isSavingTranslation = false;
+    this.handlePendingChanges(this.project.pendingChanges);
 
     EventService
       .get('titlebar::expand-locales')
       .subscribe(value => this.locale.expand(value));
+
+    EventService
+      .get('translations::updated-changes')
+      .subscribe((pendingChanges: LocaleUpdate[]) => {
+        this.handlePendingChanges(pendingChanges)
+      });
   }
 
   edit(translation: Translation): void {
@@ -54,11 +55,9 @@ export class TranslationsLocaleComponent implements OnInit {
 
   undo(translation: Translation): void {
     translation.$metadata.isProcessing = true;
-    let newPendingChanges: LocaleUpdate[] = this.project.pendingChanges
-      .filter(pendingChange => !this.isSameTranslation(pendingChange, translation));
 
     this.projectsService
-      .update(this.project.id, 'set-pendingChanges', newPendingChanges)
+      .removeFromPendingChange(translation, this.project)
       .then(updatedProject => {
         // Notify titlebar
         EventService.get('translations::updated-changes').emit(updatedProject.pendingChanges);

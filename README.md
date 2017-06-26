@@ -33,7 +33,8 @@
   - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/53) Add a new locale
   - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/54) Remove a specific translation / an entire locale (in all supported languages)
   - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/55) Move a locale somewhere else in the tree
-  - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/45) Edit an i18n string and save it. A pending change must belong to a branch name.  
+  - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/45) Edit an i18n string and save it. A pending change must belong to a branch name.
+  - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/65) Undo a pending change  
   - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/46) Preview pending changes before committing.
   - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/7) Commit pending changes and create a pull request
   - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/57) Improve robustness of committing changes.

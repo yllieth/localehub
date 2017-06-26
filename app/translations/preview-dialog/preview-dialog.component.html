@@ -31,7 +31,7 @@
         <div class="margin-top" style="max-height: 330px">
           <div *ngFor="let change of changes[language.languageCode]" class="change-container">
             <div class="row">
-              <div class="column">
+              <div class="column" style="display: flex; align-items: center; position: relative">
                 <span *ngFor="let part of change.key.split('.'); let partCount = index" style="display: inline-flex">
                   <span class="key-part">{{ part }}</span>
                   <span *ngIf="partCount != change.key.split('.').length - 1" class="bold margin-horizontal-half" style="align-self: center">.</span>
@@ -39,6 +39,7 @@
                 </span>
                 <span *ngIf="isEmpty(change.value.oldString)" class="empty-translation margin-left">&mdash; New translation</span>
                 <span *ngIf="isEmpty(change.value.newString)" class="empty-translation margin-left">&mdash; Removed translation</span>
+                <span class="change-action undo" (click)="onUndo(change)"><i class="material-icons">undo</i>&nbsp;Undo </span>
               </div>
             </div>
             <div class="row align-middle margin-top-half">

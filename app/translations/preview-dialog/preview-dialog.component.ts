@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 
-import { Language, Project } from '../../+models';
-import { BranchesService, ErrorService, LanguageService, ProjectsService } from '../../+services';
+import { Language, LocaleUpdate, Project, Translation } from '../../+models';
+import { BranchesService, ErrorService, EventService, LanguageService, ProjectsService } from '../../+services';
 
 
 @Component({
@@ -69,6 +69,18 @@ export class TranslationsPreviewDialog implements OnInit {
 
   isEmpty(string: string): boolean {
     return string === undefined || string === null;
+  }
+
+  onUndo(change: LocaleUpdate) : void {
+    this.projectsService
+      .removeFromPendingChange(Translation.createFromLocaleUpdate(change), this.project)
+      .then(updatedProject => {
+        // Notify titlebar
+        EventService.get('translations::updated-changes').emit(updatedProject.pendingChanges);
+
+        this.project = updatedProject;
+        this.initChanges(ProjectsService.workingVersionName(updatedProject));
+      });
   }
 
   onChangeBranch(newBranch: string): void {
