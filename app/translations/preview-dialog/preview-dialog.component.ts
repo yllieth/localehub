@@ -4,7 +4,6 @@ import { MdDialogRef } from '@angular/material';
 import { Language, Project } from '../../+models';
 import { BranchesService, ErrorService, LanguageService, ProjectsService } from '../../+services';
 
-
 @Component({
   moduleId: module.id,
   selector: 'lh-translations-preview',
@@ -36,7 +35,7 @@ export class TranslationsPreviewDialog implements OnInit {
     this.totalChanges = 0;
 
     for (let change of this.project.pendingChanges) {
-      if (change.branch === branch) {
+      if (change.branch === ProjectsService.workingVersionName(this.project)) {
         this.totalChanges++;
 
         // build languages array
@@ -60,7 +59,7 @@ export class TranslationsPreviewDialog implements OnInit {
   ngOnInit() {
     this.isCommitting = false;
     this.isCreatingPR = false;
-    this.selectedBranch = ProjectsService.baseVersionName(this.project);
+    this.initChanges(ProjectsService.baseVersionName(this.project));
   }
 
   baseBranches(): string[] {

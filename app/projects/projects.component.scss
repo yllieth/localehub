@@ -2,8 +2,5 @@
 
 main {
   display: flex;
-}
-
-.row.main-full-height {
-  height: calc(100% - 2*50px);
+  height: calc(100vh - 2*50px);
 }

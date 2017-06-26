@@ -1,6 +1,6 @@
-@import 'toolbar/toolbar.scss'; // base theme file
+//@import 'toolbar/toolbar.scss'; // base theme file
 
-@include mat-toolbar-height($banner-height);
+//@include mat-toolbar-height($banner-height);
 @include mat-toolbar-theme($app-theme);
 
 .mat-toolbar {
