@@ -1,16 +1,12 @@
 @import 'styles/app.scss';
 
-:host:first-child .expanded {
-  margin-top: 0;
-}
-
 .locale {
   @include locale();
 
   $action-size: 25px;
   .action-container {
     @include offset(3px);
-    height: $action-size;
+    line-height: $action-size;
 
     .action {
       @include square($action-size);

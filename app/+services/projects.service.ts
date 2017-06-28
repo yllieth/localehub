@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
-import { LocaleUpdate, Project } from '../+models';
+import { LocaleUpdate, Project, Translation } from '../+models';
 import { ApiService, BranchesService } from './';
 
 @Injectable()
