@@ -11,6 +11,7 @@ import { EventService, ProjectsService } from '../../+services';
 export class TranslationsLocaleComponent implements OnInit {
   @Input() locale: Locale;
   @Input() project: Project;
+  @Input() noMarginTop: boolean;
   isSavingTranslation: boolean;
   isPending: boolean;
 
@@ -21,6 +22,7 @@ export class TranslationsLocaleComponent implements OnInit {
         this.isPending = true;
         this.locale.values.map((value: Translation) => {
           if (change.languageCode === value.language.languageCode) {
+            value.$originalString = change.value.oldString;
             value.string = change.value.newString;
             value.isPending = true;
           }
@@ -67,6 +69,7 @@ export class TranslationsLocaleComponent implements OnInit {
         this.locale.values.map((value: Translation) => {
           if (value.language.languageCode === translation.language.languageCode) {
             value.editedString = null;
+            value.string = translation.$originalString;
             value.isPending = false;
           }
         });

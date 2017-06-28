@@ -17,16 +17,19 @@
 .mat-input-container {
   top: 3px;
 
+  // workaround: display placeholder text inside the input field
+  &:not(.mat-focused) {
+    /deep/ .mat-input-placeholder {
+      top: 14px;
+      font-size: 14px !important;
+    }
+  }
+
+  // workaround: display placeholder text
   /deep/ .mat-input-placeholder-wrapper {
-    overflow: visible; // workaround: display placeholder text
+    overflow: visible;
   }
 }
-
-//input, input:focus {
-//  margin-bottom: 0;
-//  border: 2px solid $blue2;
-//  border-radius: $global-radius;
-//}
 
 button {
   width: 100%;

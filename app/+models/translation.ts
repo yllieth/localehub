@@ -6,10 +6,11 @@ import { LanguageService } from '../+services';
  */
 export class Translation {
   language: Language;
-  string: string;
-  editedString: string;
+  string: string;           // saved value or pending change
+  editedString: string;     // modified value (the one being typed in the input)
   isPending: boolean;
   $metadata?: any = {};
+  $originalString: string;
 
   static createFromLocaleUpdate(change: LocaleUpdate): Translation {
     let translation = new Translation(LanguageService.find(change.languageCode), '', change.value.newString !== undefined);

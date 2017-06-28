@@ -1,4 +1,4 @@
-<div class="locale" [ngClass]="{expanded: locale.expanded}">
+<div class="locale" [ngClass]="{expanded: locale.expanded, 'no-margin-top': noMarginTop}">
   <!-- Key -->
   <div class="row full-width name" (click)="locale.toggle()">
     <div class="column">
@@ -33,7 +33,7 @@
              (mouseenter)="translation.$metadata.showActions = true"
              (mouseleave)="translation.$metadata.showActions = false">
           <span class="{{ (translation.isPending) ? 'bold' : '' }}">{{ translation.string }}</span>
-          <span class="action-container" *ngIf="translation.$metadata.showActions && !translation.$metadata.isProcessing">
+          <span class="action-container margin-left-half" *ngIf="translation.$metadata.showActions && !translation.$metadata.isProcessing">
             <span class="margin-horizontal action edit" (click)="edit(translation)"><i class="material-icons">mode_edit</i></span>
             <span class="margin-horizontal action undo" (click)="undo(translation)" *ngIf="translation.isPending"><i class="material-icons">undo</i></span>
           </span>
