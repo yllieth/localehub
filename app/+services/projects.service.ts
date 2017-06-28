@@ -4,7 +4,6 @@ import 'rxjs/add/operator/toPromise';
 
 import { LocaleUpdate, Project, Translation } from '../+models';
 import { ApiService, BranchesService } from './';
-import {Translation} from "../+models/translation";
 
 @Injectable()
 export class ProjectsService {
