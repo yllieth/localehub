@@ -10,12 +10,14 @@
 - [Features specification](#features-specification)
   - [v1.0](#mvp---v10)
   - [v1.1](#additional-cool-features---v11)
+- [Known limitations](#knowns-limitations)
+  - [Github limitations](#github-limitations)
+- [Project Installation](#project-installation)
 - [Mockups](#mockups)
   - [Login](#login)
   - [Projects list](#projects-list)
   - [String edition](#string-edition)
   - [String addition](#string-addition)
-- [Project Installation](#project-installation)
 
 ## Features specification
 
@@ -34,7 +36,7 @@
   - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/54) Remove a specific translation / an entire locale (in all supported languages)
   - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/55) Move a locale somewhere else in the tree
   - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/45) Edit an i18n string and save it. A pending change must belong to a branch name.
-  - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/65) Undo a pending change  
+  - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/65) Undo a pending change  
   - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/46) Preview pending changes before committing.
   - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/7) Commit pending changes and create a pull request
   - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/57) Improve robustness of committing changes.
@@ -64,6 +66,16 @@
 - There is no i18n key named `##ROOT##`
 - Working branches must not be suffixed by `-localehub-(0-9)*`
 
+## Project Installation
+
+```
+git clone git@github.com:yllieth/localehub-mock.git
+git clone git@github.com:yllieth/localehub.git
+cd localehub
+npm install
+npm start
+```
+
 ## Mockups
 
 ### Login
@@ -77,15 +89,5 @@
 
 ### String addition
 ![Screenshot](doc/mockups/3-adding-a-locale.png)
-
-## Project Installation
-
-```
-git clone git@github.com:yllieth/localehub-mock.git
-git clone git@github.com:yllieth/localehub.git
-cd localehub
-npm install
-npm start
-```
 
 AWS account: https://673077269136.signin.aws.amazon.com/console
