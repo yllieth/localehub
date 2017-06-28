@@ -37,7 +37,9 @@ export class TitlebarComponent implements OnInit {
     // Listen for new changes to update pending changes status
     EventService
       .get('translations::updated-changes')
-      .subscribe(changes => this.project.pendingChanges = changes);
+      .subscribe(changes => {
+        this.project.pendingChanges = changes
+      });
   }
 
   isSaveDisabled(): boolean {

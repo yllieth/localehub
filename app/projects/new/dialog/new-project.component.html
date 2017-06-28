@@ -137,7 +137,7 @@
       <div class="row align-middle language-form" *ngIf="showLanguageForm">
         <!-- Translation file path -->
         <div class="column small-5">
-          <md-input-container [dividerColor]="(isNewFileNotFound || isNewFileNotValid) ? 'warn' : 'primary'">
+          <md-input-container [color]="(isNewFileNotFound || isNewFileNotValid) ? 'warn' : 'primary'">
             <input mdInput #newFilePath
                    placeholder="Path to translation file"
                    [type]="text"

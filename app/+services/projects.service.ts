@@ -4,6 +4,7 @@ import 'rxjs/add/operator/toPromise';
 
 import { LocaleUpdate, Project, Translation } from '../+models';
 import { ApiService, BranchesService } from './';
+import {Translation} from "../+models/translation";
 
 @Injectable()
 export class ProjectsService {
@@ -48,6 +49,17 @@ export class ProjectsService {
   updateBranchList(project: Project): Promise<any> {
     return this.branchService.getNames(project.repository.fullName, false)
       .then(branches => this.update(project.id, 'set-availableBranches', branches));
+  }
+
+  removeFromPendingChange(translation: Translation, project: Project): Promise<Project> {
+    // remove the given translation from pending changes
+    let newPendingChanges: LocaleUpdate[] = project.pendingChanges
+      .filter(pendingChange => !(pendingChange.branch === ProjectsService.workingVersionName(project)
+        && pendingChange.languageCode === translation.language.languageCode
+        && pendingChange.value.newString === translation.string));
+
+    // update pending changes
+    return this.update(project.id, 'set-pendingChanges', newPendingChanges);
   }
 
   commit(projectId: string, payload: any): Promise<any> {

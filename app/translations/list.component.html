@@ -19,9 +19,11 @@
                      [keyPath]="newLocalePath()"
                      (savedLocale)="onToggleNewLocaleForm(false)"
       ></lh-new-locale>
-      <lh-locale *ngFor="let locale of selected.getLocales()"
+      <lh-locale *ngFor="let locale of selected.getLocales(); let i = index"
                  [locale]="locale"
-                 [project]="project"></lh-locale>
+                 [project]="project"
+                 [noMarginTop]="!newLocaleFormVisible && i === 0"
+                 class="locale-container"></lh-locale>
     </div>
   </div>
 </main>

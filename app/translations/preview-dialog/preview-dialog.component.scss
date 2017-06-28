@@ -45,6 +45,27 @@ i.label {
   }
 }
 
+.change-action {
+  display: flex;
+  align-items: center;
+  height: 25px;
+  border-radius: 13px;
+  font-size: 13px;
+  cursor: pointer;
+  color: $white;
+  transition: box-shadow 300ms ease-in-out;
+  right: 0;
+  position: absolute;
+
+  &:hover { box-shadow: 0 0 10px 0 $dark-gray; }
+  &.undo { background-color: get-color(secondary);; width: 75px }
+
+  i {
+    padding: 5px;
+    font-size: 16px;
+  }
+}
+
 .key-part {
   @include key-part();
 }
