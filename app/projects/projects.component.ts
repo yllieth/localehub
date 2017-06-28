@@ -59,7 +59,7 @@ export class ProjectsComponent implements OnInit {
     newProjectDialog.afterClosed().subscribe((result: Project) => {
       newProjectDialog = null;
 
-      if (result !== undefined) {
+      if (typeof result === 'object' && result.hasOwnProperty('name') && result.hasOwnProperty('repository')) {
         this.projects.push(result);
       }
     });

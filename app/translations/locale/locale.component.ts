@@ -11,15 +11,24 @@ import { EventService, ProjectsService } from '../../+services';
 export class TranslationsLocaleComponent implements OnInit {
   @Input() locale: Locale;
   @Input() project: Project;
+  @Input() noMarginTop: boolean;
   isSavingTranslation: boolean;
   isPending: boolean;
 
-  isSameTranslation(change: LocaleUpdate, translation: Translation, project?: Project) : boolean {
-    project = project || this.project;
-
-    return change.branch === ProjectsService.workingVersionName(project)
-      && change.languageCode === translation.language.languageCode
-      && change.value.newString === translation.string;
+  private handlePendingChanges(pendingChanges: LocaleUpdate[]): void {
+    // add/highlight pending changes
+    for(let change of pendingChanges) {
+      if (change.key === this.locale.getCompleteKey() && change.branch === ProjectsService.workingVersionName(this.project)) {
+        this.isPending = true;
+        this.locale.values.map((value: Translation) => {
+          if (change.languageCode === value.language.languageCode) {
+            value.$originalString = change.value.oldString;
+            value.string = change.value.newString;
+            value.isPending = true;
+          }
+        });
+      }
+    }
   }
 
   constructor(private projectsService: ProjectsService) { }
@@ -27,23 +36,17 @@ export class TranslationsLocaleComponent implements OnInit {
   ngOnInit() {
     this.locale.expand(false);
     this.isSavingTranslation = false;
-
-    // add/highlight pending changes
-    for(let change of this.project.pendingChanges) {
-      if (change.key === this.locale.getCompleteKey() && change.branch === ProjectsService.workingVersionName(this.project)) {
-        this.isPending = true;
-        this.locale.values.map((value: Translation) => {
-          if (change.languageCode === value.language.languageCode) {
-            value.string = change.value.newString;
-            value.isPending = true;
-          }
-        })
-      }
-    }
+    this.handlePendingChanges(this.project.pendingChanges);
 
     EventService
       .get('titlebar::expand-locales')
       .subscribe(value => this.locale.expand(value));
+
+    EventService
+      .get('translations::updated-changes')
+      .subscribe((pendingChanges: LocaleUpdate[]) => {
+        this.handlePendingChanges(pendingChanges)
+      });
   }
 
   edit(translation: Translation): void {
@@ -54,11 +57,9 @@ export class TranslationsLocaleComponent implements OnInit {
 
   undo(translation: Translation): void {
     translation.$metadata.isProcessing = true;
-    let newPendingChanges: LocaleUpdate[] = this.project.pendingChanges
-      .filter(pendingChange => !this.isSameTranslation(pendingChange, translation));
 
     this.projectsService
-      .update(this.project.id, 'set-pendingChanges', newPendingChanges)
+      .removeFromPendingChange(translation, this.project)
       .then(updatedProject => {
         // Notify titlebar
         EventService.get('translations::updated-changes').emit(updatedProject.pendingChanges);
@@ -68,6 +69,7 @@ export class TranslationsLocaleComponent implements OnInit {
         this.locale.values.map((value: Translation) => {
           if (value.language.languageCode === translation.language.languageCode) {
             value.editedString = null;
+            value.string = translation.$originalString;
             value.isPending = false;
           }
         });

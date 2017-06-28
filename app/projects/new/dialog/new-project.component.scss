@@ -22,6 +22,10 @@ i.material-icons {
 }
 
 .mat-input-container {
+  input {
+    height: 30px;
+  }
+
   /deep/ .mat-input-wrapper {
     padding-top: 6px !important;   // workaround: align dividers with selectbox on the right
   }
@@ -35,9 +39,15 @@ i.material-icons {
 
       &:not(.mat-focused){
         font-size: 16px !important;
-        padding-top: 16px;        // workaround: align dividers with selectbox on the right
+        padding-top: 0px;        // workaround: align dividers with selectbox on the right
       }
     }
+  }
+
+  // removes space between bottom of the input and the hint message
+  /deep/ .mat-input-subscript-wrapper {
+    margin-top: 0;
+    line-height: 20px;
   }
 }
 

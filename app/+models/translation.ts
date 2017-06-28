@@ -1,14 +1,24 @@
-import { Language } from './';
+import { Language, LocaleUpdate } from './';
+import { LanguageService } from '../+services';
 
 /**
  * A translation associates ONE language to ONE string (written in this language)
  */
 export class Translation {
   language: Language;
-  string: string;
-  editedString: string;
+  string: string;           // saved value or pending change
+  editedString: string;     // modified value (the one being typed in the input)
   isPending: boolean;
   $metadata?: any = {};
+  $originalString: string;
+
+  static createFromLocaleUpdate(change: LocaleUpdate): Translation {
+    let translation = new Translation(LanguageService.find(change.languageCode), '', change.value.newString !== undefined);
+    translation.string = change.value.newString;
+    translation.editedString = change.value.oldString;
+
+    return translation;
+  }
 
   constructor(language: Language, string: string, isPending?: boolean) {
     this.language = language;

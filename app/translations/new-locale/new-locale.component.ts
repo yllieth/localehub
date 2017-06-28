@@ -41,6 +41,19 @@ export class TranslationsNewLocaleComponent implements OnInit, OnDestroy {
     return (this.keyPath.length === 1 && this.keyPath[0] === LocaleFolder.ROOT_NAME) ? [] : this.keyPath;
   }
 
+  canBeSaved(): boolean {
+    let hasKey = this.key !== undefined && this.key.length > 0;
+    let hasValue = false;
+    for (let languageCode in this.values) {
+      if (this.values[languageCode] !== null && typeof this.values[languageCode] === 'string' && this.values[languageCode].length > 0) {
+        hasValue = true;
+        break;
+      }
+    }
+
+    return hasKey && hasValue;
+  }
+
   onSave(): void {
     this.isSaving = true;
     this.temporaryLocale.setKey(this.getKeyParts().join('.') + '.' + this.key);

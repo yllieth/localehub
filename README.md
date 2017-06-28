@@ -19,7 +19,7 @@
 
 ## Features specification
 
-### MVP - v1.0
+### MVP - v1.0 ([Milestone](https://github.com/yllieth/localehub/milestone/1))
 - **Login**
   - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/2) Login to the application from a github account.
 - **Projects**
@@ -33,7 +33,8 @@
   - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/53) Add a new locale
   - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/54) Remove a specific translation / an entire locale (in all supported languages)
   - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/55) Move a locale somewhere else in the tree
-  - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/45) Edit an i18n string and save it. A pending change must belong to a branch name.  
+  - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/45) Edit an i18n string and save it. A pending change must belong to a branch name.
+  - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/65) Undo a pending change  
   - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/46) Preview pending changes before committing.
   - :white_check_mark: [`DONE`](https://github.com/yllieth/localehub/issues/7) Commit pending changes and create a pull request
   - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/57) Improve robustness of committing changes.
@@ -42,7 +43,7 @@
   - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/58) Apply each pending change when a github update affects i18n files
   - :soon: [`TODO`](https://github.com/yllieth/localehub/issues/59) Customize watched events via the _Settings_ page
 
-### Additional cool features - v1.1
+### Additional cool features - v1.1 ([Milestone](https://github.com/yllieth/localehub/milestone/2))
 
 - `TODO` When the user views the list of existing translations, ha can search, open/collapse all translations, see his changes, export in different formats.
 - `TODO` On a specific translation, the user can see 
@@ -52,6 +53,7 @@
   - how many time it is used in the code
   - usages of this translation in his code
 - `TODO` Automatically find translation files according to project type (Rails, Django, Play, Symfony, ... all these frameworks have usual location for them)
+- :soon: [`TODO`](https://github.com/yllieth/localehub/issues/70) Change navigation for small screens
 
 ## Known limitations
 

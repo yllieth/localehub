@@ -5,13 +5,13 @@
       <i class="material-icons">add_box</i>
       <span class="bold">Name:</span>
     </div>
-    <div class="column small-7">
+    <div class="column small-9">
       <div class="name">
         <span *ngFor="let part of getKeyParts()" style="display: flex">
           <span class="key-part">{{ part }}</span>
           <span class="bold margin-horizontal-half" style="align-self: center">.</span>
         </span>
-        <md-input-container dividerColor="accent">
+        <md-input-container [color]="accent">
           <input mdInput
                  placeholder="Type the title of your new locale here"
                  [(ngModel)]="key"
@@ -46,7 +46,7 @@
 
         <div class="column small-3" *ngIf="i == 2">
           <button md-raised-button *ngIf="isSaving"  color="secondary" disabled>Saving...</button>
-          <button md-raised-button *ngIf="!isSaving" color="accent" (click)="onSave()">Save</button>
+          <button md-raised-button *ngIf="!isSaving" color="accent" (click)="onSave()" [disabled]="canBeSaved() === false">Save</button>
         </div>
       </div>
     </li>
