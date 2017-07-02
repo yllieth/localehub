@@ -9,7 +9,7 @@ export class Translation {
   string: string;           // saved value or pending change
   editedString: string;     // modified value (the one being typed in the input)
   isPending: boolean;
-  $metadata?: any = {};
+  $isProcessing?: boolean;
   $originalString: string;
 
   static createFromLocaleUpdate(change: LocaleUpdate): Translation {
