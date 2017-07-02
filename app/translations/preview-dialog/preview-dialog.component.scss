@@ -48,6 +48,7 @@ i.label {
 .change-action {
   display: flex;
   align-items: center;
+  justify-content: center;
   height: 25px;
   border-radius: 13px;
   font-size: 13px;
@@ -58,7 +59,8 @@ i.label {
   position: absolute;
 
   &:hover { box-shadow: 0 0 10px 0 $dark-gray; }
-  &.undo { background-color: get-color(secondary);; width: 75px }
+  &.undo { background-color: get-color(secondary); width: 85px }
+  &.processing { background-color: transparent; color: get-color(secondary); font-style: italic; box-shadow: none; }
 
   i {
     padding: 5px;

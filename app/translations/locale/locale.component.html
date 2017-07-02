@@ -30,14 +30,14 @@
         <!-- i18n value / input -->
         <div class="column small-9 large-10 translated-string"
              *ngIf="translation.editedString == null"
-             (mouseenter)="translation.$metadata.showActions = true"
-             (mouseleave)="translation.$metadata.showActions = false">
+             (mouseenter)="translation.$showActions = true"
+             (mouseleave)="translation.$showActions = false">
           <span class="{{ (translation.isPending) ? 'bold' : '' }}">{{ translation.string }}</span>
-          <span class="action-container margin-left-half" *ngIf="translation.$metadata.showActions && !translation.$metadata.isProcessing">
+          <span class="action-container margin-left-half" *ngIf="translation.$showActions && !translation.$isProcessing">
             <span class="margin-horizontal action edit" (click)="edit(translation)"><i class="material-icons">mode_edit</i></span>
             <span class="margin-horizontal action undo" (click)="undo(translation)" *ngIf="translation.isPending"><i class="material-icons">undo</i></span>
           </span>
-          <span class="action-container loading-text" *ngIf="translation.$metadata.showActions && translation.$metadata.isProcessing">Processing...</span>
+          <span class="action-container loading-text" *ngIf="translation.$showActions && translation.$isProcessing">Processing...</span>
         </div>
         <div class="column small-9 large-10 translated-string"
              *ngIf="translation.editedString != null">

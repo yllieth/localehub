@@ -7,5 +7,5 @@ export class LocaleUpdate {
     oldString: string;
   };
 
-  $metadata?: any = {};
+  $showActions?: boolean;
 }

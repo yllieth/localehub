@@ -90,6 +90,10 @@ button.mat-raised-button {
     outline: none;
     font-size: rem-calc(18);
 
+    &:last-child {
+      margin-right: 0;
+    }
+
     &.primary {
       margin-right: 0;
       padding: 0 10px;

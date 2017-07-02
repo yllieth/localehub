@@ -39,7 +39,8 @@
                 </span>
                 <span *ngIf="isEmpty(change.value.oldString)" class="empty-translation margin-left">&mdash; New translation</span>
                 <span *ngIf="isEmpty(change.value.newString)" class="empty-translation margin-left">&mdash; Removed translation</span>
-                <span class="change-action undo" (click)="onUndo(change)"><i class="material-icons">undo</i>&nbsp;Undo </span>
+                <span *ngIf="isUndoingChange === true" class="change-action undo processing">Processing...</span>
+                <span *ngIf="isUndoingChange === false" class="change-action undo" (click)="onUndo(change)"><i class="material-icons">undo</i>Undo</span>
               </div>
             </div>
             <div class="row align-middle margin-top-half">

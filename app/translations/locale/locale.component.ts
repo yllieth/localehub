@@ -15,16 +15,16 @@ export class TranslationsLocaleComponent implements OnInit {
   isSavingTranslation: boolean;
   isPending: boolean;
 
-  private handlePendingChanges(pendingChanges: LocaleUpdate[]): void {
+  private handlePendingChanges(pendingChanges: LocaleUpdate[], markAsPendingChange: boolean): void {
     // add/highlight pending changes
     for(let change of pendingChanges) {
       if (change.key === this.locale.getCompleteKey() && change.branch === ProjectsService.workingVersionName(this.project)) {
-        this.isPending = true;
+        this.isPending = markAsPendingChange;
         this.locale.values.map((value: Translation) => {
           if (change.languageCode === value.language.languageCode) {
             value.$originalString = change.value.oldString;
             value.string = change.value.newString;
-            value.isPending = true;
+            value.isPending = markAsPendingChange;
           }
         });
       }
@@ -36,7 +36,7 @@ export class TranslationsLocaleComponent implements OnInit {
   ngOnInit() {
     this.locale.expand(false);
     this.isSavingTranslation = false;
-    this.handlePendingChanges(this.project.pendingChanges);
+    this.handlePendingChanges(this.project.pendingChanges, true);
 
     EventService
       .get('titlebar::expand-locales')
@@ -44,9 +44,11 @@ export class TranslationsLocaleComponent implements OnInit {
 
     EventService
       .get('translations::updated-changes')
-      .subscribe((pendingChanges: LocaleUpdate[]) => {
-        this.handlePendingChanges(pendingChanges)
-      });
+      .subscribe((pendingChanges: LocaleUpdate[]) => this.handlePendingChanges(pendingChanges, true));
+
+    EventService
+      .get('translations::undo-change')
+      .subscribe((change: LocaleUpdate) => this.handlePendingChanges([change], false));
   }
 
   edit(translation: Translation): void {
@@ -56,7 +58,7 @@ export class TranslationsLocaleComponent implements OnInit {
   }
 
   undo(translation: Translation): void {
-    translation.$metadata.isProcessing = true;
+    translation.$isProcessing = true;
 
     this.projectsService
       .removeFromPendingChange(translation, this.project)
@@ -64,7 +66,7 @@ export class TranslationsLocaleComponent implements OnInit {
         // Notify titlebar
         EventService.get('translations::updated-changes').emit(updatedProject.pendingChanges);
 
-        translation.$metadata.isProcessing = false;
+        translation.$isProcessing = false;
         this.project = updatedProject;
         this.locale.values.map((value: Translation) => {
           if (value.language.languageCode === translation.language.languageCode) {

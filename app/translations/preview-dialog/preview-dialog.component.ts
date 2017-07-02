@@ -20,6 +20,7 @@ export class TranslationsPreviewDialog implements OnInit {
   files;                  // {'en-US': <I18nFileInfo>, ...} of pendingChanges
   isCommitting: boolean;
   isCreatingPR: boolean;
+  isUndoingChange: boolean;
 
   constructor(
     private projectsService: ProjectsService,
@@ -59,6 +60,7 @@ export class TranslationsPreviewDialog implements OnInit {
   ngOnInit() {
     this.isCommitting = false;
     this.isCreatingPR = false;
+    this.isUndoingChange = false;
     this.initChanges(ProjectsService.baseVersionName(this.project));
   }
 
@@ -71,14 +73,23 @@ export class TranslationsPreviewDialog implements OnInit {
   }
 
   onUndo(change: LocaleUpdate) : void {
+    this.isUndoingChange = true;
     this.projectsService
       .removeFromPendingChange(Translation.createFromLocaleUpdate(change), this.project)
       .then(updatedProject => {
+        // Update preview dialog
+        this.isUndoingChange = false;
+        this.project = updatedProject;
+        this.initChanges(ProjectsService.workingVersionName(updatedProject));
+
         // Notify titlebar
         EventService.get('translations::updated-changes').emit(updatedProject.pendingChanges);
 
-        this.project = updatedProject;
-        this.initChanges(ProjectsService.workingVersionName(updatedProject));
+        // Notify locale
+        let newString = change.value.oldString;
+        let oldString = change.value.newString;
+        change.value = { newString, oldString };
+        EventService.get('translations::undo-change').emit(change);
       });
   }
 
