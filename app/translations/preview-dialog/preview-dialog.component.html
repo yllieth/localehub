@@ -68,7 +68,7 @@
         <span *ngIf="!isCommitting">Commit on Github</span>
         <span *ngIf="isCommitting">Committing...</span>
       </button>
-      <button md-raised-button color="primary" (click)="onCreatePR()" disabled="{{ isCommitting || isCreatingPR }}">
+      <button md-raised-button color="primary" (click)="onSelectAssignees()" disabled="{{ isCommitting || isCreatingPR }}">
         <i class="octicon octicon-git-pull-request margin-right-half"></i>
         <span *ngIf="!isCreatingPR">Create Pull request</span>
         <span *ngIf="isCreatingPR">Creating Pull request...</span>
@@ -77,6 +77,12 @@
     </md-dialog-actions>
   </div>
 </div>
+
+<lh-assignees-selector *ngIf="isSelectingAssignees"
+                       [owner]="project.repository.owner.login"
+                       [repo]="project.repository.name"
+                       (assigneesCanceled)="isSelectingAssignees = false"
+                       (assigneesSelected)="onCreatePR($event)"></lh-assignees-selector>
 
 <div class="row" *ngIf="totalChanges <= 0">
   <div class="column">

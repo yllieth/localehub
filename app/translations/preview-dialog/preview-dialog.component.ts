@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 
-import { Language, LocaleUpdate, Project, Translation } from '../../+models';
+import { Contributor, Language, LocaleUpdate, Project, Translation } from '../../+models';
 import { BranchesService, ErrorService, EventService, LanguageService, ProjectsService } from '../../+services';
 
 @Component({
@@ -21,6 +21,7 @@ export class TranslationsPreviewDialog implements OnInit {
   isCommitting: boolean;
   isCreatingPR: boolean;
   isUndoingChange: boolean;
+  isSelectingAssignees: boolean;
 
   constructor(
     private projectsService: ProjectsService,
@@ -118,7 +119,19 @@ export class TranslationsPreviewDialog implements OnInit {
       });
   }
 
-  onCreatePR(): void {
+  onSelectAssignees(): void {
+    this.isSelectingAssignees = true;
+  }
+
+  onCreatePR(assignees: Contributor[]) : void {
+    this.isSelectingAssignees = false;
     this.isCreatingPR = true;
+    let payload = {
+      branch: ProjectsService.workingVersionName(this.project),
+      assignees: assignees.map(assignee => assignee.login)
+    };
+
+    this.projectsService
+      .pullRequest(this.project.id, payload);
   }
 }

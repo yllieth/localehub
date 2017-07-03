@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
-import { Repository } from '../+models';
+import { Contributor, Repository } from '../+models';
 import { ApiService } from './';
 
 @Injectable()
@@ -23,6 +23,24 @@ export class RepositoriesService {
       .get(`${ApiService.endpoint.prod}/repositories/${username}`)
       .toPromise()
       .then((response: Response) => response.json() as Repository[])
+      .catch(error => Promise.reject(error));
+  }
+
+  /**
+   * Get contributors of the given owner/repo.
+   * Github base request : GET api.github.com/repositories/{owner}/{repo}/contributors
+   *   | using lambda: gh-get-repos-contributors
+   *   | using lambda: repositories-contributors
+   *
+   * @param {string} username - REQUIRED
+   * @param {string} reponame - REQUIRED
+   * @returns {Promise<Contributor[]>}
+   */
+  getContributors(username: string, reponame: string): Promise<Contributor[]> {
+    return this.api
+      .get(`${ApiService.endpoint.prod}/repositories/${username}/${reponame}/contributors`)
+      .toPromise()
+      .then((response: Response) => response.json() as Contributor[])
       .catch(error => Promise.reject(error));
   }
 }

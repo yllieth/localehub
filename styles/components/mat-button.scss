@@ -1,3 +1,4 @@
 button.mat-raised-button {
   font-family: $mat-font-family;
+  min-width: 0; // overrides default to save some space (preview dialog)
 }
