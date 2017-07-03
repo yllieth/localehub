@@ -1,0 +1,29 @@
+<div class="row align-middle assignees-selector active">
+  <!-- Contributor's list -->
+  <div class="column small-2">
+    <div>Assign Pull Request to:</div>
+  </div>
+  <div class="column small-5 large-7">
+    <div *ngIf="isLoading"><lh-loader [message]="'Loading contributors'"></lh-loader></div>
+    <div *ngIf="!isLoading">
+      <img class="avatar"
+           *ngFor="let contributor of contributors"
+           (click)="onToggleSelection(contributor)"
+           [ngClass]="{selected: contributor.$selected}"
+           [attr.src]="contributor.avatar_url"
+           [attr.alt]="contributor.login"
+           mdTooltip="{{ contributor.login }}"
+           mdTooltipPosition="above">
+    </div>
+  </div>
+
+  <!-- Action buttons -->
+  <div class="column small-5 large-3">
+    <button md-raised-button color="primary" (click)="onDone()" disabled="{{ !hasAssignee() }}">
+      <i class="octicon octicon-git-pull-request margin-right-half"></i>
+      <span *ngIf="!isCreatingPR">Create Pull Request</span>
+      <span *ngIf="isCreatingPR">Creating Pull Request...</span>
+    </button>
+    <button md-raised-button (click)="onCancel()">Cancel</button>
+  </div>
+</div>

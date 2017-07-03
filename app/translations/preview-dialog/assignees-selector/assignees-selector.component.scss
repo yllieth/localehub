@@ -1,0 +1,25 @@
+@import 'styles/app.scss';
+
+.assignees-selector {
+  display: none;
+  position: absolute;
+  bottom: -25px;
+  background-color: $reveal-background;
+  padding: $global-spacing 0;
+  border-top: 1px solid $border-color;
+  width: 100%;
+
+  &.active { display: flex; }
+}
+
+img.avatar {
+  @include square(40px);
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right: $global-spacing/2;
+
+  &.selected {
+    border: 2px solid get-color(primary);
+    box-shadow: 0 0 10px 0 get-color(primary);
+  }
+}

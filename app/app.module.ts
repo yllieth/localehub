@@ -32,6 +32,7 @@ import { LocaleFABNewComponent } from './translations/locale-fab-new/locale-fab-
 import { TranslationsNewLocaleComponent } from './translations/new-locale/new-locale.component';
 import { TranslationsLocaleComponent } from './translations/locale/locale.component';
 import { TranslationsPreviewDialog } from './translations/preview-dialog/preview-dialog.component';
+import { AssigneesSelectorComponent } from './translations/preview-dialog/assignees-selector/assignees-selector.component';
 
 function ApiFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
   return new ApiService(xhrBackend, requestOptions);
@@ -66,7 +67,8 @@ function ApiFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Htt
     LocaleFABNewComponent,
     TranslationsNewLocaleComponent,
     TranslationsLocaleComponent,
-    TranslationsPreviewDialog
+    TranslationsPreviewDialog,
+    AssigneesSelectorComponent
   ],
   entryComponents: [
     NewProjectDialog,

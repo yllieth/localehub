@@ -61,12 +61,17 @@ export class ProjectsService {
     return this.update(project.id, 'set-pendingChanges', newPendingChanges);
   }
 
-  commit(projectId: string, payload: any): Promise<any> {
+  commit(projectId: string, payload: { branch: string }): Promise<any> {
     return this.api
-      .patch(`${ApiService.endpoint.prod}/projects/${projectId}/translations`, payload)
+      .post(`${ApiService.endpoint.prod}/projects/${projectId}/commit`, payload)
       .toPromise()
       .then(response => response.json())
       .catch(error => Promise.reject(error));
+  }
+
+  pullRequest(projectId: string, payload: { branch: string; assignees: string[] }) {
+    return this.commit(projectId, { branch: payload.branch })
+      .then(/* TODO: Finish here !! */);
   }
 
   // --- CRUD OPERATIONS ------------------------------------------------------
