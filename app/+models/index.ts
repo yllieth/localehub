@@ -3,6 +3,7 @@ export * from './github/branch';
 
 // Application objects
 export * from './application-error';
+export * from './commit';
 export * from './i18nFileInfo';
 export * from './language';
 export * from './locale';

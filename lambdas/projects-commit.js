@@ -6,7 +6,7 @@ let dynamo = new AWS.DynamoDB.DocumentClient({ region: 'eu-central-1' });
 let debug = true;
 
 /**
- * PATCH Method
+ * POST Method
  * Wraps 1 call to dynamoDB :
  * - SELECT * FROM projects WHERE id = <projectId>
  * Wrap 4 calls to lambda functions :
@@ -20,7 +20,7 @@ let debug = true;
  * === HEADERS
  * - Authorization: {String: [a-f0-9]{8} - [a-f0-9]{4} - [a-f0-9]{4} - [a-f0-9]{4} - [a-f0-9]{12}}
  *
- * === PATH PARAMETERS : /projects/:projectId/translations
+ * === PATH PARAMETERS : /projects/:projectId/commit
  * === QUERY STRING PARAMETERS : Not applicable
  * === BODY : Object
  * - branch: {String}         The name of the working branch. This name is used to select pending changes to commit and to actually commit these changes
