@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
-import { LocaleUpdate, Project, Translation } from '../+models';
+import { CommitResponse, LocaleUpdate, Project, Translation } from '../+models';
 import { ApiService, BranchesService } from './';
 
 @Injectable()
@@ -61,7 +61,7 @@ export class ProjectsService {
     return this.update(project.id, 'set-pendingChanges', newPendingChanges);
   }
 
-  commit(projectId: string, payload: { branch: string }): Promise<any> {
+  commit(projectId: string, payload: { branch: string }): Promise<CommitResponse> {
     return this.api
       .post(`${ApiService.endpoint.prod}/projects/${projectId}/commit`, payload)
       .toPromise()
@@ -69,9 +69,27 @@ export class ProjectsService {
       .catch(error => Promise.reject(error));
   }
 
-  pullRequest(projectId: string, payload: { branch: string; assignees: string[] }) {
-    return this.commit(projectId, { branch: payload.branch })
-      .then(/* TODO: Finish here !! */);
+  pullRequest(project: Project, branch: string, assignees: string[]) : Promise<any> {
+    let payload = {
+      owner: project.repository.owner.login,
+      repo: project.repository.name,
+      title: this.createPRTitleFrom(project.pendingChanges),
+      body: this.createPRMessageFrom(project.pendingChanges),
+      head: ProjectsService.workingVersionName(project),
+      base: ProjectsService.baseVersionName(project)
+    };
+
+    return this.commit(project.id, { branch })
+      .then((response: CommitResponse) => this.api
+        .post(`${ApiService.endpoint.prod}/projects/${project.id}/pull-request`, payload)
+        .toPromise())
+      .then(pullRequest => this.assign(pullRequest, assignees))
+      .then(response => response.json())
+      .catch(error => Promise.reject(error));
+  }
+
+  assign(issue: any, assignees: string[]) : Promise<any> {
+    return Promise.resolve(issue);
   }
 
   // --- CRUD OPERATIONS ------------------------------------------------------
@@ -132,5 +150,32 @@ export class ProjectsService {
       .toPromise()
       .then((response: Response) => response.json() as Project)
       .catch(error => Promise.reject(error));
+  }
+
+  // --- PRIVATE FUNCTIONS ----------------------------------------------------
+
+  private createPRMessageFrom(changes) {
+    let message = `${changes.length} change${(changes.length > 1) ? 's' : ''} committed via Localehub.\n`;
+
+    for (let change of changes) {
+      let status = 'updated';
+      if (change.value.hasOwnProperty('newString') === false && change.value.hasOwnProperty('oldString') === true) { status = 'removed'; }
+      if (change.value.hasOwnProperty('newString') === true && change.value.hasOwnProperty('oldString') === false) { status = 'added'; }
+
+      message += `\n- ${change.languageCode}: key \`${change.key}\` ${status}`;
+    }
+
+    return message;
+  }
+
+  private createPRTitleFrom(changes) {
+    let impactedLanguages = [];
+    changes.map(change => {
+      if (impactedLanguages.indexOf(change.languageCode) === -1) {
+        impactedLanguages.push(change.languageCode);
+      }
+    });
+
+    return `Updating locales (${impactedLanguages.join(', ')})`;
   }
 }

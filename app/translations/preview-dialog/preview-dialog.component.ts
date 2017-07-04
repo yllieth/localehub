@@ -91,6 +91,11 @@ export class TranslationsPreviewDialog implements OnInit {
         let oldString = change.value.newString;
         change.value = { newString, oldString };
         EventService.get('translations::undo-change').emit(change);
+
+        // Close modal if there is no remaining pending change
+        if (updatedProject.pendingChanges.length === 0) {
+          this.translationsPreviewDialog.close();
+        }
       });
   }
 
@@ -126,12 +131,11 @@ export class TranslationsPreviewDialog implements OnInit {
   onCreatePR(assignees: Contributor[]) : void {
     this.isSelectingAssignees = false;
     this.isCreatingPR = true;
-    let payload = {
-      branch: ProjectsService.workingVersionName(this.project),
-      assignees: assignees.map(assignee => assignee.login)
-    };
 
     this.projectsService
-      .pullRequest(this.project.id, payload);
+      .pullRequest(this.project, ProjectsService.workingVersionName(this.project), assignees.map(assignee => assignee.login))
+      .then(pullRequest => {
+        this.isCreatingPR = false;
+      });
   }
 }
