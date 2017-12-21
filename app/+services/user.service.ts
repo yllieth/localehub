@@ -11,7 +11,7 @@ export class UserService {
 
   getCurrentUser(): Promise<User> {
     return this.api
-      .get(`${ApiService.endpoint.prod}/current-user`)
+      .get(`${ApiService.endpoint}/current-user`)
       .toPromise()
       .then((response: Response) => response.json() as User)
       .catch(error => Promise.reject(error));
@@ -19,7 +19,7 @@ export class UserService {
 
   createCurrentUser(code: string, state: string): Promise<string> {
     return this.api
-      .post(`${ApiService.endpoint.prod}/current-user`, { code, state })
+      .post(`${ApiService.endpoint}/current-user`, { code, state })
       .toPromise()
       .then((response: Response) => response.json().token as string)
       .catch(error => Promise.reject(error));
@@ -35,7 +35,7 @@ export class UserService {
    */
   getOrganizations(): Promise<User[]> {
     return this.api
-      .get(`${ApiService.endpoint.prod}/current-user/organizations`)
+      .get(`${ApiService.endpoint}/current-user/organizations`)
       .toPromise()
       .then((response: Response) => response.json() as User[])
       .catch(error => Promise.reject(error));

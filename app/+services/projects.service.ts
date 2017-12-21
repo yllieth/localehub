@@ -63,7 +63,7 @@ export class ProjectsService {
 
   commit(projectId: string, payload: { branch: string }): Promise<CommitResponse> {
     return this.api
-      .post(`${ApiService.endpoint.prod}/projects/${projectId}/commit`, payload)
+      .post(`${ApiService.endpoint}/projects/${projectId}/commit`, payload)
       .toPromise()
       .then(response => response.json())
       .catch(error => Promise.reject(error));
@@ -81,7 +81,7 @@ export class ProjectsService {
 
     return this.commit(project.id, { branch })
       .then((response: CommitResponse) => this.api
-        .post(`${ApiService.endpoint.prod}/projects/${project.id}/pull-request`, payload)
+        .post(`${ApiService.endpoint}/projects/${project.id}/pull-request`, payload)
         .toPromise())
       .then(pullRequest => this.assign(pullRequest, assignees))
       .then(response => response.json())
@@ -106,7 +106,7 @@ export class ProjectsService {
    *   {string}   user              - github url of the connected user
    *   {string[]} availableBranches - list of github branches' name
    *   {string}   lastActiveBranch  - default branch name
-   *   {I18nFileInfo[]} i18nFiles   - supported languges
+   *   {I18nFileInfo[]} i18nFiles   - supported languages
    * }
    *
    * @param {object} payload
@@ -114,7 +114,7 @@ export class ProjectsService {
    */
   create(payload: any): Promise<Project> {
     return this.api
-      .post(`${ApiService.endpoint.prod}/projects`, payload)
+      .post(`${ApiService.endpoint}/projects`, payload)
       .toPromise()
       .then((response: Response) => response.json() as Project)
       .catch(error => Promise.reject(error));
@@ -122,7 +122,7 @@ export class ProjectsService {
 
   getList(): Promise<Project[]> {
     return this.api
-      .get(`${ApiService.endpoint.prod}/projects`)
+      .get(`${ApiService.endpoint}/projects`)
       .toPromise()
       .then((response: Response) => response.json() as Project[])
       .catch(error => Promise.reject(error));
@@ -130,7 +130,7 @@ export class ProjectsService {
 
   getOne(id: string): Promise<Project> {
     return this.api
-      .get(`${ApiService.endpoint.prod}/projects/${id}`)
+      .get(`${ApiService.endpoint}/projects/${id}`)
       .toPromise()
       .then((response: Response) => response.json() as Project)
       .catch(error => Promise.reject(error));
@@ -138,7 +138,7 @@ export class ProjectsService {
 
   update(projectId: string, operation: string, update: LocaleUpdate[] | string[]): Promise<Project> {
     return this.api
-      .patch(`${ApiService.endpoint.prod}/projects/${projectId}`, {operation, update})
+      .patch(`${ApiService.endpoint}/projects/${projectId}`, {operation, update})
       .toPromise()
       .then((response: Response) => response.json() as Project)
       .catch(error => Promise.reject(error));
@@ -146,7 +146,7 @@ export class ProjectsService {
 
   remove(projectId: string): Promise<Project> {
     return this.api
-      .delete(`${ApiService.endpoint.prod}/projects/${projectId}`)
+      .delete(`${ApiService.endpoint}/projects/${projectId}`)
       .toPromise()
       .then((response: Response) => response.json() as Project)
       .catch(error => Promise.reject(error));
