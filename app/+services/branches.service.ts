@@ -35,7 +35,7 @@ export class BranchesService {
     let repository = fullName.split('/')[1];
 
     return this.api
-      .post(`${ApiService.endpoint.prod}/branches/${username}/${repository}`, { origin, name})
+      .post(`${ApiService.endpoint}/branches/${username}/${repository}`, { origin, name})
       .toPromise()
       .then((response: Response) => response.json() as GithubBranch)
       .catch(error => Promise.reject(error));
@@ -61,7 +61,7 @@ export class BranchesService {
     }
 
     return this.api
-      .get(`${ApiService.endpoint.prod}/branches/${username}/${repository}`)
+      .get(`${ApiService.endpoint}/branches/${username}/${repository}`)
       .toPromise()
       .then((response: Response) => (excludeAppBranches)
         ? BranchesService.filterBaseBranches(response.json()) as string[]

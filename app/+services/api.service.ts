@@ -6,10 +6,8 @@ import { AuthenticationService } from './';
 
 @Injectable()
 export class ApiService extends Http {
-  public static endpoint = {
-    prod: 'https://hrjyk83zp5.execute-api.eu-central-1.amazonaws.com/prod',
-    mock: 'http://localhost:3002'
-  };
+  public static endpoint = 'https://hrjyk83zp5.execute-api.eu-central-1.amazonaws.com/prod';
+  // public static endpoint = 'http://localhost:3002';
 
   constructor(backend: XHRBackend, defaultOptions: RequestOptions) {
     super(backend, defaultOptions);

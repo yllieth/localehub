@@ -86,7 +86,7 @@ export class TranslationsService {
     options.search = queryStringParameters;
 
     return this.api
-      .get(`${ApiService.endpoint.prod}/projects/${projectId}/translations`, options)
+      .get(`${ApiService.endpoint}/projects/${projectId}/translations`, options)
       .toPromise()
       .then(response => response.json())
       .catch(error => Promise.reject(error));
@@ -107,7 +107,7 @@ export class TranslationsService {
    */
   checkI18nfile(repo: string, path: string, languageCode: string, branch: string): Promise<I18nFileInfo> {
     return this.api
-      .post(`${ApiService.endpoint.prod}/i18n/file`, {repo, path, languageCode, branch})
+      .post(`${ApiService.endpoint}/i18n/file`, {repo, path, languageCode, branch})
       .toPromise()
       .then((response: Response) => response.json() as I18nFileInfo)
       .catch(error => Promise.reject(error));

@@ -20,7 +20,7 @@ export class RepositoriesService {
    */
   getAll(username: string): Promise<Repository[]> {
     return this.api
-      .get(`${ApiService.endpoint.prod}/repositories/${username}`)
+      .get(`${ApiService.endpoint}/repositories/${username}`)
       .toPromise()
       .then((response: Response) => response.json() as Repository[])
       .catch(error => Promise.reject(error));
@@ -38,7 +38,7 @@ export class RepositoriesService {
    */
   getContributors(username: string, reponame: string): Promise<Contributor[]> {
     return this.api
-      .get(`${ApiService.endpoint.prod}/repositories/${username}/${reponame}/contributors`)
+      .get(`${ApiService.endpoint}/repositories/${username}/${reponame}/contributors`)
       .toPromise()
       .then((response: Response) => response.json() as Contributor[])
       .catch(error => Promise.reject(error));
